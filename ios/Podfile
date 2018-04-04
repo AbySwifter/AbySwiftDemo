@@ -1,0 +1,16 @@
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, "10.0"
+use_frameworks!
+
+target "AbysSwift" do
+
+pod 'SnapKit', '~> 4.0.0'
+pod 'Alamofire', '~> 4.5'
+pod 'HandyJSON',:git => 'https://github.com/levanlongktmt/HandyJSON'
+pod 'Charts', '~> 3.0.5'
+pod 'Kingfisher', '~> 4.6.1'
+pod 'JGProgressHUD'
+pod 'Starscream', '~> 3.0.3'
+pod 'SwiftyJSON'
+
+end

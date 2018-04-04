@@ -1,0 +1,44 @@
+PODS:
+  - Alamofire (4.6.0)
+  - Charts (3.0.5):
+    - Charts/Core (= 3.0.5)
+  - Charts/Core (3.0.5)
+  - HandyJSON (4.0.0-beta.1)
+  - JGProgressHUD (2.0)
+  - Kingfisher (4.6.1)
+  - SnapKit (4.0.0)
+  - Starscream (3.0.3)
+  - SwiftyJSON (4.0.0)
+
+DEPENDENCIES:
+  - Alamofire (~> 4.5)
+  - Charts (~> 3.0.5)
+  - HandyJSON (from `https://github.com/levanlongktmt/HandyJSON`)
+  - JGProgressHUD
+  - Kingfisher (~> 4.6.1)
+  - SnapKit (~> 4.0.0)
+  - Starscream (~> 3.0.3)
+  - SwiftyJSON
+
+EXTERNAL SOURCES:
+  HandyJSON:
+    :git: https://github.com/levanlongktmt/HandyJSON
+
+CHECKOUT OPTIONS:
+  HandyJSON:
+    :commit: a3bada0f06052a56f713e590f616efc875742d8b
+    :git: https://github.com/levanlongktmt/HandyJSON
+
+SPEC CHECKSUMS:
+  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Charts: 45cdc985b764c838b35ee47eb1365d15735f6d1a
+  HandyJSON: fe8eb05d9dcc1891d5c181758930d340295e0913
+  JGProgressHUD: c402c0f41fc291ca7e33bba2f999118d9682dd9c
+  Kingfisher: 1f9157d9c02b380cbd0b7cc890161195164eb634
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  Starscream: dfb1b3f39506717ee52b67fb48de0c8269504cbc
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+
+PODFILE CHECKSUM: 36fe6d939df97270fd272730bc9e5336c9f54d82
+
+COCOAPODS: 1.4.0
