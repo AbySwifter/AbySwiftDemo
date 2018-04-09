@@ -1,0 +1,23 @@
+{
+  "name": "AbySwiftDemo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest",
+    "postinstall": "sed -i '' 's/#import <RCTAnimation\\/RCTValueAnimatedNode.h>/#import <React\\/RCTValueAnimatedNode.h>/' ./node_modules/react-native/Libraries/NativeAnimation/RCTNativeAnimatedNodesManager.h; sed -i '' 's/#import <fishhook\\/fishhook.h>/#import <React\\/fishhook.h>/' ./node_modules/react-native/Libraries/WebSocket/RCTReconnectingWebSocket.m"
+  },
+  "dependencies": {
+    "react": "^16.3.1",
+    "react-native": "0.54"
+  },
+  "devDependencies": {
+    "babel-jest": "22.4.3",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "22.4.3",
+    "react-test-renderer": "^16.3.0-alpha.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
