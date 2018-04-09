@@ -165,6 +165,8 @@ static CGRect keyboardFrame = (CGRect){{0.0f, 0.0f}, {0.0f, 0.0f}};
         
 #if TARGET_OS_IOS
         [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapped:)]];
+#elif TARGET_OS_TV
+        _wantsFocus = YES;
 #endif
     }
     
@@ -289,7 +291,7 @@ static CGRect keyboardFrame = (CGRect){{0.0f, 0.0f}, {0.0f, 0.0f}};
         return;
     }
     
-    if (self.superview == nil) {
+    if (_targetView == nil) {
         return;
     }
     
@@ -361,8 +363,8 @@ static CGRect keyboardFrame = (CGRect){{0.0f, 0.0f}, {0.0f, 0.0f}};
     
     [UIView performWithoutAnimation:^{
         self.indicatorView.frame = indicatorFrame;
-        _textLabel.frame = JGProgressHUD_CGRectIntegral(labelFrame);
-        _detailTextLabel.frame = JGProgressHUD_CGRectIntegral(detailFrame);
+        self->_textLabel.frame = JGProgressHUD_CGRectIntegral(labelFrame);
+        self->_detailTextLabel.frame = JGProgressHUD_CGRectIntegral(detailFrame);
     }];
     
     [self setHUDViewFrameCenterWithSize:size insetViewFrame:insetFrame];
@@ -399,6 +401,12 @@ static CGRect keyboardFrame = (CGRect){{0.0f, 0.0f}, {0.0f, 0.0f}};
 #pragma mark - Showing
 
 - (void)cleanUpAfterPresentation {
+#if TARGET_OS_TV
+    if (self.wantsFocus) {
+        [self.targetView setNeedsFocusUpdate];
+    }
+#endif
+
     self.hidden = NO;
     
     _transitioning = NO;
@@ -466,7 +474,8 @@ static CGRect keyboardFrame = (CGRect){{0.0f, 0.0f}, {0.0f, 0.0f}};
     [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:_targetView attribute:NSLayoutAttributeHeight multiplier:1.0 constant:0.0].active = YES;
     [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_targetView attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0.0].active = YES;
     [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_targetView attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0].active = YES;
-    
+
+    [self setNeedsLayout];
     [self layoutIfNeeded];
     
     _transitioning = YES;
@@ -681,7 +690,7 @@ static UIViewAnimationOptions UIViewAnimationOptionsFromUIViewAnimationCurve(UIV
         UIVibrancyEffect *vibrancyEffect = (self.vibrancyEnabled ? [UIVibrancyEffect effectForBlurEffect:(UIBlurEffect *)self.blurView.effect] : nil);
         
         _vibrancyView = [[UIVisualEffectView alloc] initWithEffect:vibrancyEffect];
-        
+
         [self.blurView.contentView addSubview:_vibrancyView];
     }
     
@@ -758,6 +767,20 @@ static UIViewAnimationOptions UIViewAnimationOptionsFromUIViewAnimationCurve(UIV
 }
 
 #pragma mark - Setters
+
+#if TARGET_OS_TV
+- (void)setWantsFocus:(BOOL)wantsFocus {
+    if (self.wantsFocus == wantsFocus) {
+        return;
+    }
+
+    _wantsFocus = wantsFocus;
+
+    self.userInteractionEnabled = self.wantsFocus;
+
+    [self.targetView setNeedsFocusUpdate];
+}
+#endif
 
 - (void)setCornerRadius:(CGFloat)cornerRadius {
     if (fequal(self.cornerRadius, cornerRadius)) {
@@ -859,8 +882,8 @@ static UIViewAnimationOptions UIViewAnimationOptionsFromUIViewAnimationCurve(UIV
     }
     
     [UIView performWithoutAnimation:^{
-        [_indicatorView removeFromSuperview];
-        _indicatorView = indicatorView;
+        [self->_indicatorView removeFromSuperview];
+        self->_indicatorView = indicatorView;
         
         if (self.indicatorView != nil) {
             [self.indicatorView setUpForHUDStyle:self.style vibrancyEnabled:self.vibrancyEnabled];
@@ -911,13 +934,14 @@ static UIViewAnimationOptions UIViewAnimationOptionsFromUIViewAnimationCurve(UIV
 
 #pragma mark - Overrides
 
+#if TARGET_OS_IOS
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     if (self.interactionType == JGProgressHUDInteractionTypeBlockNoTouches) {
         return nil;
     }
     else {
         UIView *view = [super hitTest:point withEvent:event];
-        
+
         if (self.interactionType == JGProgressHUDInteractionTypeBlockAllTouches) {
             return view;
         }
@@ -928,6 +952,19 @@ static UIViewAnimationOptions UIViewAnimationOptionsFromUIViewAnimationCurve(UIV
         return nil;
     }
 }
+#elif TARGET_OS_TV
+- (NSArray<id<UIFocusEnvironment>> *)preferredFocusEnvironments {
+    return @[self];
+}
+
+- (UIView *)preferredFocusedView {
+    return nil;
+}
+
+- (BOOL)canBecomeFocused {
+    return self.wantsFocus;
+}
+#endif
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (object == _textLabel || object == _detailTextLabel) {

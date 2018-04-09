@@ -1,28 +1,107 @@
 PODS:
-  - Alamofire (4.6.0)
+  - Alamofire (4.7.1)
+  - boost-for-react-native (1.63.0)
   - Charts (3.0.5):
     - Charts/Core (= 3.0.5)
   - Charts/Core (3.0.5)
+  - DoubleConversion (1.1.5)
+  - Folly (2016.09.26.00):
+    - boost-for-react-native
+    - DoubleConversion
+    - glog
+  - glog (0.3.4)
   - HandyJSON (4.0.0-beta.1)
-  - JGProgressHUD (2.0)
-  - Kingfisher (4.6.1)
+  - JGProgressHUD (2.0.2)
+  - Kingfisher (4.6.4)
+  - React/ART (0.54.4):
+    - React/Core
+  - React/Core (0.54.4):
+    - yoga (= 0.54.4.React)
+  - React/CxxBridge (0.54.4):
+    - Folly (= 2016.09.26.00)
+    - React/Core
+    - React/cxxreact
+  - React/cxxreact (0.54.4):
+    - boost-for-react-native (= 1.63.0)
+    - Folly (= 2016.09.26.00)
+    - React/jschelpers
+    - React/jsinspector
+  - React/DevSupport (0.54.4):
+    - React/Core
+    - React/RCTWebSocket
+  - React/fishhook (0.54.4)
+  - React/jschelpers (0.54.4):
+    - Folly (= 2016.09.26.00)
+    - React/PrivateDatabase
+  - React/jsinspector (0.54.4)
+  - React/PrivateDatabase (0.54.4)
+  - React/RCTAnimation (0.54.4):
+    - React/Core
+  - React/RCTBlob (0.54.4):
+    - React/Core
+  - React/RCTImage (0.54.4):
+    - React/Core
+    - React/RCTNetwork
+  - React/RCTNetwork (0.54.4):
+    - React/Core
+  - React/RCTText (0.54.4):
+    - React/Core
+  - React/RCTWebSocket (0.54.4):
+    - React/Core
+    - React/fishhook
+    - React/RCTBlob
   - SnapKit (4.0.0)
-  - Starscream (3.0.3)
+  - Starscream (3.0.5)
   - SwiftyJSON (4.0.0)
+  - yoga (0.54.4.React)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Charts (~> 3.0.5)
+  - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
+  - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - HandyJSON (from `https://github.com/levanlongktmt/HandyJSON`)
   - JGProgressHUD
   - Kingfisher (~> 4.6.1)
+  - React/ART (from `../node_modules/react-native`)
+  - React/Core (from `../node_modules/react-native`)
+  - React/CxxBridge (from `../node_modules/react-native`)
+  - React/DevSupport (from `../node_modules/react-native`)
+  - React/RCTAnimation (from `../node_modules/react-native`)
+  - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
   - SnapKit (~> 4.0.0)
   - Starscream (~> 3.0.3)
   - SwiftyJSON
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - Alamofire
+    - boost-for-react-native
+    - Charts
+    - JGProgressHUD
+    - Kingfisher
+    - SnapKit
+    - Starscream
+    - SwiftyJSON
 
 EXTERNAL SOURCES:
+  DoubleConversion:
+    :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  Folly:
+    :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
+  glog:
+    :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   HandyJSON:
     :git: https://github.com/levanlongktmt/HandyJSON
+  React:
+    :path: "../node_modules/react-native"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
 
 CHECKOUT OPTIONS:
   HandyJSON:
@@ -30,15 +109,21 @@ CHECKOUT OPTIONS:
     :git: https://github.com/levanlongktmt/HandyJSON
 
 SPEC CHECKSUMS:
-  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Alamofire: 68d7d521118d49c615a8d2214d87cdf525599d30
+  boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   Charts: 45cdc985b764c838b35ee47eb1365d15735f6d1a
+  DoubleConversion: ebb6747c5b66026ad4f97b789c3ceac6f18e57a6
+  Folly: 211775e49d8da0ca658aebc8eab89d642935755c
+  glog: 1de0bb937dccdc981596d3b5825ebfb765017ded
   HandyJSON: fe8eb05d9dcc1891d5c181758930d340295e0913
-  JGProgressHUD: c402c0f41fc291ca7e33bba2f999118d9682dd9c
-  Kingfisher: 1f9157d9c02b380cbd0b7cc890161195164eb634
+  JGProgressHUD: bf75da151936cfd3c9b674afb17e8a5df2e14a7d
+  Kingfisher: 68498a706e46c2a050b0c9572f100e5db407f6e0
+  React: c237e42de9c70e5cac6eeb52b4cfd3a0910c1f00
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
-  Starscream: dfb1b3f39506717ee52b67fb48de0c8269504cbc
+  Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  yoga: 6a82c543446c4bf325df7874066071e1787357d2
 
-PODFILE CHECKSUM: 36fe6d939df97270fd272730bc9e5336c9f54d82
+PODFILE CHECKSUM: 0bbb365342f163d8a02274aafb321a1c8233e449
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

@@ -6,11 +6,29 @@ target "AbysSwift" do
 
 pod 'SnapKit', '~> 4.0.0'
 pod 'Alamofire', '~> 4.5'
-pod 'HandyJSON',:git => 'https://github.com/levanlongktmt/HandyJSON'
+pod 'HandyJSON',:'~> 4.1.0'
 pod 'Charts', '~> 3.0.5'
 pod 'Kingfisher', '~> 4.6.1'
 pod 'JGProgressHUD'
 pod 'Starscream', '~> 3.0.3'
 pod 'SwiftyJSON'
+pod 'React', :path => '../node_modules/react-native', :subspecs => [
+  'Core',
+  'CxxBridge',
+  'DevSupport',
+  'RCTText',
+  'RCTNetwork',
+  'RCTWebSocket',
+  'RCTAnimation',
+  'RCTImage',
+  'ART',
+  #Add any other subspecs you want to use in your project.
+]
+pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  # Third party deps podspec link
+pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
+pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+
 
 end
