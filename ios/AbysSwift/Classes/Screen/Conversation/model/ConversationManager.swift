@@ -67,7 +67,7 @@ class ConversationManager: ABYSocketDelegate {
 		guard let current_id = Account.share.user?.id else { return  }
 		self.networkManager.aby_request(request: UserRouter.chatList(params: ["current_id": current_id])) { (result: JSON?) -> (Void) in
 			if let res = result {
-				ABYPrint(message: res)
+//				ABYPrint(message: res)
 				guard res["state"].int == 200 else {
 					self.dataSource?.updateFail(nil, res["message"].string)
 					return

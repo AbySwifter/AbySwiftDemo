@@ -10,50 +10,67 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.4)
-  - HandyJSON (4.0.0-beta.1)
+  - HandyJSON (4.1.1)
   - JGProgressHUD (2.0.2)
   - Kingfisher (4.6.4)
-  - React/ART (0.54.4):
+  - React (0.54.0):
+    - React/Core (= 0.54.0)
+  - React/ART (0.54.0):
     - React/Core
-  - React/Core (0.54.4):
-    - yoga (= 0.54.4.React)
-  - React/CxxBridge (0.54.4):
+  - React/Core (0.54.0):
+    - yoga (= 0.54.0.React)
+  - React/CxxBridge (0.54.0):
     - Folly (= 2016.09.26.00)
     - React/Core
     - React/cxxreact
-  - React/cxxreact (0.54.4):
+  - React/cxxreact (0.54.0):
     - boost-for-react-native (= 1.63.0)
     - Folly (= 2016.09.26.00)
     - React/jschelpers
     - React/jsinspector
-  - React/DevSupport (0.54.4):
+  - React/DevSupport (0.54.0):
     - React/Core
     - React/RCTWebSocket
-  - React/fishhook (0.54.4)
-  - React/jschelpers (0.54.4):
+  - React/fishhook (0.54.0)
+  - React/jschelpers (0.54.0):
     - Folly (= 2016.09.26.00)
     - React/PrivateDatabase
-  - React/jsinspector (0.54.4)
-  - React/PrivateDatabase (0.54.4)
-  - React/RCTAnimation (0.54.4):
+  - React/jsinspector (0.54.0)
+  - React/PrivateDatabase (0.54.0)
+  - React/RCTActionSheet (0.54.0):
     - React/Core
-  - React/RCTBlob (0.54.4):
+  - React/RCTAnimation (0.54.0):
     - React/Core
-  - React/RCTImage (0.54.4):
+  - React/RCTBlob (0.54.0):
+    - React/Core
+  - React/RCTCameraRoll (0.54.0):
+    - React/Core
+    - React/RCTImage
+  - React/RCTGeolocation (0.54.0):
+    - React/Core
+  - React/RCTImage (0.54.0):
     - React/Core
     - React/RCTNetwork
-  - React/RCTNetwork (0.54.4):
+  - React/RCTLinkingIOS (0.54.0):
     - React/Core
-  - React/RCTText (0.54.4):
+  - React/RCTNetwork (0.54.0):
     - React/Core
-  - React/RCTWebSocket (0.54.4):
+  - React/RCTSettings (0.54.0):
+    - React/Core
+  - React/RCTText (0.54.0):
+    - React/Core
+  - React/RCTVibration (0.54.0):
+    - React/Core
+  - React/RCTWebSocket (0.54.0):
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNVectorIcons (4.6.0):
+    - React
   - SnapKit (4.0.0)
   - Starscream (3.0.5)
   - SwiftyJSON (4.0.0)
-  - yoga (0.54.4.React)
+  - yoga (0.54.0.React)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
@@ -61,18 +78,25 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
-  - HandyJSON (from `https://github.com/levanlongktmt/HandyJSON`)
+  - HandyJSON (~> 4.1.0)
   - JGProgressHUD
   - Kingfisher (~> 4.6.1)
   - React/ART (from `../node_modules/react-native`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
+  - React/RCTActionSheet (from `../node_modules/react-native`)
   - React/RCTAnimation (from `../node_modules/react-native`)
+  - React/RCTCameraRoll (from `../node_modules/react-native`)
+  - React/RCTGeolocation (from `../node_modules/react-native`)
   - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTLinkingIOS (from `../node_modules/react-native`)
   - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTSettings (from `../node_modules/react-native`)
   - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons/RNVectorIcons.podspec`)
   - SnapKit (~> 4.0.0)
   - Starscream (~> 3.0.3)
   - SwiftyJSON
@@ -83,6 +107,7 @@ SPEC REPOS:
     - Alamofire
     - boost-for-react-native
     - Charts
+    - HandyJSON
     - JGProgressHUD
     - Kingfisher
     - SnapKit
@@ -96,17 +121,12 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
-  HandyJSON:
-    :git: https://github.com/levanlongktmt/HandyJSON
   React:
     :path: "../node_modules/react-native"
+  RNVectorIcons:
+    :podspec: "../node_modules/react-native-vector-icons/RNVectorIcons.podspec"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
-
-CHECKOUT OPTIONS:
-  HandyJSON:
-    :commit: a3bada0f06052a56f713e590f616efc875742d8b
-    :git: https://github.com/levanlongktmt/HandyJSON
 
 SPEC CHECKSUMS:
   Alamofire: 68d7d521118d49c615a8d2214d87cdf525599d30
@@ -115,15 +135,16 @@ SPEC CHECKSUMS:
   DoubleConversion: ebb6747c5b66026ad4f97b789c3ceac6f18e57a6
   Folly: 211775e49d8da0ca658aebc8eab89d642935755c
   glog: 1de0bb937dccdc981596d3b5825ebfb765017ded
-  HandyJSON: fe8eb05d9dcc1891d5c181758930d340295e0913
+  HandyJSON: 3a3de917c4118767ffe41c29b5acba23409649f4
   JGProgressHUD: bf75da151936cfd3c9b674afb17e8a5df2e14a7d
   Kingfisher: 68498a706e46c2a050b0c9572f100e5db407f6e0
   React: c237e42de9c70e5cac6eeb52b4cfd3a0910c1f00
+  RNVectorIcons: a3c395829c56e2cb054a0730126298bf805a2dca
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
   SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
-  yoga: 6a82c543446c4bf325df7874066071e1787357d2
+  yoga: 55da126afc384965b96bff46652464373b330add
 
-PODFILE CHECKSUM: 0bbb365342f163d8a02274aafb321a1c8233e449
+PODFILE CHECKSUM: 632286f789018c244f3da0c3fc74cd7787800de2
 
 COCOAPODS: 1.5.0

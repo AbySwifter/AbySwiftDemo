@@ -54,6 +54,13 @@ class ConvDetailViewController: ABYBaseViewController, ChatFootMenuDelegate, Cha
 	func menuAction(type: ChatFootMenuTag) {
 		// 点击了菜单事件
 		ABYPrint(message: type)
+		switch type {
+		case .product:
+			let productVC = ProductViewController()
+			self.navigationController?.pushViewController(productVC, animated: true)
+		default:
+			return
+		}
 	}
 
 	func footHeightChange(height: CGFloat, animate completion: @escaping CompontionBlock) {

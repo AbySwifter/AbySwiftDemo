@@ -48,3 +48,10 @@ func ABYPrint<N>(message: N, fileName: String = #file, methodName: String = #fun
 	print("\(file):\(lineNumber)行。\n\(methodName)中的打印信息:\n\(message)");
 	#endif
 }
+
+func ABYPrint<N>(_ message: N, fileName: String = #file, methodName: String = #function, lineNumber: Int = #line){
+	#if DEBUGSWIFT
+	let file = (fileName as NSString).lastPathComponent.replacingOccurrences(of: ".Swift", with: "")
+	print("\(file):\(lineNumber)行。\n\(methodName)中的打印信息:\n\(message)");
+	#endif
+}
