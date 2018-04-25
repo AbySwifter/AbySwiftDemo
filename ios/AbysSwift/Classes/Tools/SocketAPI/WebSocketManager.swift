@@ -14,20 +14,26 @@ import HandyJSON
 
 /// WebSocket管理类的单例
 class ABYSocket: WebSocketDelegate {
+	// 静态属性
 	static let domain:String = URLinfo.domain.rawValue
 	static let IMS_VERSION = "1.0.0"
 	static let socketUrl: String = URLinfo.socketUrl.rawValue
 	static let manager = ABYSocket.init()
-	private init() {}
+	private init() {
+		self.delegates.append(MessageBus.distance)
+		self.delegates.append(ConversationManager.distance)
+	}
+
 	lazy var webSocket: WebSocket = {
 		let temp: WebSocket = WebSocket.init(url: URL.init(string: ABYSocket.socketUrl)!)
 		temp.delegate = self
 		return temp
 	}()
-	var delegate: ABYSocketDelegate? // Socket的代理
+	var delegates: [ ABYSocketDelegate ] = [] // Socket的代理
 	var session_id: String = "" // IMS登录的标志
 	var sessionIDGetTime: Int32 = 0 // 获取Session的时间戳
 	var loginPath: SocketSendOptions = SocketSendOptions.init(path: "api/ims/login", query: "")
+	let client_id: String = newGUID()
 	var loginInfo:[String: Any]?
 	var isIMSLogin: Bool {
 		return session_id != ""
@@ -62,14 +68,14 @@ class ABYSocket: WebSocketDelegate {
 	/// - Parameters:
 	///   - options: 发送选项
 	///   - body: 发送内容
-	func send(options: SocketSendOptions, body: [String: Any] ) -> Void {
+	private func send(options: SocketSendOptions, body: [String: Any] ) -> Void {
 		var socketData: SocketData = SocketData.init()
 		socketData.path = options.path
 		socketData.query = options.query
 		socketData.body = body
 		socketData.session_id = self.session_id
+		socketData.client_id = self.client_id
 		let jsonStr = socketData.toJSONString()
-
 		if let socketStr = jsonStr {
 			webSocket.write(string: socketStr)
 		}
@@ -99,7 +105,7 @@ class ABYSocket: WebSocketDelegate {
 	// MARK: WebSocketDelegate
 	// 每次socket链接上的时候，都会调用此方法
 	func websocketDidConnect(socket: WebSocketClient) {
-		ABYPrint(message: "Socket 已经连接")
+//		ABYPrint(message: "Socket 已经连接")
 		// Socket链接上的时候，根据是否登录来处理消息
 		getSessionID()
 	}
@@ -113,7 +119,9 @@ class ABYSocket: WebSocketDelegate {
 				connect()
 			}
 		}
-		self.delegate?.statusChange(status: .socketDisconnect)
+		for item in delegates {
+			item.statusChange(status: .socketDisconnect)
+		}
 	}
 
 	func websocketDidReceiveMessage(socket: WebSocketClient, text: String) {
@@ -121,25 +129,34 @@ class ABYSocket: WebSocketDelegate {
 		if let session_id = msgBody["session_id"].string, let getTime = msgBody["msg_timestamp"].int32 {
 			if sessionIDGetTime <= getTime {
 				self.session_id = session_id
-				self.delegate?.statusChange(status: .loginSuccess)// 发送登录成功的回调
+				for item in delegates {
+					item.statusChange(status: .loginSuccess)
+				}// 发送登录成功的回调
 			}
 			self.sessionIDGetTime = getTime
-			ABYPrint(message: msgBody) // 打印登录信息
+			ABYPrint("IM: 收到IM登录消息\(msgBody)")
 		} else if let msgType = msgBody["type"].string {
 			if msgType == "type" {
 				let pongString = "{\"type\": \"pong\"}"
 				self.webSocket.write(string: pongString)
 			}
 		} else if msgBody["messageType"].string != nil {
-			self.delegate?.onMessage(message: msgBody)
+			for item in delegates {
+				item.onMessage(message: msgBody)
+			}
 		} else {
 			ABYPrint(message: "其他消息:\(msgBody)")
 		}
 	}
 
 	func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-		ABYPrint(message: "Sokcet 收到数据\(data)")
+//		ABYPrint(message: "Sokcet 收到数据\(data)")
 	}
 }
 
-
+extension ABYSocket {
+	func send(message: Message) -> Void {
+	    let options = SocketSendOptions.init(path: "api/ims/send_to_group", query: "")
+		self.send(options: options, body: message.toJSON()!)
+	}
+}

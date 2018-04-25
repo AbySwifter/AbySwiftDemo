@@ -13,9 +13,7 @@ let MSG_NOTIFICATION = "msg_event_notification"
 /// 会话管理类: 用来管理整个APP会话的生命周期与各个会话的消息分发
 class ConversationManager: ABYSocketDelegate {
 	static let distance = ConversationManager.init()
-	private init() {
-		ABYSocket.manager.delegate = self
-	}
+	private init() {}
 	// 网络管理类
 	let networkManager: ABYNetworkManager = {
 		return ABYNetworkManager.shareInstance

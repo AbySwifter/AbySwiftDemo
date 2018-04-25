@@ -33,6 +33,7 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 		conversationManager.initData()
 		refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
 		tableview.addSubview(refreshControl)
+//		setTable() // 设置空视图的方法，暂时屏蔽掉
     }
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -151,7 +152,34 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		// 点击了Cell的事件
 		tableView.deselectRow(at: indexPath, animated: true)
-		let conversationDetail: ConvDetailViewController = ConvDetailViewController()
-		self.navigationController?.pushViewController(conversationDetail, animated: true)
+//		let conversationDetail: ConvDetailViewController = ConvDetailViewController()
+		let keys = Array(conversationManager.conversations.keys)
+		let model: Conversation =	conversationManager.conversations[keys[indexPath.row]]!
+//		conversationDetail.setMessage(list: model.message_list)
+//		conversationDetail.conversation = model
+//		self.navigationController?.pushViewController(conversationDetail, animated: true)
+		let chatViewController = KKChatViewController()
+		chatViewController.conversation = model
+		navigationController?.pushViewController(chatViewController, animated: true)
+	}
+}
+
+
+// MARK: - 数据为空的时候的处理方式
+extension ConversationViewController: ABYEmptyDataSetable {
+
+	/// 设置空视图的方法
+	fileprivate func setTable() {
+		aby_EmptyDataSet(tableview) { () -> ([ABYEmptyDataSetAttributeKeyType : Any]) in
+			return [
+				.tipStr:"暂时没有服务中的用户...",
+				.verticalOffset: -150,
+				.allowScroll: false
+			]
+		}
+
+		aby_tapEmptyView(tableview) { (view) in
+			ABYPrint("点击了空视图")
+		}
 	}
 }

@@ -100,41 +100,6 @@ class ConversationCell: UITableViewCell, ConversationDelegate {
 		stopTimer()
 	}
 
-	func makeSelfConstraints() -> Void {
-		headImageView.snp.makeConstraints { (make) in
-			make.centerY.equalToSuperview()
-			make.left.equalToSuperview().offset(W750(30))
-			make.height.width.equalTo(W750(92))
-		}
-		headImageView.backgroundColor = UIColor.init(hexString: "92c360")
-		headImageView.layer.cornerRadius = headImageView.bounds.width / 2
-		headImageView.layer.masksToBounds = true
-		headImageView.contentMode = .scaleAspectFit
-		userName.snp.makeConstraints { (make) in
-			make.bottom.equalTo(headImageView.snp.centerY).offset(-2)
-			make.left.equalTo(headImageView.snp.right).offset(W750(30))
-			make.width.lessThanOrEqualTo(W750(375))
-		}
-		timeText.snp.makeConstraints { (make) in
-			make.bottom.equalTo(headImageView.snp.centerY).offset(-2)
-			make.right.equalToSuperview().offset(W750(-30))
-//			make.width.lessThanOrEqualTo(W750(200))
-			make.width.equalTo(W750(200))
-			make.height.equalTo(W750(35))
-		}
-		contentText.snp.makeConstraints { (make) in
-			make.top.equalTo(headImageView.snp.centerY).offset(2)
-			make.right.equalToSuperview().offset(W750(-30))
-			make.left.equalTo(headImageView.snp.right).offset(W750(30))
-		}
-		borderBottom.snp.makeConstraints { (make) in
-			make.height.equalTo(1/UIScreen.main.scale)
-			make.left.equalToSuperview().offset(W750(30))
-			make.right.equalToSuperview().offset(W750(-30))
-			make.bottom.equalToSuperview()
-		}
-	}
-
 	func dispatchTimer() -> Void {
 		timer.schedule(deadline: .now(), repeating: 1.0)
 		timer.setEventHandler {
@@ -157,5 +122,43 @@ class ConversationCell: UITableViewCell, ConversationDelegate {
 	}
 	func unReadCountChange(count: Int) {
 
+	}
+}
+
+extension ConversationCell {
+
+	func makeSelfConstraints() -> Void {
+		headImageView.snp.makeConstraints { (make) in
+			make.centerY.equalToSuperview()
+			make.left.equalToSuperview().offset(W750(30))
+			make.height.width.equalTo(W750(92))
+		}
+		headImageView.backgroundColor = UIColor.init(hexString: "92c360")
+		headImageView.layer.cornerRadius = headImageView.bounds.width / 2
+		headImageView.layer.masksToBounds = true
+		headImageView.contentMode = .scaleAspectFit
+		userName.snp.makeConstraints { (make) in
+			make.bottom.equalTo(headImageView.snp.centerY).offset(-2)
+			make.left.equalTo(headImageView.snp.right).offset(W750(30))
+			make.width.lessThanOrEqualTo(W750(375))
+		}
+		timeText.snp.makeConstraints { (make) in
+			make.bottom.equalTo(headImageView.snp.centerY).offset(-2)
+			make.right.equalToSuperview().offset(W750(-30))
+			//			make.width.lessThanOrEqualTo(W750(200))
+			make.width.equalTo(W750(200))
+			make.height.equalTo(W750(35))
+		}
+		contentText.snp.makeConstraints { (make) in
+			make.top.equalTo(headImageView.snp.centerY).offset(2)
+			make.right.equalToSuperview().offset(W750(-30))
+			make.left.equalTo(headImageView.snp.right).offset(W750(30))
+		}
+		borderBottom.snp.makeConstraints { (make) in
+			make.height.equalTo(1/UIScreen.main.scale)
+			make.left.equalToSuperview().offset(W750(30))
+			make.right.equalToSuperview().offset(W750(-30))
+			make.bottom.equalToSuperview()
+		}
 	}
 }

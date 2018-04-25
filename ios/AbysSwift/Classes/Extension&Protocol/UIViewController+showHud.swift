@@ -34,3 +34,29 @@ extension UIViewController {
 		self.present(alertController, animated: true, completion: nil)
 	}
 }
+
+enum BarBtnItemDirection: Int {
+	case left
+	case right
+}
+
+extension UIViewController {
+	func createRightBtnItem(icon: UIImage, method: Selector) -> Void {
+		// 设置右侧导航栏按钮
+		let menuBtn = UIBarButtonItem.init(image: icon, style: .plain, target: self, action: method)
+//		self.addFixedSpace(with: menuBtn, direction: .right)
+		navigationItem.rightBarButtonItem = menuBtn
+	}
+	// 此方法在iOS 11中失效
+	fileprivate func addFixedSpace(with barItem: UIBarButtonItem, direction: BarBtnItemDirection) {
+		let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+		negativeSpacer.width = -20
+		switch direction {
+		case .left:
+			navigationItem.leftBarButtonItems = [negativeSpacer, barItem]
+		default:
+			navigationItem.rightBarButtonItems = [negativeSpacer, barItem]
+		}
+
+	}
+}

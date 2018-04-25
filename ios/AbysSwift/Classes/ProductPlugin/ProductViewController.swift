@@ -36,19 +36,20 @@ class ProductViewController: ABYBaseViewController {
 
 	func getbundleFromDocument() -> Bool {
 		//		FileManager.default.
-		let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-		ABYPrint("路径为\(documents)")
-		guard let documentPath: String = documents.first else { return false }
-		let filePath = documentPath + "/main.jsbundle"
-		if FileManager.default.fileExists(atPath: filePath) {
-			let jsCodeLocation = URL.init(string: filePath)
-			let mockData: NSDictionary = ["routeName":"Main"]
-			let rootView = RCTRootView(bundleURL: jsCodeLocation!, moduleName: "GTravel_HyBird", initialProperties: mockData as [NSObject: AnyObject], launchOptions: nil)
-			self.view = rootView!
-			return true
-		} else {
-			return false
-		}
+		return false
+//		let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
+//		ABYPrint("路径为\(documents)")
+//		guard let documentPath: String = documents.first else { return false }
+//		let filePath = documentPath + "/main.jsbundle"
+//		if FileManager.default.fileExists(atPath: filePath) {
+//			let jsCodeLocation = URL.init(string: filePath)
+//			let mockData: NSDictionary = ["routeName":"Main"]
+//			let rootView = RCTRootView(bundleURL: jsCodeLocation!, moduleName: "GTravel_HyBird", initialProperties: mockData as [NSObject: AnyObject], launchOptions: nil)
+//			self.view = rootView!
+//			return true
+//		} else {
+//			return false
+//		}
 
 	}
 	@objc

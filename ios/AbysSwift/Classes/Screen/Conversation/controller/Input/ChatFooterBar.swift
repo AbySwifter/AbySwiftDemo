@@ -22,11 +22,14 @@ typealias CompontionBlock = () -> (Void)
 
 protocol ChatFootBarDelegate {
 	func footHeightChange(height: CGFloat, animate completion:@escaping CompontionBlock) -> Void
+	func update(message: Message) -> Void
 }
 
+let kChatBarOriginHeight = 55.0
 
 /// 聊天的FootBar
 class ChatFooterBar: UIView {
+	var room_id: Int16?
 	private var chatBox: UIView = UIView.init()
 	private var menuBox: ChatFooterMenu = ChatFooterMenu.init(frame: CGRect.zero)
 	// 切换输入状态的方法
@@ -64,7 +67,7 @@ class ChatFooterBar: UIView {
 		return btn
 	}()
 	// 记录当前视图的状态信息
-	private var isMenuShow: Bool = false
+	var isMenuShow: Bool = false
 	private var lastHeight: CGFloat?
 	// MARK: -Public property
 	var menuDelegate: ChatFootMenuDelegate?
@@ -84,20 +87,16 @@ class ChatFooterBar: UIView {
 
 	override func layoutSubviews() {
 		super.layoutSubviews()
-		if isMenuShow {
-			menuBox.snp.makeConstraints { (make) in
-				make.width.equalToSuperview()
-				make.top.equalTo(self.chatBox.snp.bottom)
-				make.height.equalTo(76)
-				make.bottom.equalTo(self.snp.bottom)
-				make.centerX.equalToSuperview()
-			}
-		}
 		// 假如高度没有变化，则不执行代理方法
-		if lastHeight != nil && lastHeight! != self.bounds.height {
-			self.delegate?.footHeightChange(height: self.bounds.height, animate: {})
+		if lastHeight != nil && lastHeight != self.bounds.height {
+			lastHeight = self.bounds.height
+			self.delegate?.footHeightChange(height: lastHeight!, animate: { () -> (Void) in
+
+			})
 		}
-		lastHeight = self.bounds.height
+		if lastHeight == nil {
+			lastHeight = self.bounds.height
+		}
 	}
 
 	private func initUIElement() -> Void {
@@ -107,6 +106,7 @@ class ChatFooterBar: UIView {
 		chatBox.addSubview(sendBtn)
 		chatBox.addSubview(textMsgInput)
 		chatBox.addSubview(voiceBtn)
+		self.addSubview(self.menuBox)
 	}
 
 	private func setUIStyle() -> Void {
@@ -125,6 +125,7 @@ class ChatFooterBar: UIView {
 		sendBtn.imageEdgeInsets = edgeInsert
 		sendBtn.imageView?.contentMode = .scaleAspectFit
 		textMsgInput.placeholder = "请输入..."
+		self.menuBox.isHidden = !isMenuShow
 	}
 
 	func makeChildConstraints() -> Void {
@@ -166,19 +167,37 @@ class ChatFooterBar: UIView {
 		}
 	}
 
+	private func setMenuCons() -> Void {
+		self.menuBox.snp.makeConstraints { (make) in
+			make.width.equalToSuperview()
+			make.top.equalTo(self.chatBox.snp.bottom)
+			make.height.equalTo(76)
+			make.bottom.equalTo(self.snp.bottom)
+			make.centerX.equalToSuperview()
+		}
+	}
+	private func removeMenuCons() -> Void {
+		self.menuBox.snp.removeConstraints()
+	}
+
 	func showMenu() -> Void {
 		self.menuBox.delegate = self.menuDelegate
 		isMenuShow = true
-		self.addSubview(self.menuBox)
+		lastHeight = 131
+		weak var weakSelf = self;
+		self.delegate?.footHeightChange(height: 131, animate: {
+			weakSelf?.setMenuCons()
+			weakSelf?.menuBox.isHidden = !self.isMenuShow
+		})
 	}
 
-	func hideMenu() -> Void {
+	func hideMenu(_ needAnimation: Bool? = true) -> Void {
 		menuBox.delegate = nil
 		isMenuShow = false
-		self.delegate?.footHeightChange(height: 55, animate: { () -> (Void) in
-			self.menuBox.removeFromSuperview()
-		})
+		self.removeMenuCons()
+		self.menuBox.isHidden = !isMenuShow
 		lastHeight = 55
+		self.delegate?.footHeightChange(height: 55, animate: {})
 	}
 
 	private func changeState(_ state: ChatBoxState) -> Void {
@@ -214,7 +233,21 @@ class ChatFooterBar: UIView {
 			break
 		}
 	}
+}
 
+// MARK: -存放计算属性
+extension ChatFooterBar {
+	var isTextNil: Bool {
+		guard let text = self.textMsgInput.text else { return true }
+		return text == ""
+	}
+
+	var textMsg: String {
+		return self.textMsgInput.text ?? ""
+	}
+}
+
+extension ChatFooterBar {
 	@objc
 	func changeStateAction(_ button: UIButton) -> Void {
 		button.isSelected = !button.isSelected
@@ -238,14 +271,20 @@ class ChatFooterBar: UIView {
 
 	@objc
 	func sendAction(_ button: UIButton) -> Void {
-
+		// 在这里的发送方法只涉及到了文本消息的发送
+		// 首先判断消息发送框是否为空
+		guard !isTextNil else {
+			ABYPrint("warning: 消息为空")
+			return
+		}
+		guard let room_id = room_id else {
+			ABYPrint("warning: 房间号不存在")
+			return
+		}
+		ABYPrint("log 发送消息")
+		let message = Message.init(text: textMsg, room_id:room_id ) // 组装消息
+		self.delegate?.update(message: message) // 更新视图
+		self.textMsgInput.text = "" // 清空文本框
 	}
-	/*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }
+

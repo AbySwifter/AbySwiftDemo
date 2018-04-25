@@ -49,6 +49,13 @@ class MessageElem: NSObject, HandyJSON {
 	var size: ImageSize?
 
 	required override init() {}
+}
 
-
+extension MessageElem {
+	// 文本消息元素的初始化
+	convenience init(text: String) {
+		self.init()
+		self.text = text
+		self.type = MSG_ELEM.text
+	}
 }
