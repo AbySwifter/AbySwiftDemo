@@ -9,7 +9,7 @@
 import UIKit
 
 
-class KKChatBaseCell: UITableViewCell {
+class KKChatBaseCell: UITableViewCell, MessageStatusChangeDelegate {
 	var model: Message? { didSet { baseCellSetModel() } }
 	// 头像
 	lazy var avatar: UIImageView = {
@@ -37,7 +37,7 @@ class KKChatBaseCell: UITableViewCell {
 		let bg = UIView()
 		bg.layer.cornerRadius = 4
 		bg.layer.masksToBounds = true
-		bg.backgroundColor = UIColor.init(normal: 190.0, g: 190.0, b: 190.0, a: 0.6)
+		bg.backgroundColor = UIColor.init(normalr: 190.0, g: 190.0, b: 190.0, a: 0.6)
 		return bg
 	}()
 	// 聊天内容
@@ -86,7 +86,18 @@ class KKChatBaseCell: UITableViewCell {
 		selectionStyle = .none
 //		let transform: CGAffineTransform = CGAffineTransform.init(rotationAngle: CGFloat.pi)
 //		self.transform = transform
-		// 时间的显示
+        self.clipsToBounds = true
+		addTimeArae()
+		chatMsgInit() // 只有会话消息需要显示头像，以后需要将其解耦出去
+		self.backgroundColor = UIColor.init(hexString: "ececec")
+	}
+
+	required init?(coder aDecoder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
+	// 给消息添加时间显示视图
+	func addTimeArae() {
 		self.addSubview(timeContent)
 		timeContent.addSubview(bgView)
 		timeContent.addSubview(timeLabel)
@@ -96,7 +107,10 @@ class KKChatBaseCell: UITableViewCell {
 			make.right.equalTo(timeLabel).offset(4)
 			make.bottom.equalTo(timeLabel).offset(1)
 		}
-		self.backgroundColor = UIColor.init(hexString: "ececec")
+	}
+	// chat消息的统一布局
+	func chatMsgInit() {
+		// 时间的显示
 		self.addSubview(avatar)
 		msgContent.addSubview(senderName)
 		msgContent.addSubview(bubbleView)
@@ -110,8 +124,14 @@ class KKChatBaseCell: UITableViewCell {
 		}
 	}
 
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
+	func getCellHeight() -> CGFloat {
+		self.layoutIfNeeded() // 立即布局子视图，强制执行
+		// 获取Cell高度
+//        let contentHeight = msgContent.height // 这里的加10，是下边距
+        let contentHeight = bubbleView.height + senderName.height + n_cOffset + 10
+		let avatarHeight = avatar.height
+		let height = contentHeight > avatarHeight ? contentHeight : avatarHeight
+		return height + verticalMargin
 	}
 }
 // 视图布局的常量
@@ -122,12 +142,15 @@ extension KKChatBaseCell {
 	var senderNameHeight: CGFloat { return 20.0 }
 	var minVoiceWidth: CGFloat { return 40.0 }
 	var avatarTotalWidth: CGFloat { return avatarWidth + avatarMargin + avatarToMsg }
+
 	var verticalMargin: CGFloat {
 		guard let model = self.model else { return 10 }
 		let marginTop = model.showTime ? 50 : 10
 		return CGFloat(marginTop)
-	}
-	var n_cOffset: CGFloat { return 5 }
+	} // 消息的头像与cell的顶部距离
+
+	var n_cOffset: CGFloat { return 5 } // 头像和消息内容的距离
+
 	var maxMsgWidth: CGFloat{
 		let marginHorizontal = (avatarWidth + avatarMargin + avatarToMsg + 3.0) * 2
 		let result = UIScreen.main.bounds.width - marginHorizontal
@@ -150,66 +173,83 @@ extension KKChatBaseCell {
 		tipView.isHidden = false
 		activityIndicator.startAnimating()
 		// 设置时间（只有部分消息需要时间的显示）
-
-		if let message = self.model {
-			timeContent.snp.remakeConstraints { (make) in
-				make.top.equalTo(self.snp.top).offset(10)
-				make.height.equalTo(40.0)
-				make.width.equalTo(UIScreen.main.bounds.width)
-				make.centerX.equalTo(self.snp.centerX)
-			}
-			timeLabel.text = message.timeStr
-			timeLabel.sizeToFit()
-			timeLabel.snp.remakeConstraints { (make) in
-				make.width.equalTo(timeLabel.width)
-				make.height.equalTo(timeLabel.height)
-				make.center.equalTo(timeContent.snp.center)
-			}
-			timeContent.isHidden = !message.showTime
+		if let message = self.model, message.messageType != MessageType.sys {
+			setTimeArae() // 预设时间区域
 		}
 		// 设置头像(只有会话消息需要设置头像和昵称)
 		if let message = self.model, message.messageType == MessageType.chat {
-			avatar.kf.setImage(with: URL.init(string: (message.sender?.headImgUrl)!), placeholder: #imageLiteral(resourceName: "user"), options: nil, progressBlock: nil, completionHandler: nil)
-			senderName.text = message.senderName
-		    let contentSize = senderName.sizeThatFits(CGSize.init(width: self.maxMsgWidth, height: CGFloat(Float.greatestFiniteMagnitude)))
-			senderName.snp.remakeConstraints { (make) in
-				make.size.equalTo(contentSize)
-			}
+			setAvatar() // 预设头像
 		}
+        // 在这里设置发送状态
 		if model?.isSelf == true {
 			activityIndicator.isHidden = false
 			resendButton.isHidden = true
-			guard let deliveryState = model?.deliveryStatus else { return }
-			switch deliveryState {
-			case .delivered:
-				tipView.isHidden = true
-			case .delivering:
-				resendButton.isHidden = true
-				activityIndicator.isHidden = false
-			case .failed:
-				resendButton.isHidden = false
-				activityIndicator.isHidden = true
-			}
+			changeStatusUI()
 			// 处理自己的消息发送状态
 		} else {// 对方的话，就隐藏掉消息状态
 			tipView.isHidden = true
 		}
 	}
-}
-
-extension KKChatBaseCell {
-
-	func getCellHeight() -> CGFloat {
-		self.layoutIfNeeded() // 立即布局子视图，强制执行
-		// 获取Cell高度
-		let contentHeight = bubbleView.height + senderName.height + verticalMargin + n_cOffset + 10 // 这里的加10，是下边距
-		if avatar.height > contentHeight {
-			return avatar.height + 20.0
-		} else {
-			return contentHeight
+	// 设置时间区域
+	func setTimeArae() {
+		guard let message = self.model else { return  }
+		timeContent.snp.remakeConstraints { (make) in
+			make.top.equalTo(self.snp.top).offset(10)
+			make.height.equalTo(40.0)
+			make.width.equalTo(UIScreen.main.bounds.width)
+			make.centerX.equalTo(self.snp.centerX)
+		}
+		timeLabel.text = message.timeStr
+		timeLabel.sizeToFit()
+		timeLabel.snp.remakeConstraints { (make) in
+			make.width.equalTo(timeLabel.width)
+			make.height.equalTo(timeLabel.height)
+			make.center.equalTo(timeContent.snp.center)
+		}
+		timeContent.isHidden = !message.showTime
+	}
+	// 设置头像区域
+	func setAvatar() {
+		guard let message = self.model else { return }
+		avatar.kf.setImage(with: URL.init(string: (message.sender?.headImgUrl)!), placeholder: #imageLiteral(resourceName: "user"), options: nil, progressBlock: nil, completionHandler: nil)
+		senderName.text = message.senderName
+		let contentSize = senderName.sizeThatFits(CGSize.init(width: self.maxMsgWidth, height: CGFloat(Float.greatestFiniteMagnitude)))
+		senderName.snp.remakeConstraints { (make) in
+			make.size.equalTo(contentSize)
 		}
 	}
 
+    func changeStatusUI() {
+        guard let deliveryState = model?.deliveryStatus else { return }
+        switch deliveryState {
+        case .delivered:
+            tipView.isHidden = true
+        case .delivering:
+            resendButton.isHidden = true
+            activityIndicator.isHidden = false
+        case .failed:
+            resendButton.isHidden = false
+            activityIndicator.isHidden = true
+        }
+    }
+}
+
+extension KKChatBaseCell {
+    /// 改变cell视图显示的代理方法
+    func messageStatusChange(_ status: DeliveryStatus) {
+        ABYPrint("消息发送状态变化： \(status)")
+        switch status {
+        case .delivered:
+            tipView.isHidden = true
+        case .delivering:
+            resendButton.isHidden = true
+            activityIndicator.isHidden = false
+        case .failed:
+            resendButton.isHidden = false
+            activityIndicator.isHidden = true
+        }
+    }
+    
 	/// 重新发送操作
 	@objc func resend() -> Void {
 		// 重新发送消息的操作

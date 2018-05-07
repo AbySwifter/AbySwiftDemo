@@ -25,7 +25,7 @@ extension UIColor {
 		}
 	}
 
-	convenience init(normal r: CGFloat, g: CGFloat, b:CGFloat, a: CGFloat) {
-		self.init(red: r/255.0, green: g/255.0, blue: b/255.0, alpha: a)
+	convenience init(normalr: CGFloat, g: CGFloat, b:CGFloat, a: CGFloat) {
+		self.init(red: normalr/255.0, green: g/255.0, blue: b/255.0, alpha: a)
 	}
 }

@@ -11,7 +11,7 @@ import SwiftyJSON
 
 let MSG_NOTIFICATION = "msg_event_notification"
 /// 会话管理类: 用来管理整个APP会话的生命周期与各个会话的消息分发
-class ConversationManager: ABYSocketDelegate {
+class ConversationManager {
 	static let distance = ConversationManager.init()
 	private init() {}
 	// 网络管理类
@@ -30,6 +30,13 @@ class ConversationManager: ABYSocketDelegate {
 			}
 		}
 	}
+
+	// MessageBus的实例，用来发送消息
+	var bus: MessageBus {
+		return MessageBus.distance
+	}
+	var atService: Int16 = -1 // 记录当前正在服务的会话ID
+
 	// 这是一个获取数据的方法
 	func initData() -> Void {
 		getList() // 获取真数据
@@ -42,8 +49,8 @@ class ConversationManager: ABYSocketDelegate {
 			// 已经存在房间
 			let conversation = self.conversations[room_id]
 			//加入房间的聊天列表去
-			conversation?.lastMessage = message
 			conversation?.message_list.append(message)
+			conversation?.lastMessage = message
 		} else {
 			// 不存在房间，创建房间并添加到房间的字典中去
 			createConversation(width: message)
@@ -63,7 +70,7 @@ class ConversationManager: ABYSocketDelegate {
 	/// 获取当前会话列表
 	func getList() -> Void {
 		guard let current_id = Account.share.user?.id else { return  }
-		self.networkManager.aby_request(request: UserRouter.chatList(params: ["current_id": current_id])) { (result: JSON?) -> (Void) in
+		self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.chatList, params: ["current_id": current_id])) { (result: JSON?) -> (Void) in
 			if let res = result {
 //				ABYPrint(message: res)
 				guard res["state"].int == 200 else {
@@ -90,42 +97,56 @@ class ConversationManager: ABYSocketDelegate {
 			}
 		}
 	}
+}
 
-	// MARK: -Message listener FIXME: -这部分代码需要解耦出去
-	/// 消息监听的代理方法，直接从Socket中处理消息
+// MARK: -处理服务相关的东西
+extension ConversationManager {
+	/// 修改当前正在服务的会话
+	func change(atService roomID: Int16, status: Bool) -> Void {
+		// 预防会话已经结束的情况
+		guard let current = self.conversations[roomID] else { return }
+		if status {
+			// 服务房间： 1、本地已读数为 全部。2 、会话未读数为 0
+			current.message_read_count = current.totalCount
+			self.atService = roomID
+			// 发送加入房间的消息
+			bus.joinRoom(roomID)
+		} else {
+			// 上报已读数量
+			current.message_read_count = current.totalCount
+			reportRead(count: current.totalCount, room_id: current.room_id)
+			self.atService = -1
+		}
+	}
+	/// 结束服务
 	///
-	/// - Parameter message: JSON格式的消息体
-	func onMessage(message: JSON) {
-		// 处理有关房间会话的业务
-		guard let dictionary = message.dictionaryObject else { return }
-		ABYPrint(message: "收到消息:\(dictionary)")
-		guard let msgModel = Message.deserialize(from: dictionary) else { return }
-		if (msgModel.messageType == .sys) {
-			// 处理超时退出会话
-			if (msgModel.content?.type == .sysServiceTimeout) {
-
-				return
-			}
-			// 处理等待服务队列消息
-			if (msgModel.content?.type == .sysServiceWaitCount) {
-
-				return
-			}
-		}
-		// TODO: 其次处理房间消息，优先级#2
-		if msgModel.room_id != nil && msgModel.room_id != 0 {
-			updataConversationList(msgModel)
-		}
-		// 暂时用通知中心去处理消息的全局分发
-		NotificationCenter.default.post(name: .init(MSG_NOTIFICATION), object: nil, userInfo: [0: msgModel])
+	/// - Parameters:
+	///   - room_id: 结束的房间id
+	func endService(room_id: Int16) {
+		_ = self.conversations.removeValue(forKey: room_id)
+		self.dataSource?.conversationListUpdata()
 	}
 
-
-	func statusChange(status: ABYSocketStatus) {
-
+	func reportRead(count: Int, room_id: Int16) -> Void {
+		let param: [String: Any] = ["room_id": "\(room_id)", "num": "\(count)"]
+		networkManager.aby_request(request:UserRouter.request(api: UserAPI.setReadCount, params: param)) { (result) -> (Void) in
+			if let res = result {
+				ABYPrint("上报已读数结果：\(res)")
+			}
+		}
 	}
 }
 
+/// MessageBus的消息分发
+extension ConversationManager:  MessageBusDelegate {
+	/// 从messageBus过来的消息， 只有房间消息
+	func messageBus(on message: Message) {
+		let msgModel = message
+		if msgModel.room_id != nil && msgModel.room_id != 0 {
+			updataConversationList(msgModel)
+		}
+	}
+}
 
 /// 用来处理会话列表视图更新事件的代理方法
 protocol ConversationManagerDeleagate {

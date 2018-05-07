@@ -28,6 +28,8 @@ import MJRefresh
 
 fileprivate let KKChatBaseCellID = "KKChatBaseCell"
 fileprivate let KKChattextCellID = "KKChattextCell"
+fileprivate let KKChatAudioCellID = "KKChatAudioCell"
+fileprivate let KKSystemMsgCellID = "KKChatSystemMsgCell"
 
 class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITableViewDataSource {
 
@@ -41,8 +43,10 @@ class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITabl
 		tab.tableFooterView = UIView.init()
 		tab.backgroundColor = UIColor.init(hexString: "ececec")
 		// 注册Cell
-		tab.register(KKChatBaseCell.classForCoder(), forCellReuseIdentifier: KKChatBaseCellID)
-		tab.register(KKChattextCell.classForCoder(), forCellReuseIdentifier: KKChattextCellID)
+		tab.register(KKChatBaseCell.classForCoder(), forCellReuseIdentifier: KKChatBaseCellID) // 基础Cell，负责健壮性的维护，显示未定消息的类型
+		tab.register(KKChattextCell.classForCoder(), forCellReuseIdentifier: KKChattextCellID) // 聊天文本消息
+		tab.register(KKChatAudioCell.classForCoder(), forCellReuseIdentifier: KKChatAudioCellID)
+		tab.register(KKChatSystemMsgCell.classForCoder(), forCellReuseIdentifier: KKSystemMsgCellID) // 聊天系统消息
 		return tab
 	}()
 
@@ -120,6 +124,7 @@ extension KKMessageViewController {
 		} else {
 			messageList = tempList
 		}
+		// FIXME: 暂时放在cellforrow里面去执行
 		helper.addTimeTo(finalModel: nil, messages: messageList)
 		helper.addTimeTo(finalModel: nil, messages: historyList)
 	}
@@ -180,14 +185,17 @@ extension KKMessageViewController {
 		case .chat:
 			if model.content?.type == MSG_ELEM.text {
 				cell = tableView.dequeueReusableCell(withIdentifier: KKChattextCellID) as? KKChattextCell
+			} else if model.content?.type == MSG_ELEM.voice {
+				cell = tableView.dequeueReusableCell(withIdentifier: KKChatAudioCellID) as? KKChatAudioCell
 			} else {
 				cell = tableView.dequeueReusableCell(withIdentifier: KKChatBaseCellID) as? KKChatBaseCell
 			}
 			break
 			//		case .custom:
 			//			break
-			//		case .sys:
-		//			break
+			case .sys:
+				cell = tableView.dequeueReusableCell(withIdentifier: KKSystemMsgCellID) as? KKChatSystemMsgCell
+			break
 		default:
 			cell = tableView.dequeueReusableCell(withIdentifier: KKChatBaseCellID) as? KKChatBaseCell
 			break
@@ -202,6 +210,9 @@ extension KKMessageViewController {
 		return model.cellHeight
 	}
 
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 100
+//    }
 }
 
 // 更新的方法

@@ -11,6 +11,9 @@ import Foundation
 import SnapKit
 import MJRefresh
 
+let kScreenWidth = UIScreen.main.bounds.width
+let KScreenHeight = UIScreen.main.bounds.height
+
 let SystemVersion: String = UIDevice.current.systemName + " " + UIDevice.current.systemVersion
 // 计算比例的函数
 func W750(_ number: CGFloat) -> CGFloat {

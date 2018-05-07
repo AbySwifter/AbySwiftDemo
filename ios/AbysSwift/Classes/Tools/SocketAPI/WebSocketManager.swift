@@ -21,7 +21,6 @@ class ABYSocket: WebSocketDelegate {
 	static let manager = ABYSocket.init()
 	private init() {
 		self.delegates.append(MessageBus.distance)
-		self.delegates.append(ConversationManager.distance)
 	}
 
 	lazy var webSocket: WebSocket = {
@@ -30,7 +29,11 @@ class ABYSocket: WebSocketDelegate {
 		return temp
 	}()
 	var delegates: [ ABYSocketDelegate ] = [] // Socket的代理
-	var session_id: String = "" // IMS登录的标志
+	var session_id: String = "" {
+		didSet {
+			Account.share.session_id = self.session_id
+		}
+	}// IMS登录的标志
 	var sessionIDGetTime: Int32 = 0 // 获取Session的时间戳
 	var loginPath: SocketSendOptions = SocketSendOptions.init(path: "api/ims/login", query: "")
 	let client_id: String = newGUID()
@@ -154,9 +157,16 @@ class ABYSocket: WebSocketDelegate {
 	}
 }
 
+// 发送消息的方法
 extension ABYSocket {
+	// 发送房间的消息
 	func send(message: Message) -> Void {
 	    let options = SocketSendOptions.init(path: "api/ims/send_to_group", query: "")
 		self.send(options: options, body: message.toJSON()!)
+	}
+	// 加入房间的消息
+	func join(room: Int16) -> Void {
+		let options = SocketSendOptions.init(path: "api/ims/join_group'", query: "")
+		self.send(options: options, body: ["room_id": "\(room)"])
 	}
 }

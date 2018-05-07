@@ -20,8 +20,11 @@ enum UserAPI: String {
 	case stats = "stats" // 获取报表信息
 	// 会话接口
 	case endService = "end_service" // 结束服务
+	case setReadCount = "set_room_read_message" // 上报未读消息
 	// 会话列表接口
 	case chatList = "chat_list" //会话列表
+    
+    case upLoadFile = "upload_file" // 上传文件的接口
 
 	// 计算属性，根据不同枚举值计算当前API的信息
 	var info: APIInfo {
@@ -32,44 +35,33 @@ enum UserAPI: String {
 			return (self.rawValue, .post, false)
 		case .userInfo:
 			return (self.rawValue, .post, false)
-		case .stats:
+		case .setReadCount:
+			return (self.rawValue, .post, false)
+        case .upLoadFile:
+            return (self.rawValue, .post, false)
+		// 默认为POST方法、需要授权
+		default:
 			return (self.rawValue, .post, true)
-		case .endService:
-			return (self.rawValue, .post, true)
-		case .chatList:
-			return (self.rawValue, .post, true)
-//		default:
-//			return ("", .get, false)
 		}
 	}
 }
 
+enum UploadRouter: URLConvertible {
+    func asURL() throws -> URL {
+        let baseUrl = try URLinfo.baseURL.rawValue.asURL()
+        switch self {
+        case .request(api: let api):
+            return baseUrl.appendingPathComponent(api.info.url)
+        }
+    }
+    case request(api: UserAPI)
+}
 // 登录注册接口路由
 enum UserRouter: URLRequestConvertible {
-	case code
-	case auth(params: Parameters)
-	case userInfo(token: String)
-	case stats(params: Parameters)
-	case chatList(params: Parameters)
 
-	case endService(params: Parameters)
-	// FIXME: 每次添加接口时，都进行处理
-	var apiInfo: UserAPI {
-		switch self {
-		case .code:
-			return UserAPI.code
-		case .auth(params: _):
-			return UserAPI.auth
-		case .userInfo(token: _):
-			return UserAPI.userInfo
-		case .stats(params: _):
-			return .stats
-		case .endService(params: _):
-			return .endService
-		case .chatList(params: _):
-			return .chatList
-		}
-	}
+	case userInfo(token: String)
+	case request(api: UserAPI, params: Parameters?)
+
 	// 协议的方法实现
 	func asURLRequest() throws -> URLRequest {
 		let url = try URLinfo.baseURL.rawValue.asURL()
@@ -81,7 +73,7 @@ enum UserRouter: URLRequestConvertible {
 				let params: Parameters = ["token": Account.share.token]
 				urlRequest = try URLEncoding.default.encode(urlRequest, with: params)
 			} else {
-				// 处理授权不存在的问题
+				// FIXME: 处理授权不存在的问题
 			}
 		}
 		urlRequest.httpMethod = apiInfo.info.method.rawValue
@@ -90,27 +82,32 @@ enum UserRouter: URLRequestConvertible {
 		urlRequest = try encodingParams(urlRequest: urlRequest) // 处理请求参数
 		return urlRequest
 	}
-	// 根据请求拼接参数 FIXME: 每次不同的请求对参数进行不同的处理
+}
+
+extension UserRouter {
+	var apiInfo: UserAPI {
+		switch self {
+		case .userInfo(token: _):
+			return UserAPI.userInfo
+		case .request(api: let api, params: _):
+			return api
+		}
+	}
 	func encodingParams(urlRequest: URLRequest) throws -> URLRequest {
 		switch self {
-		case .auth(params: let params):
-			switch self.apiInfo.info.method {
-			case .get:
-				return try URLEncoding.default.encode(urlRequest, with: params)
-			default:
-				return try JSONEncoding.default.encode(urlRequest, with: params)
-			}
 		case .userInfo(token: let token):
 			return try JSONEncoding.default.encode(urlRequest, with: ["token": token])
-		case .stats(params: let params):
-			return try JSONEncoding.default.encode(urlRequest, with: params)
-		case .endService(params: let params):
-			return try JSONEncoding.default.encode(urlRequest, with: params)
-		case .chatList(params: let params):
-			return try JSONEncoding.default.encode(urlRequest, with: params)
-		default:
+
+		case .request(api: _, params: let params):
+			if let p = params {
+				switch self.apiInfo.info.method {
+				case .get:
+					return try URLEncoding.default.encode(urlRequest, with: p)
+				default:
+					return try JSONEncoding.default.encode(urlRequest, with: p)
+				}
+			}
 			return urlRequest
 		}
 	}
 }
-

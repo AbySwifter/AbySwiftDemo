@@ -39,10 +39,6 @@ class KKChatMsgDataHelper: NSObject {
 		Date.setDefaultRegion(regionRome)
 	}
 	
-	func createTimeModel(_ message: Message) -> Message {
-		let timeMessage = Message.init(time: message.timestamp!)
-		return timeMessage
-	}
 	/**
 	* 处理消息的时间添加
 	*/
@@ -64,6 +60,18 @@ class KKChatMsgDataHelper: NSObject {
 				}
 			}
 		}
+	}
+
+	func addTime(finalModel: Message, messages: [Message]) -> [Message] {
+		var list: [Message] = [Message]()
+		for index in 0 ..< messages.count {
+			if index == 0 {
+				
+			} else {
+
+			}
+		}
+		return list
 	}
 }
 

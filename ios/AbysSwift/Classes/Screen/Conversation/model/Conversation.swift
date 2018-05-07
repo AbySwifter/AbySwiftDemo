@@ -52,8 +52,10 @@ class Conversation: HandyJSON {
 	}
 	// 未读消息数
 	var unreadCount: Int {
-		let count = totalCount - message_read_count
-		return count < 0 ? 0 : count
+		get {
+			let count = totalCount - message_read_count
+			return count < 0 ? 0 : count
+		}
 	}
 	// 返回最后一条消息的内容
 	var lastMsgContent: String {
@@ -63,11 +65,11 @@ class Conversation: HandyJSON {
 		case .image:
 			string = "[图片消息]"
 		case .voice:
-			string = "[声音消息]"
+			string = "[语音消息]"
 		case .text:
 			string = lastMessage?.content?.text ?? ""
 		default:
-			string = "[位置消息类型]"
+			string = "[未知消息类型]" // 避免未出现的消息类型
 		}
 		return string
 	}
@@ -153,6 +155,26 @@ class Conversation: HandyJSON {
 		mapper >>> self.nativeReadCount
 	}
 
+}
+
+extension Conversation {
+	
+	func endService(complete: @escaping (_ result: Bool, _ message: String?) -> ()) -> Void {
+		let params: [String: Any] = [
+			"room_id": self.room_id,
+			"current_id": Account.share.user?.id ?? 0,
+			"session_id": Account.share.session_id,
+		]
+		ABYNetworkManager.shareInstance.aby_request(request: UserRouter.request(api: UserAPI.endService, params: params), callBack: { (result) -> (Void) in
+			if let res = result {
+				ABYPrint("\(res)")
+			}
+			complete(true, nil)
+		}) { (error) -> (Void) in
+			ABYPrint("\(error)")
+			complete(false, nil)
+		}
+	}
 }
 
 protocol ConversationDelegate {
