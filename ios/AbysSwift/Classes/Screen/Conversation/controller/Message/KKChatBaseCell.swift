@@ -127,7 +127,8 @@ class KKChatBaseCell: UITableViewCell, MessageStatusChangeDelegate {
 	func getCellHeight() -> CGFloat {
 		self.layoutIfNeeded() // 立即布局子视图，强制执行
 		// 获取Cell高度
-		let contentHeight = msgContent.height // 这里的加10，是下边距
+//        let contentHeight = msgContent.height // 这里的加10，是下边距
+        let contentHeight = bubbleView.height + senderName.height + n_cOffset + 10
 		let avatarHeight = avatar.height
 		let height = contentHeight > avatarHeight ? contentHeight : avatarHeight
 		return height + verticalMargin
@@ -188,7 +189,6 @@ extension KKChatBaseCell {
 		} else {// 对方的话，就隐藏掉消息状态
 			tipView.isHidden = true
 		}
-        model?.cellHeight = getCellHeight()
 	}
 	// 设置时间区域
 	func setTimeArae() {
@@ -219,53 +219,6 @@ extension KKChatBaseCell {
 		}
 	}
 
-	/// 设置聊天消息的通用样式(头像、发送者、消息内容)
-	func setCommon() -> Void {
-		// 头像的通用样式
-		avatar.snp.remakeConstraints { (make) in
-			make.width.height.equalTo(self.avatarWidth)
-			make.top.equalTo(self.snp.top).offset(verticalMargin)
-		}
-		// 发送者的姓名
-		senderName.snp.remakeConstraints { (make) in
-			make.top.equalTo(msgContent.snp.top)
-		}
-		// 消息内容的通用样式
-		msgContent.snp.remakeConstraints { (make) in
-			make.top.equalTo(avatar.snp.top)
-			make.width.equalToSuperview().offset(-avatarTotalWidth)
-		}
-	}
-	/// 设置接收者的通用消息样式(头像、发送者、消息内容)
-	func setRceiverCommon() -> Void {
-		avatar.snp.makeConstraints { (make) in
-			make.left.equalTo(self.snp.left).offset(self.avatarMargin)
-		}
-		msgContent.snp.makeConstraints { (make) in
-			make.left.equalTo(avatar.snp.right).offset(self.avatarToMsg)
-		}
-		senderName.snp.makeConstraints { (make) in
-			make.left.equalToSuperview()
-		}
-	}
-	/// 设置发送者的通用消息（自己的消息， 头像、发送者、消息内容）
-	func setSenderCommon() -> Void {
-		avatar.snp.makeConstraints { (make) in
-			make.right.equalTo(self.snp.right).offset(-self.avatarMargin)
-		}
-		msgContent.snp.makeConstraints { (make) in
-			make.right.equalTo(avatar.snp.left).offset(-self.avatarToMsg)
-		}
-		senderName.snp.makeConstraints { (make) in
-			make.right.equalToSuperview()
-		}
-        // 消息发送结果的通用
-        tipView.snp.remakeConstraints { (make) in
-            make.centerY.equalTo(bubbleView.snp.centerY)
-            make.width.height.equalTo(30)
-        }
-	}
-    
     func changeStatusUI() {
         guard let deliveryState = model?.deliveryStatus else { return }
         switch deliveryState {

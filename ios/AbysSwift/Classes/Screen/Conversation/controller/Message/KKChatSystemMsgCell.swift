@@ -63,7 +63,6 @@ extension KKChatSystemMsgCell {
 	fileprivate func setModel() {
 		guard let msg = self.model else { return }
 		let str = "\(msg.timeStr) \(msg.content?.text ?? "")"
-		
 		contentLable.text = str
 		contentLable.sizeToFit()
 		model?.cellHeight = getCellHeight()

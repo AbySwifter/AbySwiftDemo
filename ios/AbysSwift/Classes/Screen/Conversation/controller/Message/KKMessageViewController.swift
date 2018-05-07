@@ -210,9 +210,9 @@ extension KKMessageViewController {
 		return model.cellHeight
 	}
 
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 100
+//    }
 }
 
 // 更新的方法
