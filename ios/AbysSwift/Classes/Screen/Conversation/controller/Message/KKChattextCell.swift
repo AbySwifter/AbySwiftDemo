@@ -95,16 +95,7 @@ extension KKChattextCell {
 				make.right.equalTo(bubbleView.snp.left)
 			}
 		} else {
-//            setRceiverCommon()
-            avatar.snp.makeConstraints { (make) in
-                make.left.equalTo(self.snp.left).offset(self.avatarMargin)
-            }
-            msgContent.snp.makeConstraints { (make) in
-                make.left.equalTo(avatar.snp.right).offset(self.avatarToMsg)
-            }
-            senderName.snp.makeConstraints { (make) in
-                make.left.equalToSuperview()
-            }
+            setRceiverCommon()
 			bubbleView.snp.makeConstraints { (make) in
 				make.left.equalToSuperview()
 				make.right.equalTo(contentLabel.snp.right).offset(10)
@@ -117,7 +108,6 @@ extension KKChattextCell {
 				$0.left.equalTo(bubbleView.snp.right)
 			}
 		}
-        ABYPrint("走了重新布局的方法")
 		// 最后获取到当前cell的高度
 		self.model?.cellHeight = getCellHeight()
 	}

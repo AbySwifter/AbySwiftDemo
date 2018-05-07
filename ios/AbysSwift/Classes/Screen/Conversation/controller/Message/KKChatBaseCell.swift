@@ -188,7 +188,7 @@ extension KKChatBaseCell {
 		} else {// 对方的话，就隐藏掉消息状态
 			tipView.isHidden = true
 		}
-//        model?.cellHeight = getCellHeight()
+        model?.cellHeight = getCellHeight()
 	}
 	// 设置时间区域
 	func setTimeArae() {
