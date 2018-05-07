@@ -17,17 +17,17 @@
 		DD0F8B67206CBF33008C6049 /* ChatFooterMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0F8B66206CBF33008C6049 /* ChatFooterMenu.swift */; };
 		DD0F986E206A1EAD00BA9C27 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0F986D206A1EAD00BA9C27 /* Message.swift */; };
 		DD128A1720883BB100F85809 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD128A1620883BB100F85809 /* Assets.xcassets */; };
-		DD128A192088932B00F85809 /* ConvDetailViewController+Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD128A182088932B00F85809 /* ConvDetailViewController+Notification.swift */; };
 		DD14B81B2047B8AC00265CD3 /* ABYValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD14B81A2047B8AC00265CD3 /* ABYValueFormatter.swift */; };
 		DD1C09DF2031428300B8847D /* UIViewController+showHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C09DE2031428300B8847D /* UIViewController+showHud.swift */; };
 		DD1C09E12031840100B8847D /* ABYBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C09E02031840100B8847D /* ABYBaseViewController.swift */; };
 		DD28B0FA206B375300B75324 /* MessageElem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD28B0F9206B375300B75324 /* MessageElem.swift */; };
 		DD28B0FC206B892700B75324 /* ChatFooterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD28B0FB206B892700B75324 /* ChatFooterBar.swift */; };
+		DD37216D209551B800E7EC4E /* KKChatAudioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD37216C209551B800E7EC4E /* KKChatAudioCell.swift */; };
+		DD3A321F2094498500D74958 /* KKChatSystemMsgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A321E2094498500D74958 /* KKChatSystemMsgCell.swift */; };
 		DD47C4C8202C49BC00A45EA1 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD47C4C7202C49BC00A45EA1 /* Account.swift */; };
 		DD51C3B52051129900FE0F6C /* OhterDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD51C3B42051129900FE0F6C /* OhterDataView.swift */; };
 		DD51C3B7205129F400FE0F6C /* FormVCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD51C3B6205129F400FE0F6C /* FormVCModel.swift */; };
 		DD67F93A205BC57A00A55280 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67F939205BC57A00A55280 /* Conversation.swift */; };
-		DD67F93C205BD72700A55280 /* ConvDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67F93B205BD72700A55280 /* ConvDetailViewController.swift */; };
 		DD70778A202450B40034CB00 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD707789202450B40034CB00 /* LoginViewController.swift */; };
 		DD70778D202452650034CB00 /* ABYNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD70778C202452650034CB00 /* ABYNetworkManager.swift */; };
 		DD739859202416A4006242FD /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD739858202416A4006242FD /* ConversationViewController.swift */; };
@@ -41,6 +41,8 @@
 		DD7EAE8520733B0C00A7BBF5 /* String+Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EAE8420733B0C00A7BBF5 /* String+Range.swift */; };
 		DD7EAE8720735C2000A7BBF5 /* ABYJsonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EAE8620735C2000A7BBF5 /* ABYJsonModel.swift */; };
 		DD7EAE892073807200A7BBF5 /* MessageBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EAE882073807200A7BBF5 /* MessageBus.swift */; };
+		DD8278442099504D004D8747 /* ChatVoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8278432099504D004D8747 /* ChatVoiceView.swift */; };
+		DD82789F20998F6A004D8747 /* recording.gif in Resources */ = {isa = PBXBuildFile; fileRef = DD82789E20998F6A004D8747 /* recording.gif */; };
 		DD8C3514204547F500ABADD6 /* MineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8C3512204547F500ABADD6 /* MineCell.swift */; };
 		DD916B3B208052EC00A31A09 /* BaseBridgemanager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD916B3A208052EC00A31A09 /* BaseBridgemanager.m */; };
 		DD916B3D2080530E00A31A09 /* BaseBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD916B3C2080530E00A31A09 /* BaseBridge.swift */; };
@@ -50,6 +52,8 @@
 		DDA7AD7820902BF700BD70F3 /* KKChatBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA7AD7720902BF700BD70F3 /* KKChatBarViewController.swift */; };
 		DDA7AD7A20902C2000BD70F3 /* KKMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA7AD7920902C2000BD70F3 /* KKMessageViewController.swift */; };
 		DDC007C62086E479001FFAF3 /* ABYEmptyDataSetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC007C52086E479001FFAF3 /* ABYEmptyDataSetable.swift */; };
+		DDC281A6209ADDA3000B2CBE /* AudioTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC281A5209ADDA3000B2CBE /* AudioTool.swift */; };
+		DDC281A8209ADE9F000B2CBE /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC281A7209ADE9F000B2CBE /* FileManager.swift */; };
 		DDC332FE20873AFD004B9669 /* KKChatBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC332FD20873AFD004B9669 /* KKChatBaseCell.swift */; };
 		DDC333002087427F004B9669 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC332FF2087427F004B9669 /* UIView+Extension.swift */; };
 		DDC3330620875381004B9669 /* IDETemplateMacros.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDC3330520875381004B9669 /* IDETemplateMacros.plist */; };
@@ -59,6 +63,7 @@
 		DDD4A175204FCAD500F02490 /* PartName.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD4A174204FCAD500F02490 /* PartName.swift */; };
 		DDD4A18D204FDF2300F02490 /* ABYProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD4A18C204FDF2300F02490 /* ABYProgressView.swift */; };
 		DDDC8485208755E000939232 /* KKChattextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDC8484208755E000939232 /* KKChattextCell.swift */; };
+		DDDEC7AF209166030076C2AB /* ABYPopMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDEC7AE209166030076C2AB /* ABYPopMenu.swift */; };
 		DDE8CFA9206903BB00758AA4 /* SocketProtocl.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE8CFA8206903BB00758AA4 /* SocketProtocl.swift */; };
 		EA479F8B3A95D84C6F015881 /* Pods_AbysSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C9CBB9FE0A663162503B87 /* Pods_AbysSwift.framework */; };
 /* End PBXBuildFile section */
@@ -100,17 +105,17 @@
 		DD0F8B66206CBF33008C6049 /* ChatFooterMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFooterMenu.swift; sourceTree = "<group>"; };
 		DD0F986D206A1EAD00BA9C27 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		DD128A1620883BB100F85809 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		DD128A182088932B00F85809 /* ConvDetailViewController+Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ConvDetailViewController+Notification.swift"; sourceTree = "<group>"; };
 		DD14B81A2047B8AC00265CD3 /* ABYValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYValueFormatter.swift; sourceTree = "<group>"; };
 		DD1C09DE2031428300B8847D /* UIViewController+showHud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+showHud.swift"; sourceTree = "<group>"; };
 		DD1C09E02031840100B8847D /* ABYBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYBaseViewController.swift; sourceTree = "<group>"; };
 		DD28B0F9206B375300B75324 /* MessageElem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageElem.swift; sourceTree = "<group>"; };
 		DD28B0FB206B892700B75324 /* ChatFooterBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFooterBar.swift; sourceTree = "<group>"; };
+		DD37216C209551B800E7EC4E /* KKChatAudioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatAudioCell.swift; sourceTree = "<group>"; };
+		DD3A321E2094498500D74958 /* KKChatSystemMsgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatSystemMsgCell.swift; sourceTree = "<group>"; };
 		DD47C4C7202C49BC00A45EA1 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		DD51C3B42051129900FE0F6C /* OhterDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OhterDataView.swift; sourceTree = "<group>"; };
 		DD51C3B6205129F400FE0F6C /* FormVCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormVCModel.swift; sourceTree = "<group>"; };
 		DD67F939205BC57A00A55280 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
-		DD67F93B205BD72700A55280 /* ConvDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvDetailViewController.swift; sourceTree = "<group>"; };
 		DD707789202450B40034CB00 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DD70778C202452650034CB00 /* ABYNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYNetworkManager.swift; sourceTree = "<group>"; };
 		DD739858202416A4006242FD /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
@@ -124,6 +129,8 @@
 		DD7EAE8420733B0C00A7BBF5 /* String+Range.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Range.swift"; sourceTree = "<group>"; };
 		DD7EAE8620735C2000A7BBF5 /* ABYJsonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYJsonModel.swift; sourceTree = "<group>"; };
 		DD7EAE882073807200A7BBF5 /* MessageBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBus.swift; sourceTree = "<group>"; };
+		DD8278432099504D004D8747 /* ChatVoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVoiceView.swift; sourceTree = "<group>"; };
+		DD82789E20998F6A004D8747 /* recording.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = recording.gif; sourceTree = "<group>"; };
 		DD8C3512204547F500ABADD6 /* MineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCell.swift; sourceTree = "<group>"; };
 		DD916B39208052EB00A31A09 /* AbysSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AbysSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		DD916B3A208052EC00A31A09 /* BaseBridgemanager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseBridgemanager.m; sourceTree = "<group>"; };
@@ -134,6 +141,8 @@
 		DDA7AD7720902BF700BD70F3 /* KKChatBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatBarViewController.swift; sourceTree = "<group>"; };
 		DDA7AD7920902C2000BD70F3 /* KKMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKMessageViewController.swift; sourceTree = "<group>"; };
 		DDC007C52086E479001FFAF3 /* ABYEmptyDataSetable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYEmptyDataSetable.swift; sourceTree = "<group>"; };
+		DDC281A5209ADDA3000B2CBE /* AudioTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTool.swift; sourceTree = "<group>"; };
+		DDC281A7209ADE9F000B2CBE /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		DDC332FD20873AFD004B9669 /* KKChatBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatBaseCell.swift; sourceTree = "<group>"; };
 		DDC332FF2087427F004B9669 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DDC3330520875381004B9669 /* IDETemplateMacros.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = IDETemplateMacros.plist; sourceTree = "<group>"; };
@@ -143,6 +152,7 @@
 		DDD4A174204FCAD500F02490 /* PartName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartName.swift; sourceTree = "<group>"; };
 		DDD4A18C204FDF2300F02490 /* ABYProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYProgressView.swift; sourceTree = "<group>"; };
 		DDDC8484208755E000939232 /* KKChattextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChattextCell.swift; sourceTree = "<group>"; };
+		DDDEC7AE209166030076C2AB /* ABYPopMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYPopMenu.swift; sourceTree = "<group>"; };
 		DDE8CFA8206903BB00758AA4 /* SocketProtocl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketProtocl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,6 +215,7 @@
 		DD001F3F2023238500C912D2 /* AbysSwift */ = {
 			isa = PBXGroup;
 			children = (
+				DD82789B20998EEB004D8747 /* resource */,
 				DD73985520241655006242FD /* Classes */,
 				DD001F402023238500C912D2 /* AppDelegate.swift */,
 				DD128A1620883BB100F85809 /* Assets.xcassets */,
@@ -263,7 +274,10 @@
 		DD47C4C5202C498C00A45EA1 /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				DDD3844C205929A800A525DF /* ConversationManager.swift */,
 				DD7EAE882073807200A7BBF5 /* MessageBus.swift */,
+				DDC281A5209ADDA3000B2CBE /* AudioTool.swift */,
+				DDC281A7209ADE9F000B2CBE /* FileManager.swift */,
 			);
 			path = Global;
 			sourceTree = "<group>";
@@ -297,6 +311,7 @@
 		DD73985520241655006242FD /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				DDDEC7AC209165BD0076C2AB /* Lib */,
 				DD8D14B72080473C00FA3C91 /* ProductPlugin */,
 				DD8D14B62080472900FA3C91 /* ReactBridge */,
 				DD47C4C6202C499800A45EA1 /* Store */,
@@ -384,6 +399,14 @@
 			path = SocketAPI;
 			sourceTree = "<group>";
 		};
+		DD82789B20998EEB004D8747 /* resource */ = {
+			isa = PBXGroup;
+			children = (
+				DD82789E20998F6A004D8747 /* recording.gif */,
+			);
+			path = resource;
+			sourceTree = "<group>";
+		};
 		DD8D14B62080472900FA3C91 /* ReactBridge */ = {
 			isa = PBXGroup;
 			children = (
@@ -435,6 +458,8 @@
 				DDC332FD20873AFD004B9669 /* KKChatBaseCell.swift */,
 				DDDC8484208755E000939232 /* KKChattextCell.swift */,
 				DDA7AD7920902C2000BD70F3 /* KKMessageViewController.swift */,
+				DD3A321E2094498500D74958 /* KKChatSystemMsgCell.swift */,
+				DD37216C209551B800E7EC4E /* KKChatAudioCell.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -445,6 +470,7 @@
 				DD28B0FB206B892700B75324 /* ChatFooterBar.swift */,
 				DD0F8B66206CBF33008C6049 /* ChatFooterMenu.swift */,
 				DDA7AD7720902BF700BD70F3 /* KKChatBarViewController.swift */,
+				DD8278432099504D004D8747 /* ChatVoiceView.swift */,
 			);
 			path = Input;
 			sourceTree = "<group>";
@@ -460,7 +486,6 @@
 		DDD3844B2059298600A525DF /* model */ = {
 			isa = PBXGroup;
 			children = (
-				DDD3844C205929A800A525DF /* ConversationManager.swift */,
 				DD67F939205BC57A00A55280 /* Conversation.swift */,
 				DD0F986D206A1EAD00BA9C27 /* Message.swift */,
 				DD28B0F9206B375300B75324 /* MessageElem.swift */,
@@ -482,8 +507,6 @@
 				DDA7AD76209027D000BD70F3 /* Input */,
 				DDA7AD752090279B00BD70F3 /* Message */,
 				DD739858202416A4006242FD /* ConversationViewController.swift */,
-				DD67F93B205BD72700A55280 /* ConvDetailViewController.swift */,
-				DD128A182088932B00F85809 /* ConvDetailViewController+Notification.swift */,
 				DD0C113A209032E800DDE5C7 /* KKChatViewController.swift */,
 			);
 			path = controller;
@@ -510,6 +533,22 @@
 			children = (
 			);
 			path = model;
+			sourceTree = "<group>";
+		};
+		DDDEC7AC209165BD0076C2AB /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				DDDEC7AD209165D50076C2AB /* ABYPopMenu */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
+		DDDEC7AD209165D50076C2AB /* ABYPopMenu */ = {
+			isa = PBXGroup;
+			children = (
+				DDDEC7AE209166030076C2AB /* ABYPopMenu.swift */,
+			);
+			path = ABYPopMenu;
 			sourceTree = "<group>";
 		};
 		FB48C5A4363450F224DC7C78 /* Pods */ = {
@@ -633,6 +672,7 @@
 			files = (
 				DD001F4B2023238500C912D2 /* LaunchScreen.storyboard in Resources */,
 				DD128A1720883BB100F85809 /* Assets.xcassets in Resources */,
+				DD82789F20998F6A004D8747 /* recording.gif in Resources */,
 				DDC3330620875381004B9669 /* IDETemplateMacros.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -731,6 +771,7 @@
 			files = (
 				DD916B3F2080540A00A31A09 /* ProductViewController.swift in Sources */,
 				DDC007C62086E479001FFAF3 /* ABYEmptyDataSetable.swift in Sources */,
+				DDC281A6209ADDA3000B2CBE /* AudioTool.swift in Sources */,
 				DD67F93A205BC57A00A55280 /* Conversation.swift in Sources */,
 				DD28B0FC206B892700B75324 /* ChatFooterBar.swift in Sources */,
 				DD70778A202450B40034CB00 /* LoginViewController.swift in Sources */,
@@ -740,6 +781,7 @@
 				DD73986720243B6A006242FD /* ABYConst.swift in Sources */,
 				DDC332FE20873AFD004B9669 /* KKChatBaseCell.swift in Sources */,
 				DD73985C202417D5006242FD /* FormsViewController.swift in Sources */,
+				DDDEC7AF209166030076C2AB /* ABYPopMenu.swift in Sources */,
 				DD47C4C8202C49BC00A45EA1 /* Account.swift in Sources */,
 				DD9766C82048F3F40037C232 /* FormView.swift in Sources */,
 				DD001F70202323DE00C912D2 /* ABYTabBarComtroller.swift in Sources */,
@@ -750,10 +792,11 @@
 				DDD4A175204FCAD500F02490 /* PartName.swift in Sources */,
 				DDA7AD7A20902C2000BD70F3 /* KKMessageViewController.swift in Sources */,
 				DD8C3514204547F500ABADD6 /* MineCell.swift in Sources */,
+				DD3A321F2094498500D74958 /* KKChatSystemMsgCell.swift in Sources */,
 				DD79B3EC2068F7FA00979582 /* SocketDatas.swift in Sources */,
 				DD739859202416A4006242FD /* ConversationViewController.swift in Sources */,
-				DD67F93C205BD72700A55280 /* ConvDetailViewController.swift in Sources */,
 				DD7EAE892073807200A7BBF5 /* MessageBus.swift in Sources */,
+				DD37216D209551B800E7EC4E /* KKChatAudioCell.swift in Sources */,
 				DD7EAE8520733B0C00A7BBF5 /* String+Range.swift in Sources */,
 				DD0C113B209032E800DDE5C7 /* KKChatViewController.swift in Sources */,
 				DD1C09DF2031428300B8847D /* UIViewController+showHud.swift in Sources */,
@@ -762,10 +805,10 @@
 				DD51C3B52051129900FE0F6C /* OhterDataView.swift in Sources */,
 				DD1C09E12031840100B8847D /* ABYBaseViewController.swift in Sources */,
 				DDC3BD09208D80FA00D46F19 /* KKChatMsgDataHelper.swift in Sources */,
+				DD8278442099504D004D8747 /* ChatVoiceView.swift in Sources */,
 				DDD4A18D204FDF2300F02490 /* ABYProgressView.swift in Sources */,
 				DD001F412023238500C912D2 /* AppDelegate.swift in Sources */,
 				DD916B3D2080530E00A31A09 /* BaseBridge.swift in Sources */,
-				DD128A192088932B00F85809 /* ConvDetailViewController+Notification.swift in Sources */,
 				DD08BA7B207315FE000497C2 /* AppConfig.swift in Sources */,
 				DD7EAE8720735C2000A7BBF5 /* ABYJsonModel.swift in Sources */,
 				DD73986420243B05006242FD /* UIColor+Extension.swift in Sources */,
@@ -773,6 +816,7 @@
 				DD28B0FA206B375300B75324 /* MessageElem.swift in Sources */,
 				DDC333002087427F004B9669 /* UIView+Extension.swift in Sources */,
 				DD92CD54202987340090FB19 /* API.swift in Sources */,
+				DDC281A8209ADE9F000B2CBE /* FileManager.swift in Sources */,
 				DDD3845120592B1D00A525DF /* ConversationCell.swift in Sources */,
 				DD14B81B2047B8AC00265CD3 /* ABYValueFormatter.swift in Sources */,
 				DDD3844D205929A800A525DF /* ConversationManager.swift in Sources */,

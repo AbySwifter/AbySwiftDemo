@@ -18,12 +18,33 @@ enum ChatBoxState: Int {
 	case menuHideState = 3
 }
 
+fileprivate enum RecordingDragStatus: Int {
+    case noDrag = 0
+    case dragInside = 1
+    case dragOutside = 2
+}
+
+/// 录音事件，向外传递
+enum RecordEvent {
+    case start
+    case parpareToCancel
+    case recording
+    case cancel
+    case stop
+}
+
 typealias CompontionBlock = () -> (Void)
 
 protocol ChatFootBarDelegate {
+    // 形态变化
 	func footHeightChange(height: CGFloat, animate completion:@escaping CompontionBlock) -> Void
 	func update(message: Message) -> Void
+    
+    // 录音事件的向外传递
+    func chatFootRecord(event: RecordEvent) -> Void
 }
+
+
 
 let kChatBarOriginHeight = 55.0
 
@@ -32,7 +53,11 @@ class ChatFooterBar: UIView {
 	var room_id: Int16?
 	private var chatBox: UIView = UIView.init()
 	private var menuBox: ChatFooterMenu = ChatFooterMenu.init(frame: CGRect.zero)
-	// 切换输入状态的方法
+    
+    private let normalTitle = "按住 说话"
+    private let highlightedTitle = "松开 结束"
+    private var dragStatus: RecordingDragStatus = .noDrag // 默认未开始拖拽
+    // 切换输入状态的方法
 	private lazy var changeStateBtn: UIButton = {
 		let btn = UIButton.init(type: UIButtonType.custom)
 		btn.addTarget(self, action: #selector(changeStateAction(_:)), for: .touchUpInside)
@@ -57,8 +82,7 @@ class ChatFooterBar: UIView {
 	lazy var voiceBtn: UIButton = {
 		let btn = UIButton.init(type: .custom)
 		btn.setTitleColor(UIColor.init(hexString: "333333"), for: .normal)
-		btn.setTitle("按住说话", for: .normal)
-		btn.setTitle("松开结束", for: .highlighted)
+		btn.setTitle("按住 说话", for: .normal)
 		btn.isHidden = true
 		btn.layer.cornerRadius = 5.0
 		btn.layer.borderColor = UIColor.init(hexString: "cfcfcf").cgColor
@@ -79,6 +103,7 @@ class ChatFooterBar: UIView {
 		initUIElement() //初始化并添加UI
 		setUIStyle() // 设置UI的属性
 		makeChildConstraints() // 设定约束
+        setupEventes() // 初始化录音按钮事件
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -125,6 +150,7 @@ class ChatFooterBar: UIView {
 		sendBtn.imageEdgeInsets = edgeInsert
 		sendBtn.imageView?.contentMode = .scaleAspectFit
 		textMsgInput.placeholder = "请输入..."
+        
 		self.menuBox.isHidden = !isMenuShow
 	}
 
@@ -157,6 +183,7 @@ class ChatFooterBar: UIView {
 			make.left.equalTo(changeStateBtn.snp.right).offset(15)
 			make.right.equalTo(menuBtn.snp.left).offset(-15)
 			make.height.greaterThanOrEqualTo(30)
+            make.width.lessThanOrEqualTo(W750(750) - 170)
 			make.centerY.equalToSuperview()
 		}
 		voiceBtn.snp.makeConstraints { (make) in
@@ -235,6 +262,76 @@ class ChatFooterBar: UIView {
 	}
 }
 
+// MARK: - 处理语音消息的点击事件
+extension ChatFooterBar {
+    /// 点击按钮的方法
+    ///
+    /// - Parameter btn: 按钮
+    @objc
+    func touchDownInSide(_ btn: UIButton, event: UIEvent) -> Void {
+        dragStatus = .dragInside
+        replaceRecordBtnUI(isRecording: true)
+        self.delegate?.chatFootRecord(event: RecordEvent.start) // 开始录音
+    }
+    /// 拖拽的处理
+    ///
+    /// - Parameter btn: 按钮
+    @objc
+    func dragon(_ btn: UIButton, event: UIEvent) -> Void {
+        guard let touch: UITouch = event.allTouches?.first else { return }
+        let isTouchInside: Bool = voiceBtn.point(inside: touch.location(in: voiceBtn), with: event)
+        if isTouchInside {
+            guard dragStatus == .dragOutside else { return }
+            dragStatus = .dragInside
+            self.delegate?.chatFootRecord(event: RecordEvent.recording) // 录音
+        } else {
+            guard dragStatus == .dragInside else {return}
+            dragStatus = .dragOutside
+            self.delegate?.chatFootRecord(event: RecordEvent.parpareToCancel) // 准备取消
+        }
+    }
+    /// 在里面抬起的方法
+    ///
+    /// - Parameter btn: 按钮
+    @objc
+    func touchUpInSide(_ btn: UIButton, event: UIEvent) -> Void {
+        dragStatus = .noDrag
+        replaceRecordBtnUI(isRecording: false)
+        self.delegate?.chatFootRecord(event: RecordEvent.stop) // 停止
+    }
+    /// 在外部抬起的方法
+    ///
+    /// - Parameter btn: 按钮
+    @objc
+    func touchUpOutSide(_ btn: UIButton, event: UIEvent) -> Void {
+        replaceRecordBtnUI(isRecording: false)
+        dragStatus = .noDrag
+        self.delegate?.chatFootRecord(event: RecordEvent.cancel) // 取消
+    }
+    /// 取消的方法
+    @objc
+    func touchCancel() -> Void {
+        dragStatus = .noDrag
+        replaceRecordBtnUI(isRecording: false)
+    }
+    fileprivate func setupEventes() {
+        voiceBtn.addTarget(self, action: #selector(touchDownInSide(_:event:)), for: .touchDown)
+        voiceBtn.addTarget(self, action: #selector(touchUpInSide(_:event:)), for: .touchUpInside)
+        voiceBtn.addTarget(self, action: #selector(touchUpOutSide(_:event:)), for: .touchUpOutside)
+        voiceBtn.addTarget(self, action: #selector(dragon(_:event:)), for: .touchDragOutside)
+        voiceBtn.addTarget(self, action: #selector(dragon(_:event:)), for: .touchDragInside)
+        voiceBtn.addTarget(self, action: #selector(touchCancel), for: .touchCancel)
+    }
+    // 切换 录音按钮的UI
+    fileprivate func replaceRecordBtnUI(isRecording: Bool) {
+        if isRecording {
+            voiceBtn.setTitle(highlightedTitle, for: .normal)
+        } else {
+            voiceBtn.setTitle(normalTitle, for: .normal)
+        }
+    }
+}
+
 // MARK: -存放计算属性
 extension ChatFooterBar {
 	var isTextNil: Bool {
@@ -247,12 +344,16 @@ extension ChatFooterBar {
 	}
 }
 
+// MARK: - 处理按钮的点击事件
 extension ChatFooterBar {
 	@objc
 	func changeStateAction(_ button: UIButton) -> Void {
 		button.isSelected = !button.isSelected
 		if button.isSelected {
-			changeState(.voiceState)
+            // 跳转之前检查语音权限
+            if AudioTool.defaut.checkPermission() {
+                changeState(.voiceState)
+            }
 		} else {
 			changeState(.normalState)
 		}

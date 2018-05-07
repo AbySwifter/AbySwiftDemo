@@ -186,7 +186,7 @@ class LoginViewController: ABYBaseViewController, LoginProtocol {
 	// TODO: 网络层的请求，根据设计原则不应该出现在VC里，后期优化
 	@objc
 	func getCodeUrl() -> Void {
-		self.network.aby_request(request: UserRouter.code) { (res) -> (Void) in
+		self.network.aby_request(request: UserRouter.request(api: UserAPI.code, params: nil)) { (res) -> (Void) in
 			if let result = res {
 				let urlString = result["data"]["captcha"]
 				if let url:String = urlString.string {

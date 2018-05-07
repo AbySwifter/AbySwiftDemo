@@ -43,6 +43,7 @@ class MineViewController: ABYBaseViewController, UITableViewDelegate, UITableVie
         // Do any additional setup after loading the view.
 		setNavigationRightButtons()
 		self.view.addSubview(self.tableView)
+		NotificationCenter.default.addObserver(self, selector: #selector(setAccountValue), name: NSNotification.Name.init(account.updateUserInfoKey), object: nil)
     }
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
@@ -52,7 +53,7 @@ class MineViewController: ABYBaseViewController, UITableViewDelegate, UITableVie
 		setAccountValue()
 	}
 	// 设置用户信息
-	func setAccountValue() -> Void {
+	@objc func setAccountValue() -> Void {
 		userName.text = account.user?.real_name
 		userEmail.text = "账号: \(account.user?.email ?? "")"
 		userNumber.text = "工号: \(account.user?.number ?? "")"

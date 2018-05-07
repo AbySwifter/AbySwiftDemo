@@ -34,6 +34,9 @@ protocol LoginProtocol {
 /// 用户管理类
 class Account {
 	static let share = Account.init()
+
+	let updateUserInfoKey = "UpdateUserInfoKey"
+
 	let networkManager: ABYNetworkManager = {
 		return ABYNetworkManager.shareInstance
 	}()
@@ -41,8 +44,9 @@ class Account {
 	var delegate: LoginProtocol?
 	var user: User? {
 		didSet {
+			NotificationCenter.default.post(Notification.init(name: Notification.Name.init(updateUserInfoKey)))
 			if let email = user?.email {
-				guard email == oldValue?.email else { return } // 如果email没有变化的话，不需要重新登录
+				guard email == oldValue?.email else { return } // 如果email没有变化的话，不需要重新登录Socket
 				ABYSocket.manager.login(options: nil, userInfo: ["email": email, "password": ""])
 			}
 		}
@@ -61,6 +65,7 @@ class Account {
 	var isLogin: Bool {
 		return self.token != ""
 	}
+	var session_id: String = "" // 每次登陆都会重置
 	// 设备信息
 	let deviceID: String = UIDevice.current.identifierForVendor?.uuidString ?? ""
 	let deviceName: String = ""
@@ -83,7 +88,7 @@ class Account {
 	func login(username: String, password: String, captcha: String) -> Void {
 		let params: Parameters = ["email": username, "password": password, "captcha": captcha, "deviceInfo": deviceInfo]
 //		ABYPrint(message: deviceInfo)
-		self.networkManager.aby_request(request: UserRouter.auth(params: params)) { (result) -> (Void) in
+		self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.auth, params: params)) { (result) -> (Void) in
 			if let res = result {
 				if (res["state"] == 200) {
 					// 登录成功以后自动获取数据，并且保存Token值

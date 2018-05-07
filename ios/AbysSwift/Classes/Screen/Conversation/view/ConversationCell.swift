@@ -20,7 +20,6 @@ class ConversationCell: UITableViewCell, ConversationDelegate {
 	var conversation: Conversation? {
 		didSet {
 			if conversation != nil && conversation?.type == .NormalType {
-
 				dispatchTimer()
 			}
 		}

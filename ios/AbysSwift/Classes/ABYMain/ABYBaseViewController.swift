@@ -8,8 +8,14 @@
 
 import UIKit
 import Alamofire
+import JGProgressHUD
 
 class ABYBaseViewController: UIViewController {
+	// 定制loading
+	lazy var loading: JGProgressHUD = {
+		let loading = JGProgressHUD.init(style: .extraLight)
+		return loading
+	}()
 	let manager = NetworkReachabilityManager.init() // 网路检测
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +36,7 @@ class ABYBaseViewController: UIViewController {
 	deinit {
 		manager?.stopListening()
 	}
+
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
@@ -72,8 +79,12 @@ class ABYBaseViewController: UIViewController {
 		navBar.tintColor = UIColor.white
 		navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
 	}
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+	
+	func showLoading() -> Void {
+		self.loading.show(in: self.view, animated: true)
+	}
+	func hideLoading() -> Void {
+		self.loading.dismiss(animated: true)
+	}
+
 }

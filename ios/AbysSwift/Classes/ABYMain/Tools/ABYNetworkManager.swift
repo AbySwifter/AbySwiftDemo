@@ -15,6 +15,11 @@ import SwiftyJSON
 typealias ResponseBlock = (JSON?) -> (Void);
 typealias ResponseErrorBlock = (Error) -> (Void);
 
+enum UpLoadFileType: String {
+    case audio = "voice"
+    case image = "image"
+}
+
 class ABYNetworkManager: NSObject {
 	static let shareInstance = ABYNetworkManager()
 	lazy var sessionManager: SessionManager = {
@@ -85,4 +90,40 @@ class ABYNetworkManager: NSObject {
 			}
 		})
 	}
+    /// 上传文件的方法
+    ///
+    /// - Parameters:
+    ///   - path: 文件路劲
+    ///   - fileName: 文件名
+    ///   - type: 文件类型
+    func aby_upload(path: String, fileName: String, type: UpLoadFileType, callBack: @escaping ResponseBlock) -> Void {
+        let url = URL.init(fileURLWithPath: path)
+        let header: HTTPHeaders = [
+            "Accept": "application/json",
+            "Content-Type":"multipart/form-data;charset=utf-8"
+        ]
+        sessionManager.upload(multipartFormData: { (formData) in
+            formData.append(type.rawValue.data(using: .utf8)!, withName: "file_type")
+            formData.append(url, withName: "file", fileName: fileName, mimeType: "multipart/form-data'")
+        }, usingThreshold: SessionManager.multipartFormDataEncodingMemoryThreshold,to: UploadRouter.request(api: UserAPI.upLoadFile),method: HTTPMethod.post, headers:header) { (encodingResult) in
+            switch encodingResult {
+            case .success(let upload, _, _):
+                upload.responseJSON(completionHandler: { (response) in
+                    let result = response.result
+                    switch result {
+                    case .success(let value):
+                        let json = JSON.init(rawValue: value)
+                        callBack(json) // 返回json数据
+                        break
+                    case .failure(let error):
+                        ABYPrint(error)
+                        callBack(nil)
+                    }
+                });
+            case .failure(let encodingError):
+                print(encodingError)
+                callBack(nil) // 错误的时候返回为空
+            }
+        }
+    }
 }

@@ -39,7 +39,7 @@ class KKChattextCell: KKChatBaseCell {
 		contentL.font = UIFont.systemFont(ofSize: 16.0)
 		return contentL
 	}()
-
+    
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
@@ -54,6 +54,7 @@ class KKChattextCell: KKChatBaseCell {
 
 extension KKChattextCell {
 	fileprivate func setModel() {
+//        self.model?.delegate = self // 创建代理
 		// 根据消息模型创建视图布局
 		guard model?.content?.type == MSG_ELEM.text else { return }
 		guard let message = self.model else { return }
@@ -65,46 +66,23 @@ extension KKChattextCell {
 		contentLabel.textColor = color
 		let normalImage = img.resizableImage(withCapInsets: UIEdgeInsetsMake(10, 10, 10, 10), resizingMode: .stretch)
 		bubbleView.image = normalImage
-
 		// 计算尺寸, 最大宽高不限
 		let contentSize = contentLabel.sizeThatFits(CGSize.init(width: self.maxMsgWidth, height: CGFloat(Float.greatestFiniteMagnitude)))
-
+		// 先对通用的区域进行设置
+		setCommon()
 		// 计算完成以后开始重新布局
-		avatar.snp.remakeConstraints { (make) in
-			make.width.height.equalTo(self.avatarWidth)
-			make.top.equalTo(self.snp.top).offset(verticalMargin)
-		}
-		senderName.snp.remakeConstraints { (make) in
-			make.top.equalTo(msgContent.snp.top)
-		}
 		bubbleView.snp.remakeConstraints { (make) in
-			make.top.equalTo(senderName.snp.bottom).offset(5)
+			make.top.equalTo(senderName.snp.bottom).offset(n_cOffset)
 			make.bottom.equalToSuperview().offset(-10)
 			make.bottom.equalTo(contentLabel.snp.bottom).offset(10)
-		}
-		msgContent.snp.remakeConstraints { (make) in
-			make.top.equalTo(avatar.snp.top)
-			make.width.equalToSuperview().offset(-avatarTotalWidth)
 		}
 		contentLabel.snp.remakeConstraints { (make) in
 			make.height.equalTo(contentSize.height)
 			make.width.equalTo(contentSize.width)
 		}
-		tipView.snp.remakeConstraints { (make) in
-			make.centerY.equalTo(bubbleView.snp.centerY)
-			make.width.height.equalTo(30)
-		}
-		// 根据是否为自己发送的消息来调整UI
+        // 根据是否为自己发送的消息来调整UI
 		if message.isSelf {
-			avatar.snp.makeConstraints { (make) in
-				make.right.equalTo(self.snp.right).offset(-self.avatarMargin)
-			}
-			msgContent.snp.makeConstraints { (make) in
-				make.right.equalTo(avatar.snp.left).offset(-self.avatarToMsg)
-			}
-			senderName.snp.makeConstraints { (make) in
-				make.right.equalToSuperview()
-			}
+			setSenderCommon()
 			bubbleView.snp.makeConstraints { (make) in
 				make.right.equalToSuperview()
 				make.left.equalTo(contentLabel.snp.left).offset(-10)
@@ -117,15 +95,16 @@ extension KKChattextCell {
 				make.right.equalTo(bubbleView.snp.left)
 			}
 		} else {
-			avatar.snp.makeConstraints { (make) in
-				make.left.equalTo(self.snp.left).offset(self.avatarMargin)
-			}
-			msgContent.snp.makeConstraints { (make) in
-				make.left.equalTo(avatar.snp.right).offset(self.avatarToMsg)
-			}
-			senderName.snp.makeConstraints { (make) in
-				make.left.equalToSuperview()
-			}
+//            setRceiverCommon()
+            avatar.snp.makeConstraints { (make) in
+                make.left.equalTo(self.snp.left).offset(self.avatarMargin)
+            }
+            msgContent.snp.makeConstraints { (make) in
+                make.left.equalTo(avatar.snp.right).offset(self.avatarToMsg)
+            }
+            senderName.snp.makeConstraints { (make) in
+                make.left.equalToSuperview()
+            }
 			bubbleView.snp.makeConstraints { (make) in
 				make.left.equalToSuperview()
 				make.right.equalTo(contentLabel.snp.right).offset(10)
@@ -138,6 +117,7 @@ extension KKChattextCell {
 				$0.left.equalTo(bubbleView.snp.right)
 			}
 		}
+        ABYPrint("走了重新布局的方法")
 		// 最后获取到当前cell的高度
 		self.model?.cellHeight = getCellHeight()
 	}

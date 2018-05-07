@@ -43,6 +43,10 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 		}
 		conversationManager.initData()
 	}
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		self.setThemeNavigationBar()
+	}
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 	}

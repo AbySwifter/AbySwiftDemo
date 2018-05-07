@@ -35,7 +35,7 @@ class FormVCModel: NSObject {
 	func getData() -> Void {
 		guard let user = Account.share.user else { return }
 		let params: Parameters = ["current_id": String(user.id), "days": 7];
-		self.network.aby_request(request: UserRouter.stats(params: params)) { (json) -> (Void) in
+		self.network.aby_request(request: UserRouter.request(api: UserAPI.stats, params: params)) { (json) -> (Void) in
 //			ABYPrint(message: json)
 			if let data = json?["data"] {
 				self.setOtherData(data) // 设置累计数据

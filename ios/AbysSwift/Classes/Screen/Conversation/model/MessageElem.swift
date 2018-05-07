@@ -52,10 +52,18 @@ class MessageElem: NSObject, HandyJSON {
 }
 
 extension MessageElem {
-	// 文本消息元素的初始化
+	/// 文本消息元素的初始化
 	convenience init(text: String) {
 		self.init()
 		self.text = text
 		self.type = MSG_ELEM.text
 	}
+    
+    /// 语音消息元素的初始化
+    convenience init(duration: Int, voice: String) {
+        self.init()
+        self.type = MSG_ELEM.voice
+        self.duration = duration
+        self.voice = voice
+    }
 }
