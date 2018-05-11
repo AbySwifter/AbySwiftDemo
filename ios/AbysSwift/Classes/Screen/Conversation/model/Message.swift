@@ -76,6 +76,7 @@ class Message: HandyJSON {
 		mapper >>> self.deliveryStatus // 消息发送的状态，只在本地存储
 		mapper >>> self.showTime // 是否需要显示时间
         mapper >>> self.networkManager // 排除网管
+        mapper >>> self.delegate // 排除代理
 	}
 
 }
@@ -130,6 +131,19 @@ extension Message {
         self.isKH = isKH ? 1 : 0 // 自己发送的为0
         self.content = elem
     }
+    /// 初始化图片消息
+    convenience init(image: String, size:CGSize, room_id: Int16, isKH: Bool = false) {
+        self.init()
+        self.messageID = newGUID()
+        self.messageType = MessageType.chat
+        self.sender = MsgSender.init(isKH: isKH)
+        let timeNum = (Date.init().timeIntervalSince1970) * 1000 // 时间戳
+        self.timestamp = UInt64.init(timeNum)
+        self.room_id = room_id
+        self.isKH = isKH ? 1 : 0 // 自己发送的为0
+        let elem = MessageElem.init(imagePath: image, size: size)
+        self.content = elem
+    }
 }
 
 // MARK: -处理语音消息，图片消息的上传，以及消息的发送
@@ -138,6 +152,7 @@ extension Message {
         guard let url = self.content?.voice else { return }
         if url.contains("http") {
             // 不需要上传，直接发送
+            self.send()
             return
         } else {
 //             开始上传，上传完毕后进行发送
@@ -163,19 +178,57 @@ extension Message {
         }
     }
     
+    func uploadImage() -> Void {
+        guard let url = self.content?.image else { return }
+        if url.contains("http") {
+            // 不需要上传，直接发送
+            self.send()
+            return
+        } else {
+            // 开始上传，上传完毕后进行发送
+            self.networkManager.aby_upload(path: url, fileName: "image.jpg", type: .image) { (json) -> (Void) in
+                ABYPrint(Thread.current)
+                if let result = json {
+                    ABYPrint("上传成功：\(result)")
+                    // 上传成功后就发送消息
+                    self.content?.image = result["data"]["file"].string
+                    if self.content?.image != nil {
+                        self.content?.size?.height = CGFloat(result["data"]["file_info"]["height"].floatValue)
+                        self.content?.size?.width = CGFloat(result["data"]["file_info"]["width"].floatValue)
+                        self.send()
+                    } else {
+                        // 上传失败
+                        self.deliveryStatus = .failed // 上传失败就说明发送失败咯
+                        self.delegate?.messageStatusChange(self.deliveryStatus)
+                    }
+                } else {
+                    // 上传失败
+                    self.deliveryStatus = .failed // 上传失败就说明发送失败咯
+                    self.delegate?.messageStatusChange(self.deliveryStatus)
+                }
+            }
+        }
+    }
+    
+    
     func deliver() -> Void {
         guard let type = self.content?.type else { return }
         self.deliveryStatus = .delivering
         self.delegate?.messageStatusChange(self.deliveryStatus)
+        var time = 5.0
         switch type {
         case .text:
             self.send()
         case .voice:
             self.uploadeVoice()
+            time = 10.0
+        case .image:
+            self.uploadImage()
+            time = 10.0
         default:
             break
         }
-        let timeout = DispatchTime.now() + 5.0
+        let timeout = DispatchTime.now() + time
         DispatchQueue.main.asyncAfter(deadline: timeout) {
             // 5秒后还在发送，就默认为发送失败
             if self.deliveryStatus == .delivering {

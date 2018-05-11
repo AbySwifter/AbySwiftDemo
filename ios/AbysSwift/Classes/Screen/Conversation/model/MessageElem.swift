@@ -34,6 +34,33 @@ enum MSG_ELEM: String, HandyJSONEnum {
 struct ImageSize: HandyJSON {
 	var width: CGFloat?
 	var height: CGFloat?
+    
+    mutating func mapping(mapper: HelpingMapper) {
+        mapper <<<
+            self.width <-- TransformOf.init(fromJSON: { (rawValue: Float?) -> CGFloat? in
+                if let value = rawValue {
+                    return CGFloat.init(value)
+                }
+                return nil
+            }, toJSON: { (rawValue: CGFloat?) -> Float? in
+                if let value = rawValue {
+                    return Float.init(value)
+                }
+                return nil
+            })
+        mapper <<<
+            self.height <-- TransformOf.init(fromJSON: { (rawValue: Float?) -> CGFloat? in
+                if let value = rawValue {
+                    return CGFloat.init(value)
+                }
+                return nil
+            }, toJSON: { (rawValue: CGFloat?) -> Float? in
+                if let value = rawValue {
+                    return Float.init(value)
+                }
+                return nil
+            })
+    }
 }
 
 /// 消息元素
@@ -65,5 +92,13 @@ extension MessageElem {
         self.type = MSG_ELEM.voice
         self.duration = duration
         self.voice = voice
+    }
+    /// 图片消息元素的初始化
+    convenience init(imagePath: String, size: CGSize) {
+        self.init()
+        self.type = MSG_ELEM.image
+        self.image = imagePath
+        let imageSize = ImageSize.init(width: size.width, height: size.height)
+        self.size = imageSize
     }
 }

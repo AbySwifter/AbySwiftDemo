@@ -9,7 +9,11 @@
 import UIKit
 import JGProgressHUD
 
-
+enum PermissonStatus {
+    case granted
+    case denied
+    case undetermined
+}
 
 extension UIViewController {
 	func showToast(_ title: String ) -> Void {

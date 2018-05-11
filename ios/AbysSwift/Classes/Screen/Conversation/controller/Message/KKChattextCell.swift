@@ -142,6 +142,7 @@ extension KKChattextCell {
                 make.left.equalTo(avatar.snp.right).offset(self.avatarToMsg)
             }
 		}
+        self.layoutSubviews()
 		// 最后获取到当前cell的高度
 		self.model?.cellHeight = getCellHeight()
 	}

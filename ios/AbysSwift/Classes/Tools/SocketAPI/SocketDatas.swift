@@ -20,7 +20,8 @@ struct SocketData: HandyJSON {
 	var session_id: String = ""
 	var type: String = ""
 	var client_id: String = ""
-	var body: [String: Any] = [:]
+    var body: [String: Any] = [:]
+//    var body: Message?
 }
 
 struct SocketSendOptions {

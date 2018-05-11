@@ -126,6 +126,7 @@ class LoginViewController: ABYBaseViewController, LoginProtocol {
 		userName.placeholder = "请输入用户名"
 		userName.clearButtonMode = .whileEditing
 		userName.autocapitalizationType = .none
+        userName.keyboardType = .emailAddress
 		// 配置密码对话框
 		let leftPassWord = createLeftView(image: #imageLiteral(resourceName: "password"))
 		passWord.leftView = leftPassWord

@@ -79,6 +79,7 @@ class ABYSocket: WebSocketDelegate {
 		socketData.session_id = self.session_id
 		socketData.client_id = self.client_id
 		let jsonStr = socketData.toJSONString()
+//        ABYPrint(jsonStr)
 		if let socketStr = jsonStr {
 			webSocket.write(string: socketStr)
 		}
@@ -166,7 +167,13 @@ extension ABYSocket {
 	}
 	// 加入房间的消息
 	func join(room: Int16) -> Void {
-		let options = SocketSendOptions.init(path: "api/ims/join_group'", query: "")
-		self.send(options: options, body: ["room_id": "\(room)"])
+        if !webSocket.isConnected {
+            ABYPrint("加入房间的时候，没有连接上Socket")
+            connect()
+        } else {
+            getSessionID()
+            let options = SocketSendOptions.init(path: "api/ims/join_group'", query: "")
+            self.send(options: options, body: ["room_id": "\(room)"])
+        }
 	}
 }

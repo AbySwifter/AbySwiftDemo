@@ -116,4 +116,33 @@ extension UIView {
 		}
 	}
 
+    /**
+     依照图片轮廓对控制进行裁剪
+     
+     - parameter stretchImage:  模子图片
+     - parameter stretchInsets: 模子图片的拉伸区域
+     */
+    func clipShape(stretchImage: UIImage, stretchInsets: UIEdgeInsets) {
+        // 绘制 imageView 的 bubble layer
+        let bubbleMaskImage = stretchImage.resizableImage(withCapInsets: stretchInsets, resizingMode: .stretch)
+        
+        // 设置图片的mask layer
+        let layer = CALayer()
+        layer.contents = bubbleMaskImage.cgImage
+        layer.contentsCenter = self.CGRectCenterRectForResizableImage(bubbleMaskImage)
+        layer.frame = self.bounds
+        layer.contentsScale = UIScreen.main.scale
+        layer.opacity = 1
+        self.layer.mask = layer
+        self.layer.masksToBounds = true
+    }
+    
+    func CGRectCenterRectForResizableImage(_ image: UIImage) -> CGRect {
+        return CGRect(
+            x: image.capInsets.left / image.size.width,
+            y: image.capInsets.top / image.size.height,
+            width: (image.size.width - image.capInsets.right - image.capInsets.left) / image.size.width,
+            height: (image.size.height - image.capInsets.bottom - image.capInsets.top) / image.size.height
+        )
+    }
 }

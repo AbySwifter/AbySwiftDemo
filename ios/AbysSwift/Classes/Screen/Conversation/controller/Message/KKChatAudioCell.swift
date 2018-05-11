@@ -79,10 +79,18 @@ extension KKChatAudioCell {
 extension KKChatAudioCell {
 	@objc
 	func playAudio() -> Void {
-		voiceButton.imageView?.startAnimating()
-		DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-			self.voiceButton.imageView?.stopAnimating()
-		}
+        guard let voice = self.model?.content?.voice else { return }
+        if (voiceButton.imageView?.isAnimating)! {
+            self.voiceButton.imageView?.stopAnimating()
+            AudioTool.defaut.stopPlay()
+        } else {
+            voiceButton.imageView?.startAnimating()
+            AudioTool.defaut.play(url: voice)
+            AudioTool.defaut.playFinished = {
+                self.voiceButton.imageView?.stopAnimating()
+            }
+        }
+		
 	}
 }
 
@@ -204,6 +212,7 @@ extension KKChatAudioCell {
 				#imageLiteral(resourceName: "message_voice_receiver_playing_3")
 			]
 		}
+        self.layoutSubviews()
 		self.model?.cellHeight = getCellHeight()
 	}
 }

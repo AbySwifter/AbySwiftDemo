@@ -23,6 +23,22 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 	let headLabel = UILabel.init()
 	let conversationManager = ConversationManager.distance
 	let refreshControl = UIRefreshControl.init()
+    
+    lazy var rightMenuView: ABYPopMenu = {
+        var popMenuItems: [ABYPopMenuItem] = [ABYPopMenuItem]()
+        let imageArr = [(#imageLiteral(resourceName: "menu_online"), "在线"),(#imageLiteral(resourceName: "menu_offline"), "离线")]
+        for item in imageArr {
+            let popItem: ABYPopMenuItem = ABYPopMenuItem.init(image: item.0, title: item.1)
+            popMenuItems.append(popItem)
+        }
+        let menu = ABYPopMenu.init(menus: popMenuItems, lineNumber: 1, targetPoint: CGPoint.init(x: self.view.frame.width - 15, y: 10))
+        menu.popMenuDidSelectedBlock = {(index: Int, item: ABYPopMenuItem) in
+            let status: Bool = index == 0
+            self.setOnLine(status: status)
+        }
+        return menu
+    }()
+    
 	// MARK: -控制器生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,6 +87,9 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 			make.top.equalTo(headView.snp.bottom)
 			make.bottom.left.right.equalToSuperview()
 		}
+        // 添加右边的按钮(根据用户状态)
+        let rightImage = Account.share.user?.is_online == 1 ? #imageLiteral(resourceName: "online") : #imageLiteral(resourceName: "offline")
+        self.createRightBtnItem(icon: rightImage, method: #selector(popMenu(_:)))
 	}
 
 	// 设置头部等待视图
@@ -100,7 +119,10 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 		// 刷新当前页面
 		conversationManager.getList()
 	}
-
+    @objc
+    func popMenu(_ item: UIBarButtonItem) {
+       self.rightMenuView.showMenu(on: self.view, opacity: 0.5)
+    }
 	// MARK: -ConversationManger的代理方法
 	func conversationListUpdata() {
 		self.tableview.reloadData()
@@ -156,18 +178,45 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		// 点击了Cell的事件
 		tableView.deselectRow(at: indexPath, animated: true)
-//		let conversationDetail: ConvDetailViewController = ConvDetailViewController()
 		let keys = Array(conversationManager.conversations.keys)
 		let model: Conversation =	conversationManager.conversations[keys[indexPath.row]]!
-//		conversationDetail.setMessage(list: model.message_list)
-//		conversationDetail.conversation = model
-//		self.navigationController?.pushViewController(conversationDetail, animated: true)
 		let chatViewController = KKChatViewController()
 		chatViewController.conversation = model
 		navigationController?.pushViewController(chatViewController, animated: true)
 	}
 }
 
+// MARK: - 处理用户状态
+extension ConversationViewController {
+	/// 设置用户状态的具体方法
+    func setOnLine(status: Bool) -> Void {
+        self.navigationItem.rightBarButtonItem?.image = status ? #imageLiteral(resourceName: "online") : #imageLiteral(resourceName: "offline")
+        let statusDes: String = status ? "1" : "0"
+        let params: [String: Any] = [
+            "current_id": Account.share.current_id,
+            "status": statusDes
+        ]
+        // 进行离线在线状态的修改
+        self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.switchServiceStatus, params: params)) { (result) -> (Void) in
+            if let json = result {
+                if json["message"].string == "修改成功" {
+                    Account.share.user?.is_online = Int(statusDes) ?? 1
+                    self.showToast("在线状态修改成功")
+                } else {
+                    // 提示修改失败
+                    self.showToast("在线状态修改失败")
+                    // 并修改回去
+                    self.navigationItem.rightBarButtonItem?.image = !status ? #imageLiteral(resourceName: "online") : #imageLiteral(resourceName: "offline")
+                }
+            } else {
+                // 提示修改失败
+                self.showToast("在线状态修改失败")
+                // 并修改回去
+                self.navigationItem.rightBarButtonItem?.image = !status ? #imageLiteral(resourceName: "online") : #imageLiteral(resourceName: "offline")
+            }
+        }
+    }
+}
 
 // MARK: - 数据为空的时候的处理方式
 extension ConversationViewController: ABYEmptyDataSetable {

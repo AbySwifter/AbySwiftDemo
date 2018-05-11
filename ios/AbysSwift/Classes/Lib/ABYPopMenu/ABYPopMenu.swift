@@ -111,7 +111,7 @@ class ABYPopMenu: UIView {
 		self.showMenu(on: UIApplication.shared.keyWindow!)
 	}
 
-	func showMenu(on view: UIView, opacity: CGFloat = 0.0) {
+	func showMenu(on view: UIView, opacity: CGFloat = 0.3) {
 		currentSuperView = view
 		self.backgroundColor = UIColor.init(hexString: "000000", alpha: opacity)
 		self.showMenu()

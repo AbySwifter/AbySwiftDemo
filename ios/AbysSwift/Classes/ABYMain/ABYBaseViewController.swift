@@ -16,6 +16,9 @@ class ABYBaseViewController: UIViewController {
 		let loading = JGProgressHUD.init(style: .extraLight)
 		return loading
 	}()
+    lazy var networkManager: ABYNetworkManager = {
+        return ABYNetworkManager.shareInstance
+    }()
 	let manager = NetworkReachabilityManager.init() // 网路检测
     override func viewDidLoad() {
         super.viewDidLoad()

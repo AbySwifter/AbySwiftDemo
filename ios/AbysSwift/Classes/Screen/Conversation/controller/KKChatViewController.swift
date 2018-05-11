@@ -24,8 +24,10 @@
 */
 
 import UIKit
+import AVFoundation
+import Photos
 
-class KKChatViewController: ABYBaseViewController, KKChatBarViewControllerDelegate, MessageBusDelegate {
+class KKChatViewController: ABYBaseViewController, MessageBusDelegate {
     /// 会话管理者
     var conversationManger: ConversationManager {
 		return ConversationManager.distance
@@ -50,13 +52,13 @@ class KKChatViewController: ABYBaseViewController, KKChatBarViewControllerDelega
     /// 输入控制器
 	lazy var chatBarVC: KKChatBarViewController = {
 		let room_id = conversation?.room_id ?? 0
-		let barVC = KKChatBarViewController.init(roomID: room_id)
+        let barVC = KKChatBarViewController.init(roomID: room_id, page: self)
 		self.view.addSubview(barVC.view)
 		barVC.view.snp.makeConstraints({ (make) in
 			make.bottom.equalTo(self.view.snp.bottom)
 			make.width.equalToSuperview()
 			make.centerX.equalToSuperview()
-			make.height.equalTo(kChatBarOriginHeight)
+			make.height.equalTo(barVC.originHeight)
 		})
 		return barVC
 	}()
@@ -90,6 +92,7 @@ class KKChatViewController: ABYBaseViewController, KKChatBarViewControllerDelega
         super.viewDidLoad()
 		self.view.backgroundColor = UIColor.white
 		setup()
+        registerNotification() // 注册通知
         // Do any additional setup after loading the view.
     }
 	override func viewWillAppear(_ animated: Bool) {
@@ -106,10 +109,7 @@ class KKChatViewController: ABYBaseViewController, KKChatBarViewControllerDelega
 	func popMenu(_ item: UIBarButtonItem) -> Void {
 		self.popMenu.showMenu(on: self.view, opacity: 0.5)
 	}
-	@objc
-	func tapTab(_ tap: UITapGestureRecognizer) {
-		self.view.endEditing(true)
-	}
+    /// 点击了右上角菜单事件
 	func clickRightMenu(index: Int, item: ABYPopMenuItem) {
 		switch index {
 		case 3:
@@ -136,6 +136,17 @@ class KKChatViewController: ABYBaseViewController, KKChatBarViewControllerDelega
 	}
 }
 
+extension KKChatViewController: KKMessageViewControllerDelegate {
+    func listBeenTaped() {
+        guard self.chatBarVC.currentStatus != .none else {
+            return
+        }
+        if self.chatBarVC.currentStatus != .voice {
+             self.chatBarVC.changeEditorStatus(EditorStatus.none)
+        }
+    }
+}
+
 
 extension KKChatViewController {
     /// 初始化方法
@@ -145,9 +156,7 @@ extension KKChatViewController {
 		// 设置右侧按钮
 		createRightBtnItem(icon: #imageLiteral(resourceName: "chat_right_icon"), method: #selector(popMenu(_ :)))
 		chatBarVC.delegate = self
-		let tap = UITapGestureRecognizer.init(target: self, action: #selector(tapTab(_:)))
-		tap.cancelsTouchesInView = false
-		messageVC.view.addGestureRecognizer(tap)
+        messageVC.delegate = self
         // 添加子视图
         self.view.addSubview(recordingView)
         // 布局
@@ -160,7 +169,7 @@ extension KKChatViewController {
 }
 
 // MARK: - delegate
-extension KKChatViewController {
+extension KKChatViewController: KKChatBarViewControllerDelegate{
     /// 底部高度改变的回调方法
     ///
     /// - Parameter height: 改变的高度
@@ -178,15 +187,7 @@ extension KKChatViewController {
 	func chatBar(send message: Message) {
 		self.messageVC.instert(message)
 	}
-	// 键盘高度的改变
-	func chatBarVC(_ chatBarVC: KKChatBarViewController, didChangeBottomDistance distance: CGFloat, duration: CGFloat) {
-		UIView.animate(withDuration: TimeInterval(duration)) {
-			self.chatBarVC.view.snp.updateConstraints({ (make) in
-				make.bottom.equalTo(self.view.snp.bottom).offset(-distance)
-			})
-		}
-		self.messageVC.scrollToBottom()
-	}
+	
     func chatBarRecordButton(event: RecordEvent) {
         switch event {
         case .start:
@@ -197,9 +198,7 @@ extension KKChatViewController {
             self.recordStatusChange(status: event)
         }
     }
-	func chatBarMenuAction(type: ChatFootMenuTag) {
-//		ABYPrint("点击的底部菜单")
-	}
+        
 	/**
 	* 监听从messageBus分发的消息
 	*/
@@ -245,3 +244,4 @@ extension KKChatViewController {
         recordingView.endRecord()
     }
 }
+

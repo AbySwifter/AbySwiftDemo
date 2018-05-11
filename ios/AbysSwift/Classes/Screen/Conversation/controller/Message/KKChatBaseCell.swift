@@ -16,9 +16,10 @@ class KKChatBaseCell: UITableViewCell, MessageStatusChangeDelegate {
 		let avatar = UIImageView.init()
 		// FIX:ME暂时放一个默认头像，以后做更改
 		avatar.image = #imageLiteral(resourceName: "user")
-		avatar.contentMode = .scaleAspectFit
+        avatar.backgroundColor = UIColor.lightGray
+		avatar.contentMode = .scaleAspectFill
 		avatar.layer.cornerRadius = avatarWidth/2
-		avatar.layer.masksToBounds = true
+        avatar.layer.masksToBounds = true
 		return avatar
 	}()
 	// 消息的时间显示
@@ -38,6 +39,7 @@ class KKChatBaseCell: UITableViewCell, MessageStatusChangeDelegate {
 		bg.layer.cornerRadius = 4
 		bg.layer.masksToBounds = true
 		bg.backgroundColor = UIColor.init(normalr: 190.0, g: 190.0, b: 190.0, a: 0.6)
+        
 		return bg
 	}()
 	// 聊天内容
@@ -47,7 +49,9 @@ class KKChatBaseCell: UITableViewCell, MessageStatusChangeDelegate {
 	}()
 	// 聊天气泡
 	lazy var bubbleView: UIImageView = {
-		return UIImageView.init()
+        let bubble = UIImageView.init()
+        bubble.isUserInteractionEnabled = true
+		return bubble
 	}()
 	// 发送人昵称
 	lazy var senderName: UILabel = {
@@ -125,10 +129,10 @@ class KKChatBaseCell: UITableViewCell, MessageStatusChangeDelegate {
 	}
 
 	func getCellHeight() -> CGFloat {
-		self.layoutIfNeeded() // 立即布局子视图，强制执行
+        self.layoutIfNeeded()
 		// 获取Cell高度
-//        let contentHeight = msgContent.height // 这里的加10，是下边距
-        let contentHeight = bubbleView.height + senderName.height + n_cOffset + 10
+        let contentHeight = msgContent.height // 这里的加10，是下边距
+//        let contentHeight = bubbleView.height + senderName.height + n_cOffset + 10
 		let avatarHeight = avatar.height
 		let height = contentHeight > avatarHeight ? contentHeight : avatarHeight
 		return height + verticalMargin
@@ -219,6 +223,7 @@ extension KKChatBaseCell {
 		}
 	}
 
+    /// 更新发送状态
     func changeStatusUI() {
         guard let deliveryState = model?.deliveryStatus else { return }
         switch deliveryState {
@@ -237,7 +242,7 @@ extension KKChatBaseCell {
 extension KKChatBaseCell {
     /// 改变cell视图显示的代理方法
     func messageStatusChange(_ status: DeliveryStatus) {
-        ABYPrint("消息发送状态变化： \(status)")
+        ABYPrint("BaseCell: 消息发送状态变化： \(status)")
         switch status {
         case .delivered:
             tipView.isHidden = true
@@ -248,10 +253,13 @@ extension KKChatBaseCell {
             resendButton.isHidden = false
             activityIndicator.isHidden = true
         }
+//        self.layoutIfNeeded()
     }
     
 	/// 重新发送操作
 	@objc func resend() -> Void {
 		// 重新发送消息的操作
+        self.model?.deliver()
+        changeStatusUI()
 	}
 }

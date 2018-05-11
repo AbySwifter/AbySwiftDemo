@@ -62,6 +62,11 @@ class Account {
 			UserDefaults.standard.set(newValue, forKey: "token")
 		}
 	}
+    var current_id: String {
+        let result = self.user?.id ?? 0
+        return "\(result)"
+    }
+    
 	var isLogin: Bool {
 		return self.token != ""
 	}

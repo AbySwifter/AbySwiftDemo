@@ -23,6 +23,7 @@ enum UserAPI: String {
 	case setReadCount = "set_room_read_message" // 上报未读消息
 	// 会话列表接口
 	case chatList = "chat_list" //会话列表
+    case switchServiceStatus = "switch_service_status"
     
     case upLoadFile = "upload_file" // 上传文件的接口
 

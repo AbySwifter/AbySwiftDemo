@@ -37,6 +37,7 @@ class MessageBus: ABYSocketDelegate {
 	func onMessage(message: JSON) {
 		guard let dictionary = message.dictionaryObject else { return }
 		guard let msgModel = Message.deserialize(from: dictionary) else { return }
+        ABYPrint("收到了消息:\(message)")
 		// 特殊消息的处理(首先处理超时，服务队列更新的消息#1)
 		if msgModel.messageType == MessageType.sys {
 			if msgModel.content?.type == .sysServiceTimeout || msgModel.content?.type ==  .sysChatTimeout {
@@ -90,6 +91,7 @@ extension MessageBus {
 	}
 	// 加入房间
 	func joinRoom(_ room_id:Int16) -> Void {
+        
 		ABYSocket.manager.join(room: room_id)
 	}
 

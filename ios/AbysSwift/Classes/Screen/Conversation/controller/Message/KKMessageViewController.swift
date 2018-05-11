@@ -30,9 +30,17 @@ fileprivate let KKChatBaseCellID = "KKChatBaseCell"
 fileprivate let KKChattextCellID = "KKChattextCell"
 fileprivate let KKChatAudioCellID = "KKChatAudioCell"
 fileprivate let KKSystemMsgCellID = "KKChatSystemMsgCell"
+fileprivate let KKChatImageCellID = "KKChatImageCell"
+
+protocol KKMessageViewControllerDelegate {
+    func listBeenTaped() -> Void
+}
 
 class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITableViewDataSource {
-
+    
+    var delegate: KKMessageViewControllerDelegate?
+    
+    /// 显示消息Item的tableView
 	lazy var chatListView: UITableView = {
 		let tab = UITableView.init(frame: CGRect.zero, style: .plain)
 		tab.showsVerticalScrollIndicator = false
@@ -47,9 +55,11 @@ class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITabl
 		tab.register(KKChattextCell.classForCoder(), forCellReuseIdentifier: KKChattextCellID) // 聊天文本消息
 		tab.register(KKChatAudioCell.classForCoder(), forCellReuseIdentifier: KKChatAudioCellID)
 		tab.register(KKChatSystemMsgCell.classForCoder(), forCellReuseIdentifier: KKSystemMsgCellID) // 聊天系统消息
+        tab.register(KKChatImageCell.classForCoder(), forCellReuseIdentifier: KKChatImageCellID)
 		return tab
 	}()
 
+    // 用来处理一些聊天数据的帮助类
 	var helper: KKChatMsgDataHelper {
 		return KKChatMsgDataHelper.shared
 	}
@@ -62,10 +72,14 @@ class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITabl
 	}
 	// 记录是否为第一次滚动
 	private var firstScroll: Bool = true
-
+    // 记录当前视图的ContentOffsetY
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 		addChild() // 添加视图
+        let tap = UITapGestureRecognizer.init(target: self, action: #selector(tapTab(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
         // Do any additional setup after loading the view.
     }
 
@@ -132,6 +146,11 @@ extension KKMessageViewController {
 
 // MARK: -存放objc响应事件的扩展
 extension KKMessageViewController {
+    /// 轻点Tab或者开始滑动
+    @objc
+    func tapTab(_ tap: UITapGestureRecognizer) {
+        self.delegate?.listBeenTaped()
+    }
 	// 加载历史消息
 	@objc
 	fileprivate func loadMoreMessage() {
@@ -187,7 +206,9 @@ extension KKMessageViewController {
 				cell = tableView.dequeueReusableCell(withIdentifier: KKChattextCellID) as? KKChattextCell
 			} else if model.content?.type == MSG_ELEM.voice {
 				cell = tableView.dequeueReusableCell(withIdentifier: KKChatAudioCellID) as? KKChatAudioCell
-			} else {
+            } else if model.content?.type == MSG_ELEM.image {
+                cell = tableView.dequeueReusableCell(withIdentifier: KKChatImageCellID) as? KKChatImageCell
+            } else {
 				cell = tableView.dequeueReusableCell(withIdentifier: KKChatBaseCellID) as? KKChatBaseCell
 			}
 			break
@@ -209,10 +230,16 @@ extension KKMessageViewController {
 		let model = messageArr[indexPath.row]
 		return model.cellHeight
 	}
-
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 100
-//    }
+    // 估算的高度
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60
+    }
+    // MARK: - ScrollViewDelegate
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        // 开始拖拽（手指触摸屏幕的时候）
+        // FIXME: 处理逻辑：暂时按照微信的逻辑去弄
+        self.delegate?.listBeenTaped()
+    }
 }
 
 // 更新的方法
