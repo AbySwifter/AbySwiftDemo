@@ -22,7 +22,7 @@ extension UIViewController {
 		hudFail.position = .bottomCenter
 		hudFail.textLabel.text = title
 		hudFail.show(in: self.view)
-		hudFail.dismiss(afterDelay: 2.0)
+		hudFail.dismiss(afterDelay: 1.5)
 	}
 
 	func showAlert(title: String, content: String, sureAction: @escaping () -> (Void)) -> Void {

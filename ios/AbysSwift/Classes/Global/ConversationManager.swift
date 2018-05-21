@@ -13,12 +13,18 @@ let MSG_NOTIFICATION = "msg_event_notification"
 /// 会话管理类: 用来管理整个APP会话的生命周期与各个会话的消息分发
 class ConversationManager {
 	static let distance = ConversationManager.init()
-	private init() {}
+	private init() {
+        self.refreshList() // 初始化的时候刷新列表
+    }
 	// 网络管理类
 	let networkManager: ABYNetworkManager = {
 		return ABYNetworkManager.shareInstance
 	}()
 
+    let store: ABYRealmManager  = {
+        return ABYRealmManager.instance
+    }()
+    
 	// 直接跟数据有关的属性
 	var notificationArray: Array<Conversation> = [] // 存放通知消息的Array
 	var conversations: Dictionary<Int16, Conversation> = [:] // 存放会话信息的Array
@@ -44,18 +50,22 @@ class ConversationManager {
 
 	func updataConversationList(_ message: Message) -> Void {
 		guard let room_id = message.room_id else { return }
-		let isHanve = conversations.keys.contains(room_id)
-		if isHanve {
-			// 已经存在房间
-			let conversation = self.conversations[room_id]
-			//加入房间的聊天列表去
-			conversation?.message_list.append(message)
-			conversation?.lastMessage = message
-		} else {
-			// 不存在房间，创建房间并添加到房间的字典中去
-			createConversation(width: message)
-			self.dataSource?.conversationListUpdata()
-		}
+//        let isHanve = conversations.keys.contains(room_id)
+//        if isHanve {
+//            // 已经存在房间
+//            let conversation = self.conversations[room_id]
+//            //加入房间的聊天列表去
+//            conversation?.message_list.append(message)
+//            conversation?.lastMessage = message
+//        } else {
+//            // 不存在房间，创建房间并添加到房间的字典中去
+//            createConversation(width: message)
+//            self.dataSource?.conversationListUpdata()
+//        }
+        // 根据消息更新数据库
+        self.store.update(message: message)
+        self.conversations[room_id] = self.store.getConversation(room_id: Int(room_id))
+        self.dataSource?.conversationListUpdata()
 	}
 
 	// 通过消息创建会话（场景：新来会话的时候）
@@ -66,7 +76,6 @@ class ConversationManager {
 	}
 
 	// MARK: -网络请求数据方法
-
 	/// 获取当前会话列表
 	func getList() -> Void {
 		guard let current_id = Account.share.user?.id else { return  }
@@ -81,16 +90,20 @@ class ConversationManager {
 					self.waitCount = waitCount
 				}
 				if let conversationList = res["data"]["service_list"].array {
-					self.conversations.removeAll()
-					for conversationJSON in conversationList {
-						let jsonStr = conversationJSON.rawString(.utf8, options: .prettyPrinted)
-						let conversation = Conversation.deserialize(from: jsonStr)
-						conversation?.lastMessage = conversation?.message_list.last
-						if let room_id = conversation?.room_id {
-							self.conversations[room_id] = conversation
-						}
-					}
-					self.dataSource?.conversationListUpdata()
+//                    self.conversations.removeAll()
+                    var array = [Conversation]()
+                    for conversationJSON in conversationList {
+                        let jsonStr = conversationJSON.rawString(.utf8, options: .prettyPrinted)
+                        let conversation = Conversation.deserialize(from: jsonStr)
+                        conversation?.lastMessage = conversation?.message_list.last
+                        if let conv = conversation {
+                            array.append(conv)
+                        }
+                    }
+                    // 存入数据库
+                    self.store.saveConversationList(array)
+                    // 刷新数据
+                    self.refreshList()
 				}
 			} else {
 				self.dataSource?.updateFail(nil, "网络请求失败")
@@ -123,10 +136,11 @@ extension ConversationManager {
 	/// - Parameters:
 	///   - room_id: 结束的房间id
 	func endService(room_id: Int16) {
-		_ = self.conversations.removeValue(forKey: room_id)
+        self.removeConversation(room_id: room_id)
 		self.dataSource?.conversationListUpdata()
 	}
 
+    /// 上报未读消息
 	func reportRead(count: Int, room_id: Int16) -> Void {
 		let param: [String: Any] = ["room_id": "\(room_id)", "num": "\(count)"]
 		networkManager.aby_request(request:UserRouter.request(api: UserAPI.setReadCount, params: param)) { (result) -> (Void) in
@@ -135,10 +149,33 @@ extension ConversationManager {
 			}
 		}
 	}
+    
+    /// 删除会话
+    func removeConversation(room_id: Int16) -> Void {
+        if self.atService == room_id {
+            //FIXME: 如果要删除的房间正在服务中，必须退出房间再删除
+        }
+        self.conversations[room_id] = nil
+        self.store.removeConversation(roomID: room_id)
+    }
+}
+
+// MARK: -数据库操作
+extension ConversationManager {
+    func refreshList() -> Void {
+        // 取数据
+       let list = self.store.getConversationList()
+        // 将数据放到cnversatios里去
+        self.conversations.removeAll()
+        for item in list {
+            self.conversations[item.room_id] = item
+        }
+        self.dataSource?.conversationListUpdata()
+    }
 }
 
 /// MessageBus的消息分发
-extension ConversationManager:  MessageBusDelegate {
+extension ConversationManager: MessageBusDelegate {
 	/// 从messageBus过来的消息， 只有房间消息
 	func messageBus(on message: Message) {
 		let msgModel = message

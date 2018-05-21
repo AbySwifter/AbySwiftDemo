@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import MJRefresh
 
 class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UITableViewDataSource, ConversationManagerDeleagate {
 	// 视图列表组件
@@ -22,7 +22,6 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 	let headView = UIView.init()
 	let headLabel = UILabel.init()
 	let conversationManager = ConversationManager.distance
-	let refreshControl = UIRefreshControl.init()
     
     lazy var rightMenuView: ABYPopMenu = {
         var popMenuItems: [ABYPopMenuItem] = [ABYPopMenuItem]()
@@ -47,8 +46,13 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 		addUI()
 		conversationManager.dataSource = self
 		conversationManager.initData()
-		refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-		tableview.addSubview(refreshControl)
+        let header: MJRefreshNormalHeader = MJRefreshNormalHeader.init(refreshingTarget: self, refreshingAction: #selector(refreshData))
+        header.lastUpdatedTimeLabel.isHidden = true // 隐藏时间
+        header.setTitle("下拉刷新", for: MJRefreshState.idle)
+        header.setTitle("松开刷新", for: .pulling)
+        header.setTitle("加载中...", for: .refreshing)
+        header.setTitle("没有新的内容", for: .noMoreData)
+        tableview.mj_header = header
 //		setTable() // 设置空视图的方法，暂时屏蔽掉
     }
 
@@ -61,7 +65,7 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 	}
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		self.setThemeNavigationBar()
+        self.setThemeNavigationBar()
 	}
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
@@ -126,7 +130,7 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 	// MARK: -ConversationManger的代理方法
 	func conversationListUpdata() {
 		self.tableview.reloadData()
-		self.refreshControl.endRefreshing()
+        self.tableview.mj_header.endRefreshing()
 	}
 
 	func waitNumberUpdata(number: Int) {
@@ -134,7 +138,7 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 	}
 
 	func updateFail(_ error: Error?, _ message: String?) {
-		self.refreshControl.endRefreshing()
+		self.tableview.mj_header.endRefreshing()
 	}
 
 	// MARK: TableView的代理方法

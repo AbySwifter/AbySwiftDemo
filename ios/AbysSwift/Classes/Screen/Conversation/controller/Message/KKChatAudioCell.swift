@@ -46,12 +46,20 @@ class KKChatAudioCell: KKChatBaseCell {
 		durationL.textColor = UIColor.init(hexString: "999999")
 		return durationL
 	}()
-
+    
+    lazy var playedNotice: UIView = {
+        let view = UIView.init()
+        view.layer.cornerRadius = 2.0
+        view.backgroundColor = UIColor.red
+        return view
+    }()
+    
 	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		// 给消息内容添加子视图
 		msgContent.addSubview(voiceButton)
 		msgContent.addSubview(durationLabel)
+        msgContent.addSubview(playedNotice)
 		// 给按钮添加事件
 		voiceButton.addTarget(self, action: #selector(playAudio), for: .touchUpInside)
 	}
@@ -84,6 +92,7 @@ extension KKChatAudioCell {
             self.voiceButton.imageView?.stopAnimating()
             AudioTool.defaut.stopPlay()
         } else {
+            playedNotice.isHidden = true
             voiceButton.imageView?.startAnimating()
             AudioTool.defaut.play(url: voice)
             AudioTool.defaut.playFinished = {
@@ -103,7 +112,7 @@ extension KKChatAudioCell {
 		guard model?.content?.type == MSG_ELEM.voice else { return }
 		guard let message = self.model else { return }
 		// 语音消息的高度是固定的
-        
+        playedNotice.isHidden = message.isPlayed
 		durationLabel.text = "\(message.content?.duration ?? 0)\"" // 设置语音消息的时间
 		durationLabel.sizeToFit() //label自适应大小
 
@@ -153,7 +162,7 @@ extension KKChatAudioCell {
             make.bottom.equalTo(bubbleView.snp.bottom).offset(10)
         }
 		if message.isSelf {
-			// 设置通用的样式
+            // 设置通用的样式
             avatar.snp.makeConstraints { (make) in
                 make.right.equalTo(self.snp.right).offset(-self.avatarMargin)
             }
@@ -201,6 +210,11 @@ extension KKChatAudioCell {
 			durationLabel.snp.makeConstraints { (make) in
 				make.left.equalTo(bubbleView.snp.right).offset(durationInsert)
 			}
+            playedNotice.snp.makeConstraints { (make) in
+                make.top.equalTo(bubbleView.snp.top)
+                make.left.equalTo(bubbleView.snp.right).offset(durationInsert)
+                make.height.width.equalTo(4.0)
+            }
             msgContent.snp.makeConstraints { (make) in
                 make.left.equalTo(avatar.snp.right).offset(self.avatarToMsg)
             }

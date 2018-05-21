@@ -30,10 +30,14 @@ class MessageBus: ABYSocketDelegate {
 	private init() {}
 	var delegate: MessageBusDelegate?
 
-	var convManager: MessageBusDelegate {
+	var convManager: ConversationManager {
 		return ConversationManager.distance
 	}
 
+    let store: ABYRealmManager = {
+        return ABYRealmManager.instance
+    }()
+    
 	func onMessage(message: JSON) {
 		guard let dictionary = message.dictionaryObject else { return }
 		guard let msgModel = Message.deserialize(from: dictionary) else { return }
@@ -41,10 +45,12 @@ class MessageBus: ABYSocketDelegate {
 		// 特殊消息的处理(首先处理超时，服务队列更新的消息#1)
 		if msgModel.messageType == MessageType.sys {
 			if msgModel.content?.type == .sysServiceTimeout || msgModel.content?.type ==  .sysChatTimeout {
-				// 发送超时事件
+				// 会话超时，更改数据库
+                self.convManager.removeConversation(room_id: msgModel.room_id ?? 0)
 			}
 			if msgModel.content?.type == MSG_ELEM.sysServiceWaitCount {
 				// 发送等待队列长度改变的事件
+                self.convManager.waitCount = msgModel.content?.count ?? 0
 			}
 		}
 		// 处理房间的消息(公共业务： 保存消息，更新消息总数#2)
@@ -56,11 +62,16 @@ class MessageBus: ABYSocketDelegate {
 				if msgModel.isKH == 0 && msgModel.sender?.sessionID == self.session_id {
 					// 自己发出去的消息需要更新发送状态
 					msgModel.deliveryStatus = .delivered
+                    // 更新消息状态
 					delegate(message: msgModel, status: .delivered)
 				} else {
 					// FIXME:这里需要进一步添加过滤逻辑
+                    if msgModel.content?.type == .voice {
+                        msgModel.isPlayed = false // 刚进入的消息自动设置为未播放
+                    }
 					delegate(on: msgModel)
 				}
+                self.store.update(message: msgModel) // 来的消息存起来
 			}
 		}
 
@@ -87,11 +98,12 @@ class MessageBus: ABYSocketDelegate {
 extension MessageBus {
 	// 发送消息
 	func send(message: Message) -> Void {
+//        self.store.update(message: message)
+        self.store.simpleUpdate(message: message)
 		ABYSocket.manager.send(message: message)
 	}
 	// 加入房间
 	func joinRoom(_ room_id:Int16) -> Void {
-        
 		ABYSocket.manager.join(room: room_id)
 	}
 

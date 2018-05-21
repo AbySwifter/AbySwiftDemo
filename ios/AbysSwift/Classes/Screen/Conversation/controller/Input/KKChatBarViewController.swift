@@ -132,9 +132,17 @@ class KKChatBarViewController: UIViewController {
             make.left.right.bottom.equalTo(self.view)
             make.height.equalTo(iPhoneHeight)
         }
+    }
+
+    func addNotification() -> Void {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
     }
+    
+    func removeNotification() -> Void {
+        NotificationCenter.default.removeObserver(self)
+    }
+ 
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
@@ -334,8 +342,14 @@ extension KKChatBarViewController: UIImagePickerControllerDelegate, UINavigation
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // 生成图片消息
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        let imagePath = (info[UIImagePickerControllerImageURL] as! URL).path
-        
+        var imagePath: String = ""
+//        if #available(iOS 11.0, *) {
+//           imagePath = (info[UIImagePickerControllerImageURL] as! URL).path
+//        } else {
+//             ABYPrint("\(info[UIImagePickerControllerPHAsset] as! URL)")
+//        }
+        imagePath = (info[UIImagePickerControllerImageURL] as! URL).path
+          ABYPrint("选取的文件路径为\(imagePath)")
         let size = image.size
         let message = Message.init(image: imagePath, size: size, room_id: self.roomID, isKH: false)
         self.sendMessage(message)

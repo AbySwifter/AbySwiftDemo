@@ -9,6 +9,7 @@
 import UIKit
 import Charts
 import SnapKit
+import MJRefresh
 
 class FormsViewController: UIViewController {
 	let scrollView: UIScrollView = UIScrollView.init() // 整体的scrollView
@@ -24,13 +25,16 @@ class FormsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		view.backgroundColor = UIColor.white
+       
         // Do any additional setup after loading the view.
 		setScrollView()
 		scrollView.backgroundColor = ABYGlobalBackGroundColor()
+       
 		view.backgroundColor = ABYGlobalBackGroundColor()
     }
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+        model.delegate = self
 		self.model.getData()
 	}
 	// 内存
@@ -67,6 +71,20 @@ class FormsViewController: UIViewController {
 				make.bottom.equalTo(last.snp.bottom).offset(20)
 			}
 		}
+        let header: MJRefreshNormalHeader = MJRefreshNormalHeader.init {
+            self.scrollView.mj_header.beginRefreshing()
+            self.model.getData()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 3.0, execute: {
+                if self.scrollView.mj_header.state == .refreshing {
+                    self.scrollView.mj_header.endRefreshing()
+                }
+            })
+        }
+        header.setTitle("下拉刷新", for: MJRefreshState.idle)
+        header.setTitle("松开刷新", for: .pulling)
+        header.setTitle("加载中...", for: .refreshing)
+        header.setTitle("没有新的内容", for: .noMoreData)
+        scrollView.mj_header = header
 	}
 
 	/// 添加头部选择控件
@@ -92,6 +110,7 @@ class FormsViewController: UIViewController {
 		segmentControl.tintColor = ABYGlobalThemeColor()
 		segmentControl.layer.cornerRadius = 3.0
 		segmentControl.backgroundColor = UIColor.white
+        segmentControl.addTarget(self, action: #selector(segmentValueChange(_:)), for: .valueChanged)
 	}
 	/// 添加折线图插件
 	///
@@ -121,8 +140,8 @@ class FormsViewController: UIViewController {
 	}
 	// Charts数据
 	func setCharts() -> Void {
-		let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
-		let unitsSold = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0]
+		let months = ["0", "0", "0", "0", "0", "0"]
+        let unitsSold: [Double] = [0, 0, 0, 0, 0, 0]
 		lineChart.setData(unitsSold, xValues: months)
 	}
 	// 生成PartName
@@ -199,4 +218,32 @@ class FormsViewController: UIViewController {
 //		ABYPrint(message: model.dataArray)
 		return otherView
 	}
+}
+
+extension FormsViewController: FormVCModelDelegate {
+    @objc
+    func segmentValueChange(_ sender: UISegmentedControl) -> Void {
+        let index = sender.selectedSegmentIndex
+        let xVaule = self.model.timeDatas
+        var yValue: [Double] = [0,0,0,0,0]
+        var title: String = "数量"
+        switch index {
+        case 0:
+            yValue = self.model.activeTime
+            title = "小时"
+        case 1:
+            yValue = self.model.sessionNumber
+            title = "人次"
+        case 2:
+            yValue = self.model.customerNumber
+            title = "人"
+        default:
+            break
+        }
+        lineChart.setData(yValue, xValues: xVaule, unit: title)
+    }
+    
+    func dataUpdated() {
+        self.segmentValueChange(self.segmentControl)
+    }
 }

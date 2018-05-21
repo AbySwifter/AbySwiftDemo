@@ -18,12 +18,21 @@ enum UserAPI: String {
 	case auth = "authenticate" // 登录授权接口
 	case userInfo = "user_info" // 获取用户信息接口
 	case stats = "stats" // 获取报表信息
+    case changePassword = "change_password" // 修改该密码接口
 	// 会话接口
 	case endService = "end_service" // 结束服务
 	case setReadCount = "set_room_read_message" // 上报未读消息
 	// 会话列表接口
 	case chatList = "chat_list" //会话列表
+    case historyList = "history_message" // 历史消息列表
     case switchServiceStatus = "switch_service_status"
+    // 获取客户信息
+    case getCustomerInfo = "customer_info"
+    case updateCustomRemark = "update_customer_remark"
+    
+    // 转接客服列表
+    case switchServiceList = "switch_service_list"
+    case switchService = "switch_service"
     
     case upLoadFile = "upload_file" // 上传文件的接口
 

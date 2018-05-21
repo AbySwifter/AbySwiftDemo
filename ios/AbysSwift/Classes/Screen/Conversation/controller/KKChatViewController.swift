@@ -95,23 +95,41 @@ class KKChatViewController: ABYBaseViewController, MessageBusDelegate {
         registerNotification() // 注册通知
         // Do any additional setup after loading the view.
     }
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		setWhiteNavigationBar()
-		_ = MessageBus.distance.addDelegate(self)
-		conversationManger.change(atService: (conversation?.room_id) ?? -1, status: true)
-	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//         setWhiteNavigationBar()
+    }
+	
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setWhiteNavigationBar()
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
+        chatBarVC.addNotification()
+        _ = MessageBus.distance.addDelegate(self)
+        conversationManger.change(atService: (conversation?.room_id) ?? -1, status: true)
+    }
+    
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
+        chatBarVC.removeNotification()
 		conversationManger.change(atService: (conversation?.room_id) ?? -1, status: false)
 	}
+    /// 弹出了右上角菜单
 	@objc
 	func popMenu(_ item: UIBarButtonItem) -> Void {
 		self.popMenu.showMenu(on: self.view, opacity: 0.5)
 	}
+    
     /// 点击了右上角菜单事件
 	func clickRightMenu(index: Int, item: ABYPopMenuItem) {
 		switch index {
+        case 0:
+            routeToCustomerInfo()
+        case 1:
+            routeToOtherList()
+        case 2:
+            routeHistoryList()
 		case 3:
 			showAlert(title: "提示", content: "结束服务？") { () -> (Void) in
 				// 这里进行结束服务处理
@@ -121,7 +139,26 @@ class KKChatViewController: ABYBaseViewController, MessageBusDelegate {
 			break
 		}
 	}
-
+    /// 客户信息
+    private func routeToCustomerInfo() -> Void {
+        let clientInfo = ClientInfoViewController()
+        clientInfo.room_id = conversation?.room_id ?? 0
+        self.navigationController?.pushViewController(clientInfo, animated: true)
+    }
+    /// 转接客服
+    private func routeToOtherList() -> Void {
+        let otherList = ToOtherViewController()
+        otherList.room_id = Int(conversation?.room_id ?? 0)
+        self.navigationController?.pushViewController(otherList, animated: true)
+    }
+    /// 历史消息
+    private func routeHistoryList() -> Void {
+        let historyList = HistoryMessageController()
+        historyList.room_id = conversation?.room_id ?? 0
+        historyList.conversation = conversation
+        self.navigationController?.pushViewController(historyList, animated: true)
+    }
+    /// 结束服务
 	private func endService() {
 		showLoading()
 		self.conversation?.endService(complete: { (result, msg) in

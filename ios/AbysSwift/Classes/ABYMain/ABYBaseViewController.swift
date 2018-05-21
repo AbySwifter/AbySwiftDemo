@@ -22,6 +22,7 @@ class ABYBaseViewController: UIViewController {
 	let manager = NetworkReachabilityManager.init() // 网路检测
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.white
 		manager?.listener = { (status) in
 			switch status {
 			case .reachable(.ethernetOrWiFi):
@@ -50,8 +51,11 @@ class ABYBaseViewController: UIViewController {
 	}
 
 	/// 设置当前VC的导航栏透明
-	func setNavigationBarType() -> Void {
-		self.navigationController?.navigationBar.isTranslucent = true
+	func setNavigationBarTranslucent() -> Void {
+        guard let navBar = self.navigationController?.navigationBar else {
+            return
+        }
+		navBar.isTranslucent = true
 		let color = UIColor.clear
 		let rect = CGRect.init(x: 0, y: 0, width: self.view.bounds.size.width, height: 64)
 		UIGraphicsBeginImageContext(rect.size)
@@ -59,24 +63,37 @@ class ABYBaseViewController: UIViewController {
 		context?.setFillColor(color.cgColor)
 		context?.fill(rect)
 		let image = UIGraphicsGetImageFromCurrentImageContext()
-		self.navigationController?.navigationBar.setBackgroundImage(image, for: .any, barMetrics: .default)
-		self.navigationController?.navigationBar.clipsToBounds = true
+		navBar.setBackgroundImage(image, for: .any, barMetrics: .default)
+		navBar.clipsToBounds = true
+        navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
+//        self.extendedLayoutIncludesOpaqueBars = true
 	}
 
+    /// 设置白色导航栏
 	func setWhiteNavigationBar() -> Void {
 		guard let navBar = self.navigationController?.navigationBar else {
 			return
 		}
+        navBar.clipsToBounds = false
+        let color = UIColor.white
+        let rect = CGRect.init(x: 0, y: 0, width: self.view.bounds.size.width, height: 64)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        context?.setFillColor(color.cgColor)
+        context?.fill(rect)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        navBar.setBackgroundImage(image, for: .any, barMetrics: .default)
 		navBar.isTranslucent = false
-		navBar.barTintColor = UIColor.white
 		navBar.tintColor = UIColor.black
 		navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
 	}
-
+    /// 设置主题色导航栏
 	func setThemeNavigationBar() -> Void {
 		guard let navBar = self.navigationController?.navigationBar else {
 			return
 		}
+        navBar.setBackgroundImage(nil, for: .any, barMetrics: .default)
+        navBar.clipsToBounds = false
 		navBar.isTranslucent = false
 		navBar.barTintColor = ABYGlobalThemeColor()
 		navBar.tintColor = UIColor.white

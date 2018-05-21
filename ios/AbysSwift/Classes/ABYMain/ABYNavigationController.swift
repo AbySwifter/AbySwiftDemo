@@ -14,6 +14,7 @@ class ABYNavigationController: UINavigationController {
         super.viewDidLoad()
 		// Do any additional setup after loading the view.
 		setBarStyle()
+        self.view.backgroundColor = UIColor.white
     }
 
 	func setBarStyle() -> Void {
@@ -21,7 +22,7 @@ class ABYNavigationController: UINavigationController {
 		navBar.isTranslucent = false
 		navBar.barTintColor = ABYGlobalThemeColor()
 		navBar.tintColor = UIColor.white
-		navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
+        navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
 	}
 
 	/**
@@ -40,12 +41,12 @@ class ABYNavigationController: UINavigationController {
 		}
 		super.pushViewController(viewController, animated: animated)
 	}
-
+    
 	@objc func navigationBackClick() {
 		if UIApplication.shared.isNetworkActivityIndicatorVisible {
 			UIApplication.shared.isNetworkActivityIndicatorVisible = false
 		}
-		popViewController(animated: true)
+		_ = popViewController(animated: true)
 	}
 
     override func didReceiveMemoryWarning() {

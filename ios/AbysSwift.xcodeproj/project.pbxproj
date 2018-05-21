@@ -18,9 +18,11 @@
 		DD0F986E206A1EAD00BA9C27 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD0F986D206A1EAD00BA9C27 /* Message.swift */; };
 		DD128A1720883BB100F85809 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD128A1620883BB100F85809 /* Assets.xcassets */; };
 		DD14B81B2047B8AC00265CD3 /* ABYValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD14B81A2047B8AC00265CD3 /* ABYValueFormatter.swift */; };
+		DD19313B20AAB05C00C63132 /* HistoryMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19313A20AAB05C00C63132 /* HistoryMessageController.swift */; };
 		DD1C09DF2031428300B8847D /* UIViewController+showHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C09DE2031428300B8847D /* UIViewController+showHud.swift */; };
 		DD1C09E12031840100B8847D /* ABYBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C09E02031840100B8847D /* ABYBaseViewController.swift */; };
 		DD28B0FA206B375300B75324 /* MessageElem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD28B0F9206B375300B75324 /* MessageElem.swift */; };
+		DD29D23120A5973F0002FEE8 /* ClientInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD29D23020A5973F0002FEE8 /* ClientInfoViewController.swift */; };
 		DD31DAE120A29AEF00D02112 /* KKPhotoBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD31DAE020A29AEF00D02112 /* KKPhotoBrowserViewController.swift */; };
 		DD31DAE320A29EE400D02112 /* KKChatViewController+Notificaiton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD31DAE220A29EE400D02112 /* KKChatViewController+Notificaiton.swift */; };
 		DD31DAE520A2A02600D02112 /* KKConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD31DAE420A2A02600D02112 /* KKConst.swift */; };
@@ -30,6 +32,15 @@
 		DD31DAF020A2D85C00D02112 /* CCZoomTransitioner.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD31DAEC20A2D85C00D02112 /* CCZoomTransitioner.swift */; };
 		DD37216D209551B800E7EC4E /* KKChatAudioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD37216C209551B800E7EC4E /* KKChatAudioCell.swift */; };
 		DD3A321F2094498500D74958 /* KKChatSystemMsgCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD3A321E2094498500D74958 /* KKChatSystemMsgCell.swift */; };
+		DD466ACD20AD5CE700F37465 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD466ACB20AD5CE400F37465 /* RealmSwift.framework */; };
+		DD466ACE20AD5CE700F37465 /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DD466ACB20AD5CE400F37465 /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD466ACF20AD5CE700F37465 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD466ACC20AD5CE700F37465 /* Realm.framework */; };
+		DD466AD020AD5CE700F37465 /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DD466ACC20AD5CE700F37465 /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DD466AD320AD5CFE00F37465 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD466AD220AD5CFE00F37465 /* RealmManager.swift */; };
+		DD466AD520AD5FBC00F37465 /* ConversationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD466AD420AD5FBC00F37465 /* ConversationObject.swift */; };
+		DD466AD720AD63FF00F37465 /* MessageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD466AD620AD63FF00F37465 /* MessageObject.swift */; };
+		DD466AD920AD641C00F37465 /* ContentObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD466AD820AD641C00F37465 /* ContentObject.swift */; };
+		DD466ADB20AD73D100F37465 /* RealmManagerOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD466ADA20AD73D100F37465 /* RealmManagerOperator.swift */; };
 		DD47C4C8202C49BC00A45EA1 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD47C4C7202C49BC00A45EA1 /* Account.swift */; };
 		DD51C3B52051129900FE0F6C /* OhterDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD51C3B42051129900FE0F6C /* OhterDataView.swift */; };
 		DD51C3B7205129F400FE0F6C /* FormVCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD51C3B6205129F400FE0F6C /* FormVCModel.swift */; };
@@ -49,11 +60,15 @@
 		DD7EAE892073807200A7BBF5 /* MessageBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EAE882073807200A7BBF5 /* MessageBus.swift */; };
 		DD8278442099504D004D8747 /* ChatVoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8278432099504D004D8747 /* ChatVoiceView.swift */; };
 		DD82789F20998F6A004D8747 /* recording.gif in Resources */ = {isa = PBXBuildFile; fileRef = DD82789E20998F6A004D8747 /* recording.gif */; };
+		DD87B42720AC02920090BCD3 /* ChangePWDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD87B42620AC02920090BCD3 /* ChangePWDViewController.swift */; };
+		DD898BA220AA783B0019F5F6 /* ToOtherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD898BA120AA783B0019F5F6 /* ToOtherViewController.swift */; };
+		DD898BA420AA82B90019F5F6 /* OtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD898BA320AA82B90019F5F6 /* OtherInfoCell.swift */; };
 		DD8C3514204547F500ABADD6 /* MineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8C3512204547F500ABADD6 /* MineCell.swift */; };
 		DD916B3B208052EC00A31A09 /* BaseBridgemanager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD916B3A208052EC00A31A09 /* BaseBridgemanager.m */; };
 		DD916B3D2080530E00A31A09 /* BaseBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD916B3C2080530E00A31A09 /* BaseBridge.swift */; };
 		DD916B3F2080540A00A31A09 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD916B3E2080540A00A31A09 /* ProductViewController.swift */; };
 		DD92CD54202987340090FB19 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD92CD53202987340090FB19 /* API.swift */; };
+		DD95E1AE20A962630030394A /* ClientInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD95E1AD20A962630030394A /* ClientInfoCell.swift */; };
 		DD974B2E20A3E57200D0470F /* UIButton+EXtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD974B2D20A3E57200D0470F /* UIButton+EXtension.swift */; };
 		DD974B3020A3F0FD00D0470F /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD974B2F20A3F0FD00D0470F /* UIDevice+Extension.swift */; };
 		DD974B3220A3FE6D00D0470F /* KKChatEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD974B3120A3FE6D00D0470F /* KKChatEditorView.swift */; };
@@ -94,6 +109,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		DD466AD120AD5CE700F37465 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DD466AD020AD5CE700F37465 /* Realm.framework in Embed Frameworks */,
+				DD466ACE20AD5CE700F37465 /* RealmSwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		8EEE8C944C31763FBC69B71E /* Pods-AbysSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbysSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-AbysSwift/Pods-AbysSwift.release.xcconfig"; sourceTree = "<group>"; };
 		9665051574D8E593B8302A0A /* Pods-AbysSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AbysSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AbysSwift/Pods-AbysSwift.debug.xcconfig"; sourceTree = "<group>"; };
@@ -115,9 +145,11 @@
 		DD0F986D206A1EAD00BA9C27 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		DD128A1620883BB100F85809 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD14B81A2047B8AC00265CD3 /* ABYValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYValueFormatter.swift; sourceTree = "<group>"; };
+		DD19313A20AAB05C00C63132 /* HistoryMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMessageController.swift; sourceTree = "<group>"; };
 		DD1C09DE2031428300B8847D /* UIViewController+showHud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+showHud.swift"; sourceTree = "<group>"; };
 		DD1C09E02031840100B8847D /* ABYBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYBaseViewController.swift; sourceTree = "<group>"; };
 		DD28B0F9206B375300B75324 /* MessageElem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageElem.swift; sourceTree = "<group>"; };
+		DD29D23020A5973F0002FEE8 /* ClientInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoViewController.swift; sourceTree = "<group>"; };
 		DD31DAE020A29AEF00D02112 /* KKPhotoBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKPhotoBrowserViewController.swift; sourceTree = "<group>"; };
 		DD31DAE220A29EE400D02112 /* KKChatViewController+Notificaiton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KKChatViewController+Notificaiton.swift"; sourceTree = "<group>"; };
 		DD31DAE420A2A02600D02112 /* KKConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKConst.swift; sourceTree = "<group>"; };
@@ -127,6 +159,13 @@
 		DD31DAEC20A2D85C00D02112 /* CCZoomTransitioner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCZoomTransitioner.swift; sourceTree = "<group>"; };
 		DD37216C209551B800E7EC4E /* KKChatAudioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatAudioCell.swift; sourceTree = "<group>"; };
 		DD3A321E2094498500D74958 /* KKChatSystemMsgCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatSystemMsgCell.swift; sourceTree = "<group>"; };
+		DD466ACB20AD5CE400F37465 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = "<group>"; };
+		DD466ACC20AD5CE700F37465 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		DD466AD220AD5CFE00F37465 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		DD466AD420AD5FBC00F37465 /* ConversationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationObject.swift; sourceTree = "<group>"; };
+		DD466AD620AD63FF00F37465 /* MessageObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageObject.swift; sourceTree = "<group>"; };
+		DD466AD820AD641C00F37465 /* ContentObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentObject.swift; sourceTree = "<group>"; };
+		DD466ADA20AD73D100F37465 /* RealmManagerOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManagerOperator.swift; sourceTree = "<group>"; };
 		DD47C4C7202C49BC00A45EA1 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
 		DD51C3B42051129900FE0F6C /* OhterDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OhterDataView.swift; sourceTree = "<group>"; };
 		DD51C3B6205129F400FE0F6C /* FormVCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormVCModel.swift; sourceTree = "<group>"; };
@@ -146,12 +185,16 @@
 		DD7EAE882073807200A7BBF5 /* MessageBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBus.swift; sourceTree = "<group>"; };
 		DD8278432099504D004D8747 /* ChatVoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVoiceView.swift; sourceTree = "<group>"; };
 		DD82789E20998F6A004D8747 /* recording.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = recording.gif; sourceTree = "<group>"; };
+		DD87B42620AC02920090BCD3 /* ChangePWDViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePWDViewController.swift; sourceTree = "<group>"; };
+		DD898BA120AA783B0019F5F6 /* ToOtherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToOtherViewController.swift; sourceTree = "<group>"; };
+		DD898BA320AA82B90019F5F6 /* OtherInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherInfoCell.swift; sourceTree = "<group>"; };
 		DD8C3512204547F500ABADD6 /* MineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCell.swift; sourceTree = "<group>"; };
 		DD916B39208052EB00A31A09 /* AbysSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AbysSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		DD916B3A208052EC00A31A09 /* BaseBridgemanager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseBridgemanager.m; sourceTree = "<group>"; };
 		DD916B3C2080530E00A31A09 /* BaseBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBridge.swift; sourceTree = "<group>"; };
 		DD916B3E2080540A00A31A09 /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		DD92CD53202987340090FB19 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		DD95E1AD20A962630030394A /* ClientInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoCell.swift; sourceTree = "<group>"; };
 		DD974B2D20A3E57200D0470F /* UIButton+EXtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+EXtension.swift"; sourceTree = "<group>"; };
 		DD974B2F20A3F0FD00D0470F /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		DD974B3120A3FE6D00D0470F /* KKChatEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatEditorView.swift; sourceTree = "<group>"; };
@@ -179,6 +222,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD466ACF20AD5CE700F37465 /* Realm.framework in Frameworks */,
+				DD466ACD20AD5CE700F37465 /* RealmSwift.framework in Frameworks */,
 				EA479F8B3A95D84C6F015881 /* Pods_AbysSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,6 +256,8 @@
 		DD001F342023238500C912D2 = {
 			isa = PBXGroup;
 			children = (
+				DD466ACC20AD5CE700F37465 /* Realm.framework */,
+				DD466ACB20AD5CE400F37465 /* RealmSwift.framework */,
 				DD82789B20998EEB004D8747 /* resource */,
 				DD001F3F2023238500C912D2 /* AbysSwift */,
 				DD001F542023238500C912D2 /* AbysSwiftTests */,
@@ -314,6 +361,11 @@
 		DD47C4C6202C499800A45EA1 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				DD466AD220AD5CFE00F37465 /* RealmManager.swift */,
+				DD466AD420AD5FBC00F37465 /* ConversationObject.swift */,
+				DD466AD620AD63FF00F37465 /* MessageObject.swift */,
+				DD466AD820AD641C00F37465 /* ContentObject.swift */,
+				DD466ADA20AD73D100F37465 /* RealmManagerOperator.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -529,6 +581,8 @@
 			isa = PBXGroup;
 			children = (
 				DDD3845020592B1D00A525DF /* ConversationCell.swift */,
+				DD95E1AD20A962630030394A /* ClientInfoCell.swift */,
+				DD898BA320AA82B90019F5F6 /* OtherInfoCell.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -542,6 +596,9 @@
 				DD0C113A209032E800DDE5C7 /* KKChatViewController.swift */,
 				DD31DAE020A29AEF00D02112 /* KKPhotoBrowserViewController.swift */,
 				DD31DAE220A29EE400D02112 /* KKChatViewController+Notificaiton.swift */,
+				DD29D23020A5973F0002FEE8 /* ClientInfoViewController.swift */,
+				DD898BA120AA783B0019F5F6 /* ToOtherViewController.swift */,
+				DD19313A20AAB05C00C63132 /* HistoryMessageController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -550,6 +607,7 @@
 			isa = PBXGroup;
 			children = (
 				DD73985E20241956006242FD /* MineViewController.swift */,
+				DD87B42620AC02920090BCD3 /* ChangePWDViewController.swift */,
 			);
 			path = viewController;
 			sourceTree = "<group>";
@@ -607,6 +665,7 @@
 				DD001F3A2023238500C912D2 /* Frameworks */,
 				DD001F3B2023238500C912D2 /* Resources */,
 				D43D41395C9670A740A29628 /* [CP] Embed Pods Frameworks */,
+				DD466AD120AD5CE700F37465 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -808,6 +867,7 @@
 				DDC281A6209ADDA3000B2CBE /* AudioTool.swift in Sources */,
 				DD974B3020A3F0FD00D0470F /* UIDevice+Extension.swift in Sources */,
 				DD67F93A205BC57A00A55280 /* Conversation.swift in Sources */,
+				DD466AD320AD5CFE00F37465 /* RealmManager.swift in Sources */,
 				DD31DAE520A2A02600D02112 /* KKConst.swift in Sources */,
 				DD70778A202450B40034CB00 /* LoginViewController.swift in Sources */,
 				DD70778D202452650034CB00 /* ABYNetworkManager.swift in Sources */,
@@ -823,16 +883,21 @@
 				DD9766C82048F3F40037C232 /* FormView.swift in Sources */,
 				DD974B3220A3FE6D00D0470F /* KKChatEditorView.swift in Sources */,
 				DD001F70202323DE00C912D2 /* ABYTabBarComtroller.swift in Sources */,
+				DD87B42720AC02920090BCD3 /* ChangePWDViewController.swift in Sources */,
+				DD898BA220AA783B0019F5F6 /* ToOtherViewController.swift in Sources */,
 				DD31DAEF20A2D85C00D02112 /* CCSwipBackPresentationController.swift in Sources */,
 				DD79B3E8206895FC00979582 /* WebSocketManager.swift in Sources */,
 				DD916B3B208052EC00A31A09 /* BaseBridgemanager.m in Sources */,
 				DDF4036920A14D4C00D8C22A /* KKChatImageCell.swift in Sources */,
 				DD73985F20241956006242FD /* MineViewController.swift in Sources */,
 				DD31DAF020A2D85C00D02112 /* CCZoomTransitioner.swift in Sources */,
+				DD95E1AE20A962630030394A /* ClientInfoCell.swift in Sources */,
+				DD19313B20AAB05C00C63132 /* HistoryMessageController.swift in Sources */,
 				DDDC8485208755E000939232 /* KKChattextCell.swift in Sources */,
 				DD974B2E20A3E57200D0470F /* UIButton+EXtension.swift in Sources */,
 				DDD4A175204FCAD500F02490 /* PartName.swift in Sources */,
 				DDA7AD7A20902C2000BD70F3 /* KKMessageViewController.swift in Sources */,
+				DD466AD520AD5FBC00F37465 /* ConversationObject.swift in Sources */,
 				DD8C3514204547F500ABADD6 /* MineCell.swift in Sources */,
 				DD31DAE120A29AEF00D02112 /* KKPhotoBrowserViewController.swift in Sources */,
 				DD3A321F2094498500D74958 /* KKChatSystemMsgCell.swift in Sources */,
@@ -840,22 +905,27 @@
 				DD739859202416A4006242FD /* ConversationViewController.swift in Sources */,
 				DD7EAE892073807200A7BBF5 /* MessageBus.swift in Sources */,
 				DD37216D209551B800E7EC4E /* KKChatAudioCell.swift in Sources */,
+				DD466AD720AD63FF00F37465 /* MessageObject.swift in Sources */,
+				DD466ADB20AD73D100F37465 /* RealmManagerOperator.swift in Sources */,
 				DD7EAE8520733B0C00A7BBF5 /* String+Range.swift in Sources */,
 				DD0C113B209032E800DDE5C7 /* KKChatViewController.swift in Sources */,
 				DD1C09DF2031428300B8847D /* UIViewController+showHud.swift in Sources */,
 				DDA7AD7820902BF700BD70F3 /* KKChatBarViewController.swift in Sources */,
 				DD0F8B67206CBF33008C6049 /* ChatFooterMenu.swift in Sources */,
+				DD29D23120A5973F0002FEE8 /* ClientInfoViewController.swift in Sources */,
 				DD51C3B52051129900FE0F6C /* OhterDataView.swift in Sources */,
 				DD1C09E12031840100B8847D /* ABYBaseViewController.swift in Sources */,
 				DDC3BD09208D80FA00D46F19 /* KKChatMsgDataHelper.swift in Sources */,
 				DD8278442099504D004D8747 /* ChatVoiceView.swift in Sources */,
 				DDD4A18D204FDF2300F02490 /* ABYProgressView.swift in Sources */,
 				DD001F412023238500C912D2 /* AppDelegate.swift in Sources */,
+				DD466AD920AD641C00F37465 /* ContentObject.swift in Sources */,
 				DD916B3D2080530E00A31A09 /* BaseBridge.swift in Sources */,
 				DD08BA7B207315FE000497C2 /* AppConfig.swift in Sources */,
 				DD7EAE8720735C2000A7BBF5 /* ABYJsonModel.swift in Sources */,
 				DD73986420243B05006242FD /* UIColor+Extension.swift in Sources */,
 				DDE8CFA9206903BB00758AA4 /* SocketProtocl.swift in Sources */,
+				DD898BA420AA82B90019F5F6 /* OtherInfoCell.swift in Sources */,
 				DD28B0FA206B375300B75324 /* MessageElem.swift in Sources */,
 				DDC333002087427F004B9669 /* UIView+Extension.swift in Sources */,
 				DD92CD54202987340090FB19 /* API.swift in Sources */,
@@ -1026,8 +1096,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 23TVUL8LVC;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = AbysSwift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1085,10 +1159,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 23TVUL8LVC;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = AbysSwift/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1129,7 +1208,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dragontrail.kankanTalkPro;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "db402169-8aaf-43c3-bca8-c32e9834b84a";
+				PROVISIONING_PROFILE_SPECIFIER = KankanPro;
 				SWIFT_OBJC_BRIDGING_HEADER = "AbysSwift/Classes/ReactBridge/AbysSwift-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

@@ -133,7 +133,7 @@ class KKChatEditorView: UIView {
     // MARK: - 计算属性
     var isTextNil: Bool {
         guard let text = self.textMsgInput.text else { return true }
-        return text == ""
+        return text == "" || text  == "请输入..."
     }
     var textMsg: String {
         return self.textMsgInput.text ?? ""
@@ -230,7 +230,7 @@ extension KKChatEditorView: UITextViewDelegate {
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         if text == "\n" {
-            ABYPrint("发送")
+            sendAction(self.sendBtn)
             return false
         }
         return true

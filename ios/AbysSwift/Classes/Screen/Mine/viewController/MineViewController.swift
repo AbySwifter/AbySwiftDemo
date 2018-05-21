@@ -49,7 +49,9 @@ class MineViewController: ABYBaseViewController, UITableViewDelegate, UITableVie
 		super.viewWillAppear(animated)
 		self.navigationItem.title = "个人中心"
 		self.navigationController?.navigationBar.titleTextAttributes =  [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
-		setNavigationBarType()
+//        setNavigationBarTranslucent()
+        setWhiteNavigationBar()
+        self.navigationController?.navigationBar.clipsToBounds = true
 		setAccountValue()
 	}
 	// 设置用户信息
@@ -100,6 +102,10 @@ class MineViewController: ABYBaseViewController, UITableViewDelegate, UITableVie
 	}
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		// TODO：Tbaleview的点击事件除了
+        if indexPath.row == 0 {
+            let viewController = ChangePWDViewController()
+            self.navigationController?.pushViewController(viewController, animated: true)
+        }
 	}
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = UIView.init()

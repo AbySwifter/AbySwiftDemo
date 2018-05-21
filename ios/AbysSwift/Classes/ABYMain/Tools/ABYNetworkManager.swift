@@ -87,6 +87,7 @@ class ABYNetworkManager: NSObject {
 			case .failure(let err):
 				print(err)
 				error(err)
+                callBack(nil)
 			}
 		})
 	}

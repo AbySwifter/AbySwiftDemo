@@ -46,6 +46,22 @@ class MsgSender: HandyJSON {
 		headImgUrl = user.avatar
 		sessionID = Account.share.session_id
 	}
+    
+    convenience init(object: SenderObject?) {
+        self.init()
+        guard let obj = object else { return }
+        self.name = obj.name
+        self.headImgUrl = obj.headImageUrl
+        self.sessionID = obj.sessionID
+    }
+    
+    func toObject() -> SenderObject {
+        let obj = SenderObject.init()
+        obj.headImageUrl = self.headImgUrl ?? ""
+        obj.name = self.name ?? ""
+        obj.sessionID = self.sessionID ?? "\(self.headImgUrl ?? "")@\(self.name ?? "")"
+        return obj
+    }
 }
 
 /// 消息结构
@@ -61,7 +77,8 @@ class Message: HandyJSON {
 	var content: MessageElem?
 	// 不需要转化的属性
 	required init() {}
-
+    
+    var isPlayed: Bool = true
     var delegate: MessageStatusChangeDelegate? // 更新Cell的状态
 	var deliveryStatus: DeliveryStatus = DeliveryStatus.delivered // 默认发送成功
 	var cellHeight: CGFloat = 0
@@ -77,6 +94,7 @@ class Message: HandyJSON {
 		mapper >>> self.showTime // 是否需要显示时间
         mapper >>> self.networkManager // 排除网管
         mapper >>> self.delegate // 排除代理
+        mapper >>> self.isPlayed
 	}
 
 }
@@ -102,6 +120,16 @@ extension Message {
 		let str = KKChatMsgDataHelper.shared.chatTimeString(with: time)
 		return str
 	}
+    
+    // 存储的时候保存发送状态
+    var isSendSuccess: Bool {
+        switch self.deliveryStatus {
+        case .delivered:
+            return true
+        default:
+            return false
+        }
+    }
 }
 
 // MARK: - 各种消息的初始化方法
@@ -143,6 +171,39 @@ extension Message {
         self.isKH = isKH ? 1 : 0 // 自己发送的为0
         let elem = MessageElem.init(imagePath: image, size: size)
         self.content = elem
+    }
+    
+    ///从数据库初始化消息
+    convenience init(messageObject: MessageObject?) {
+        self.init()
+        guard let object = messageObject else { return }
+        self.messageID = object.messageID
+        self.messageType = MessageType.init(rawValue: object.messageType) ?? MessageType.chat
+        self.sender = MsgSender.init(object: object.sender)
+        self.content = MessageElem.init(object: object.content)
+        self.timestamp = UInt64(object.timestamp)
+        self.room_id = Int16(object.room_id)
+        self.isKH = object.isKH.value ?? 1
+        self.deliveryStatus = object.isSendSuccess ? .delivered : .failed
+        // FIXME: 缺少一个是否播放的属性
+        self.isPlayed = object.isPlayed
+    }
+   
+    /// 转化为数据库的模型
+    func toObject() -> MessageObject {
+        let obj = MessageObject.init()
+        obj.content = self.content?.toObject()
+        obj.sender = self.sender?.toObject()
+        
+        obj.isKH.value = self.isKH
+        obj.messageID = self.messageID ?? ""
+        obj.messageType = self.messageType?.rawValue ?? MessageType.chat.rawValue
+        obj.timestamp = Int(self.timestamp ?? 0)
+        obj.room_id = Int(self.room_id ?? 0)
+        obj.isSendSuccess = self.isSendSuccess
+        obj.isPlayed = self.isPlayed
+        obj.content?.messageID = self.messageID ?? ""
+        return obj
     }
 }
 
@@ -239,7 +300,7 @@ extension Message {
     }
 
     private func send() -> Void {
-        ABYSocket.manager.send(message: self)
+       MessageBus.distance.send(message: self)
     }
 }
 

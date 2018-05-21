@@ -23,6 +23,7 @@ enum MSG_ELEM: String, HandyJSONEnum {
 	case sysChatTimeout = "SYS_CHAT_TIMEOUT" // 会话超时消息
 	case sysServiceTimeout = "SYS_SERVICE_TIMEOUT" // 服务超时
 	case sysServiceWaitCount = "SYS_SERVICE_WAIT_COUNT" // 等待队列消息
+    case sysAlertMessage = "SYS_ALERT_MESSAGE" // 该用户已经离开服务
 	// product
 	case productContentVoyage = "PRODUCT_VOYAGE_ELEM"
 	case productCabinElem = "PRODUCT_CABIN_ELEM"
@@ -34,7 +35,6 @@ enum MSG_ELEM: String, HandyJSONEnum {
 struct ImageSize: HandyJSON {
 	var width: CGFloat?
 	var height: CGFloat?
-    
     mutating func mapping(mapper: HelpingMapper) {
         mapper <<<
             self.width <-- TransformOf.init(fromJSON: { (rawValue: Float?) -> CGFloat? in
@@ -61,6 +61,24 @@ struct ImageSize: HandyJSON {
                 return nil
             })
     }
+    init() {}
+    init(width: CGFloat?, height: CGFloat?) {
+        self.width = width
+        self.height = height
+    }
+    // 从数据库初始化
+    init(object: ImageSizeObject?) {
+        let w = CGFloat.init(object?.width ?? 0)
+        let h = CGFloat.init(object?.height ?? 0)
+        self.init(width: w, height: h)
+    }
+    // 转化为数据库对象
+    func toObject() -> ImageSizeObject {
+        let obj = ImageSizeObject.init()
+        obj.width = Float(self.width ?? 0)
+        obj.height = Float(self.height ?? 0)
+        return obj
+    }
 }
 
 /// 消息元素
@@ -75,6 +93,8 @@ class MessageElem: NSObject, HandyJSON {
 	var image: String?
 	var size: ImageSize?
 
+    // system
+    var count: Int = 0
 	required override init() {}
 }
 
@@ -100,5 +120,33 @@ extension MessageElem {
         self.image = imagePath
         let imageSize = ImageSize.init(width: size.width, height: size.height)
         self.size = imageSize
+    }
+    
+    // 从数据库初始化
+    convenience init(object: ContentObject?) {
+        self.init()
+        guard let obj = object else {
+            return
+        }
+        self.type = MSG_ELEM.init(rawValue: obj.type) ?? MSG_ELEM.text
+        self.text = obj.text
+        self.duration = obj.duration.value
+        self.voice = obj.voice
+        self.image = obj.image
+        self.size = ImageSize.init(object: obj.size)
+        // FIXME: 消息初始化的拓展
+    }
+    
+    // 转化为数据库对象
+    func toObject() -> ContentObject {
+        let object = ContentObject.init()
+        object.type = self.type?.rawValue ?? MSG_ELEM.text.rawValue
+        object.text = self.text
+        object.voice = self.voice
+        object.duration.value = self.duration
+        object.image = self.image
+        object.size = self.size?.toObject()
+        // FIXME: 消息类型的拓展
+        return object
     }
 }

@@ -38,8 +38,9 @@ protocol KKMessageViewControllerDelegate {
 
 class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITableViewDataSource {
     
+    var isChatView: Bool = true
     var delegate: KKMessageViewControllerDelegate?
-    
+    var loadMoreAction: (() -> (Void))? // 如果此属性为真，则默认的历史消息拉取方法不执行
     /// 显示消息Item的tableView
 	lazy var chatListView: UITableView = {
 		let tab = UITableView.init(frame: CGRect.zero, style: .plain)
@@ -67,9 +68,6 @@ class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITabl
 	var conversation: Conversation?
 	var messageList: [Message] = [] // 存放列表消息的数组
 	var historyList: [Message] = [] // 存放本地历史消息的数组
-	var messageArr: [Message] {
-		return messageList
-	}
 	// 记录是否为第一次滚动
 	private var firstScroll: Bool = true
     // 记录当前视图的ContentOffsetY
@@ -77,16 +75,19 @@ class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
 		addChild() // 添加视图
-        let tap = UITapGestureRecognizer.init(target: self, action: #selector(tapTab(_:)))
-        tap.cancelsTouchesInView = false
-        self.view.addGestureRecognizer(tap)
+        if isChatView {
+            let tap = UITapGestureRecognizer.init(target: self, action: #selector(tapTab(_:)))
+            tap.cancelsTouchesInView = false
+            self.view.addGestureRecognizer(tap)
+        }
+         defaultMoreMessage()
         // Do any additional setup after loading the view.
     }
 
 	override func viewDidLayoutSubviews() {
 		super.viewDidLayoutSubviews()
 		if self.firstScroll {
-			let indexPath = IndexPath.init(row: messageArr.count - 1, section: 0)
+			let indexPath = IndexPath.init(row: messageList.count - 1, section: 0)
 			_ = self.tableView(chatListView, cellForRowAt: indexPath)
 			scrollToBottom()
 			firstScroll = false
@@ -96,13 +97,6 @@ class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITabl
 	private func addChild() -> Void {
 		chatListView.delegate = self
 		chatListView.dataSource = self
-		let header: MJRefreshNormalHeader = MJRefreshNormalHeader.init(refreshingTarget: self, refreshingAction: #selector(loadMoreMessage))
-		header.lastUpdatedTimeLabel.isHidden = true // 隐藏时间
-		header.setTitle("下拉加载更多消息", for: MJRefreshState.idle)
-		header.setTitle("松开加载更多消息", for: .pulling)
-		header.setTitle("加载中...", for: .refreshing)
-		header.setTitle("没有更多消息了", for: .noMoreData)
-		chatListView.mj_header = header
 		view.addSubview(chatListView)
 		chatListView.snp.makeConstraints { (make) in
 			make.top.equalToSuperview()
@@ -111,6 +105,16 @@ class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITabl
 			make.right.equalToSuperview()
 		}
 	}
+    
+    private func defaultMoreMessage() -> Void {
+        let header: MJRefreshNormalHeader = MJRefreshNormalHeader.init(refreshingTarget: self, refreshingAction: #selector(loadMoreMessage))
+        header.lastUpdatedTimeLabel.isHidden = true // 隐藏时间
+        header.setTitle("下拉加载更多消息", for: MJRefreshState.idle)
+        header.setTitle("松开加载更多消息", for: .pulling)
+        header.setTitle("加载中...", for: .refreshing)
+        header.setTitle("没有更多消息了", for: .noMoreData)
+        chatListView.mj_header = header
+    }
 }
 
 // 对外暴露的方法
@@ -118,14 +122,14 @@ extension KKMessageViewController {
 	// 滚到最低部
 	func scrollToBottom(_ animated: Bool = false) {
 		self.chatListView.layoutIfNeeded()
-		if messageArr.count > 0 {
-			let indexPath = IndexPath.init(row: messageArr.count - 1, section: 0)
+		if messageList.count > 0 {
+			let indexPath = IndexPath.init(row: messageList.count - 1, section: 0)
 			_ = self.tableView(chatListView, cellForRowAt: indexPath)
 			chatListView.scrollToRow(at: indexPath, at: .bottom, animated: animated)
 		}
 	}
 
-	/// 初始化消息
+	/// 初始化聊天消息消息（非网络拉取历史消息）
 	func setMessage(list: [Message]) -> Void {
 		var tempList = list
 		let count = tempList.count
@@ -142,6 +146,18 @@ extension KKMessageViewController {
 		helper.addTimeTo(finalModel: nil, messages: messageList)
 		helper.addTimeTo(finalModel: nil, messages: historyList)
 	}
+    
+    /// 添加消息消息（网络拉取历史消息）
+    func addMessageRemote(list: [Message]) -> Void {
+        // 在添加消息前，先判断
+        messageList[0].showTime = helper.needAddMinuteModel(preModel: list[list.count - 1], curModel: messageList[0])
+        helper.addTimeTo(messages: list)
+        let indexPath = IndexPath.init(row: list.count, section: 0)
+        for msg in list.reversed() {
+            self.instert(msg, isBottom: false)
+        }
+        chatListView.scrollToRow(at: indexPath, at: .top, animated: false)
+    }
 }
 
 // MARK: -存放objc响应事件的扩展
@@ -154,6 +170,10 @@ extension KKMessageViewController {
 	// 加载历史消息
 	@objc
 	fileprivate func loadMoreMessage() {
+        if let action = self.loadMoreAction {
+            action()
+            return
+        }
 		guard historyList.count != 0 else {
 			// 没有历史消息
 			chatListView.mj_header.endRefreshing()
@@ -161,7 +181,7 @@ extension KKMessageViewController {
 		}
 		// 在加载历史消息之前，先判断消息的显示
 		if messageList.count > 0 {
-			messageList[0].showTime = KKChatMsgDataHelper.shared.needAddMinuteModel(preModel: historyList[historyList.count - 1], curModel: messageList[0])
+			messageList[0].showTime = helper.needAddMinuteModel(preModel: historyList[historyList.count - 1], curModel: messageList[0])
 		}
 		var msgList: [Message]!
 		var indexPath: IndexPath!
@@ -191,16 +211,19 @@ extension KKMessageViewController {
 extension KKMessageViewController {
 	// MARK: TableView DataSouce& Delegate
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return messageArr.count;
+		return messageList.count;
 	}
 
 	// 先执行cell的方法
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-		let model = messageArr[indexPath.row]
+        if messageList.count == 0 {
+            return UITableViewCell.init()
+        }
+		let model = messageList[indexPath.row]
 		var cell: KKChatBaseCell?
 		// 在这里选择cell
-		switch model.messageType! {
+        let type = model.messageType ?? .custom
+		switch type {
 		case .chat:
 			if model.content?.type == MSG_ELEM.text {
 				cell = tableView.dequeueReusableCell(withIdentifier: KKChattextCellID) as? KKChattextCell
@@ -227,7 +250,7 @@ extension KKMessageViewController {
 
 	// 再执行高度获取的方法
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		let model = messageArr[indexPath.row]
+		let model = messageList[indexPath.row]
 		return model.cellHeight
 	}
     // 估算的高度
@@ -251,7 +274,7 @@ extension KKMessageViewController {
 			// 插入消息之前，首先判断是否需要显示时间戳
 			message.showTime = helper.needAddMinuteModel(preModel: messageList[messageList.count - 1], curModel: message)
 			messageList.append(message)
-			indexPath = IndexPath.init(row: messageArr.count - 1, section: 0)
+			indexPath = IndexPath.init(row: messageList.count - 1, section: 0)
 			_ = self.tableView(chatListView, cellForRowAt: indexPath) // 为了可以正常的插入这个cell
 			self.insert(rows: [indexPath])
 		} else {
@@ -305,3 +328,5 @@ extension KKMessageViewController {
 		}
 	}
 }
+
+

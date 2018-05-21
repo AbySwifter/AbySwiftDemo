@@ -129,7 +129,6 @@ class Conversation: HandyJSON {
 			self.name = "通知消息"
 		}
 	}
-
 	// 根据消息创建Item
 	convenience init (width message: Message) {
 		self.init()
@@ -139,7 +138,21 @@ class Conversation: HandyJSON {
 		self.room_id = message.room_id ?? 0
 		self.joinTime = message.msg_timestamp ?? 0
 		self.lastMessage = message
+        self.message_list = [message]
 	}
+    
+    /// 从数据库初始化对象
+    convenience init(object: ConversationObject) {
+        self.init()
+        self.type = .NormalType // 正常会话
+        self.activeTime = object.activeTime
+        self.headImgUrl = object.headImgUrl
+        self.name = object.nickname
+        self.message_read_count = object.message_read_count
+        self.joinTime = UInt64(object.join_time)
+        self.lastMessage = Message.init(messageObject: object.lastMessage)
+        self.message_list = object.messages // 通过计算属性返回
+    }
 
 	// MARK: -自定义消息格式
 	func mapping(mapper: HelpingMapper) {
@@ -154,11 +167,24 @@ class Conversation: HandyJSON {
 		mapper >>> self.time
 		mapper >>> self.nativeReadCount
 	}
-
+    
+    /// 转化为数据库存储对象
+    func toObject() -> ConversationObject {
+        let obj = ConversationObject.init()
+        obj.nickname = self.name
+        obj.join_time = Int(self.joinTime)
+        obj.headImgUrl = self.headImgUrl ?? ""
+        obj.activeTime = Int(self.activeTime)
+        obj.lastMessage = self.lastMessage?.toObject()
+        obj.message_read_count = self.message_read_count
+        for msg in self.message_list {
+            obj.message_list.append(msg.toObject())
+        }
+        return obj
+    }
 }
 
 extension Conversation {
-	
 	func endService(complete: @escaping (_ result: Bool, _ message: String?) -> ()) -> Void {
 		let params: [String: Any] = [
 			"room_id": self.room_id,
@@ -181,3 +207,4 @@ protocol ConversationDelegate {
 	func lastMessageChange(text: String,atttributeText:NSMutableAttributedString) -> Void
 	func unReadCountChange(count: Int) -> Void
 }
+
