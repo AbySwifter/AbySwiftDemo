@@ -41,6 +41,8 @@ class ConversationManager {
 	var bus: MessageBus {
 		return MessageBus.distance
 	}
+    
+    // 在这里记录了是不是正在服务的会话
 	var atService: Int16 = -1 // 记录当前正在服务的会话ID
 
 	// 这是一个获取数据的方法
@@ -63,7 +65,7 @@ class ConversationManager {
 //            self.dataSource?.conversationListUpdata()
 //        }
         // 根据消息更新数据库
-        self.store.update(message: message)
+//        self.store.update(message: message)
         self.conversations[room_id] = self.store.getConversation(room_id: Int(room_id))
         self.dataSource?.conversationListUpdata()
 	}
@@ -126,8 +128,11 @@ extension ConversationManager {
 			bus.joinRoom(roomID)
 		} else {
 			// 上报已读数量
-			current.message_read_count = current.totalCount
-			reportRead(count: current.totalCount, room_id: current.room_id)
+            let count = self.store.getConversationListCount(room_id: Int(current.room_id)) ?? current.totalCount
+			current.message_read_count = count
+            // 更新本地已读会话数量
+            self.store.updateConversation(room_id: Int(current.room_id), count: count)
+			reportRead(count: count, room_id: current.room_id)
 			self.atService = -1
 		}
 	}
@@ -175,7 +180,7 @@ extension ConversationManager {
 }
 
 /// MessageBus的消息分发
-extension ConversationManager: MessageBusDelegate {
+extension ConversationManager {
 	/// 从messageBus过来的消息， 只有房间消息
 	func messageBus(on message: Message) {
 		let msgModel = message

@@ -37,11 +37,19 @@ extension ABYRealmManager {
         guard let realm = self.realm else { return }
         do {
             var tempList = [ConversationObject]()
+            // 首先过滤本地属性（包括发送失败的消息和未播放的音频消息）
             let messages = realm.objects(MessageObject.self).filter("isPlayed == %@ OR isSendSuccess == %@", false, false)
             var temp: [[String: Any]] = []
             for msg in messages {
                 temp.append(msg.simpleUpdateValue)
             }
+            // 其次过滤本地会话存储的时间差
+            let conversations = realm.objects(ConversationObject.self).filter("timeOffset!=0")
+            var tempC: [[String: Any]] = []
+            for conv in conversations {
+               tempC.append(conv.simpleUpdateValue)
+            }
+            // 开始存列表
             for conv in list {
                 let obj = conv.toObject()
                 tempList.append(obj)
@@ -50,6 +58,9 @@ extension ABYRealmManager {
                 realm.add(tempList, update: true)
                 for item in temp {
                     realm.create(MessageObject.self, value: item, update: true)
+                }
+                for item in tempC {
+                    realm.create(ConversationObject.self, value: item, update: true)
                 }
             }
         } catch let error as NSError {
@@ -79,6 +90,7 @@ extension ABYRealmManager {
             let conversation = realm.object(ofType: ConversationObject.self, forPrimaryKey: Int(roomID))
             if let obj = conversation {
                 try realm.write {
+                    realm.delete(obj.message_list)
                     realm.delete(obj)
                 }
             }
@@ -97,12 +109,20 @@ extension ABYRealmManager {
             var conversation = realm.object(ofType: ConversationObject.self, forPrimaryKey: roomid)
             // 如果会话不存在，就创建会话
             if conversation == nil {
-                let con = Conversation.init(width: message)
+                let con = Conversation.init(width: message) // 创建会话的时候去处理时间差
                 conversation = con.toObject()
+                ABYPrint("会话的时间差为：\(con.timeOffset)")
             } else {
                 let msgObj = message.toObject()
-                conversation!.message_list.append(msgObj)
-                conversation!.lastMessage = msgObj
+                realm.add(msgObj, update: true)
+                // 如果不包含这条消息, 包含这条消息的意义是更新了消息的状态
+                if !conversation!.message_list.contains(msgObj) {
+                    conversation!.message_list.append(msgObj)
+                    conversation!.lastMessage = msgObj
+                }
+            }
+            if conversation!.room_id == Int(ConversationManager.distance.atService) {
+                conversation!.message_read_count = conversation!.message_list.count
             }
             realm.add(conversation!, update: true)
             try realm.commitWrite()
@@ -130,5 +150,28 @@ extension ABYRealmManager {
         guard let obj = conObj else { return nil }
         let conversation = Conversation.init(object: obj)
         return conversation
+    }
+    
+    /// 更新会话已读数
+    func updateConversation(room_id: Int, count: Int) -> Void {
+        guard let realm = self.realm else { return }
+        let convObj = realm.object(ofType: ConversationObject.self, forPrimaryKey: room_id)
+        guard let obj = convObj else { return }
+        do {
+            try realm.write {
+                obj.message_read_count = count
+            }
+        } catch let error as NSError {
+            ABYPrint("更改会话已读数有误：\(error)")
+        }
+        
+    }
+    /// 获取当前会话列表的消息数
+    func getConversationListCount(room_id: Int) -> Int? {
+        guard let realm = self.realm else { return nil }
+        let convObj = realm.object(ofType: ConversationObject.self, forPrimaryKey: room_id)
+        guard let obj = convObj else { return nil }
+        let result = obj.message_list.filter("isSendSuccess==true")
+        return result.count
     }
 }

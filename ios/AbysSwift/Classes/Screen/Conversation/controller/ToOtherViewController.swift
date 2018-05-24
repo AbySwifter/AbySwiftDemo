@@ -74,9 +74,11 @@ class ToOtherViewController: ABYBaseViewController {
             "switch_id": switch_id,
             "room_id": room_id
         ]
+        self.showLoading()
         self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.switchService, params: params)) { (json) -> (Void) in
             if let res = json {
                 if res["state"].intValue == 200 {
+                    self.hideLoading() // 隐藏加载图
                     self.showToast("转接客服成功")
                     ConversationManager.distance.removeConversation(room_id: Int16(self.room_id ?? 0))
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5, execute: {

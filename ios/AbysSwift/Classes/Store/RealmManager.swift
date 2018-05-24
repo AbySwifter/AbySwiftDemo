@@ -14,7 +14,7 @@ class ABYRealmManager {
         var config = Realm.Configuration.init()
         config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("KKRealm.realm") // 更改默认名称
         ABYPrint("数据库的路径为\(config.fileURL!)")
-        config.schemaVersion = 7
+        config.schemaVersion = 9
         //数据库发生迁移的时候需要处理的事情
         config.migrationBlock = {(migration, oldSchemaVersion ) in
             // 在这里进行版本构架的迭代处理
@@ -31,5 +31,13 @@ class ABYRealmManager {
             return nil
         }
     }()
+    
+    /// 退出登录以后，就清空数据库
+    func clearStore() -> Void {
+        guard let realm = self.realm else { return }
+        try? realm.write {
+            realm.deleteAll() // 清空数据库
+        }
+    }
 }
 

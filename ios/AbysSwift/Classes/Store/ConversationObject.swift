@@ -14,6 +14,12 @@ class ConversationObject: Object {
     @objc dynamic var message_read_count: Int = 0
     @objc dynamic var headImgUrl: String = ""
     @objc dynamic var activeTime: Int = 0
+    
+    @objc dynamic var isEnded: Bool = false // 标记会话是否结束的字段,目前暂时只在本地存储
+    @objc dynamic var atService: Int = -1 // 默认不在服务
+    
+    @objc dynamic var timeOffset: Int = 0 // 会话时间差，只存储在本地
+    
     @objc dynamic var lastMessage: MessageObject?
     let message_list = List<MessageObject>.init()
      // 会话id，主键
@@ -34,5 +40,9 @@ extension ConversationObject {
             list.append(Message.init(messageObject: msgObj))
         }
         return list
+    }
+    
+    var simpleUpdateValue: [String: Any] {
+        return ["room_id": self.room_id, "timeOffset": self.timeOffset]
     }
 }

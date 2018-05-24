@@ -41,6 +41,8 @@ class SenderObject: Object {
     @objc dynamic var name: String = ""
     @objc dynamic var headImageUrl: String = ""
     
+    let message = LinkingObjects.init(fromType: MessageObject.self, property: "sender")
+    
     override static func primaryKey() -> String? {
         return "sessionID"
     }

@@ -47,7 +47,6 @@ class KKChatEditorView: UIView {
     var currentStatus: EditorStatus = .none {
         didSet {
             self.previousStatus = oldValue
-            ABYPrint("从\(oldValue) 到 \(currentStatus)")
             self.changeState(currentStatus)
             self.delegate?.chatEditorBar(pervious: self.previousStatus, to: self.currentStatus)
         }
@@ -198,6 +197,7 @@ extension KKChatEditorView {
         let message = Message.init(text: textMsg, room_id:room_id ) // 组装消息
         self.delegate?.chatEditorBar(send: message)
         self.textMsgInput.text = "" // 清空文本框
+        inputTextViewCurHeight = kChatBarTextViewHeight // 回复最初的文本高度
     }
 }
 

@@ -36,7 +36,7 @@ protocol KKChatBarViewControllerDelegate {
 
 extension KKChatBarViewControllerDelegate {
     func chatBarMenuAction(type: ChatFootMenuTag) -> Void {
-        ABYPrint("默认的点击事件")
+        ABYPrint("默认的点击事件,\(type)")
     }
 }
 
@@ -85,7 +85,7 @@ class KKChatBarViewController: UIViewController {
     /// 当前会话的房间号
 	var roomID: Int16 = 0
     var iPhoneHeight: CGFloat {
-        if self.chatEditor.currentStatus == .text {
+        if self.currentStatus == .text {
             return 0
         }
         return UIDevice.current.isX() ? 34 : 0
@@ -93,8 +93,15 @@ class KKChatBarViewController: UIViewController {
     var originHeight: CGFloat {
         return iPhoneHeight + editBarHeight + keyboardHeight
     }
+   
+    /// 计算属性，处理消息的编辑状态
     var currentStatus: EditorStatus {
-        return self.chatEditor.currentStatus
+        get {
+            return self.chatEditor.currentStatus
+        }
+        set {
+            self.chatEditor.currentStatus = newValue
+        }
     }
 	// MARK:- 记录属性
 	var keyboardHeight: CGFloat = 0 // 记录当前的键盘的高度
@@ -207,8 +214,8 @@ extension KKChatBarViewController: AudioToolDelegate {
 // 发送消息的代理
 extension KKChatBarViewController: KKChatEditorDelegate {
     func changeEditorStatus(_ status: EditorStatus) -> Void {
-        if self.chatEditor.currentStatus != status {
-            self.chatEditor.currentStatus = status
+        if self.currentStatus != status {
+            self.currentStatus = status
         }
     }
     func chatEditorBar(pervious status: EditorStatus, to current: EditorStatus) {
@@ -300,10 +307,10 @@ extension KKChatBarViewController: KKChatEditorDelegate {
 //            return
 //        }
         //        let duration = kbInfo[UIKeyboardAnimationDurationUserInfoKey] as! Double
-        ABYPrint(self.chatEditor.currentStatus)
+        ABYPrint(self.currentStatus)
         self.keyboardHeight = 0
-        if self.chatEditor.currentStatus == .text {
-            self.chatEditor.currentStatus = .none
+        if self.currentStatus == .text {
+            self.currentStatus = .none
         }
     }
     
@@ -326,9 +333,10 @@ extension KKChatBarViewController: ChatFootMenuDelegate {
             openPhotoLibaray(UIImagePickerControllerSourceType.photoLibrary)
         case .camera:
             openPhotoLibaray(UIImagePickerControllerSourceType.camera)
-        case .product:
-            break
+        default: // 发出没有过滤的事件
+            self.delegate?.chatBarMenuAction(type: type)
         }
+        self.currentStatus = EditorStatus.none
     }
 }
 

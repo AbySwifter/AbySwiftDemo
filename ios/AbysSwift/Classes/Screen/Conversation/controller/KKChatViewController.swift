@@ -220,11 +220,12 @@ extension KKChatViewController: KKChatBarViewControllerDelegate{
 		}
 		messageVC.scrollToBottom(true)
 	}
-
+    /// 底部编辑栏发送消息
 	func chatBar(send message: Message) {
+        // 发送的消息插入到列表里面
 		self.messageVC.instert(message)
 	}
-	
+	// 底部录音按钮发送消息
     func chatBarRecordButton(event: RecordEvent) {
         switch event {
         case .start:
@@ -235,18 +236,36 @@ extension KKChatViewController: KKChatBarViewControllerDelegate{
             self.recordStatusChange(status: event)
         }
     }
-        
+    // 底部菜单点击事件
+    func chatBarMenuAction(type: ChatFootMenuTag) {
+        ABYPrint("点击了\(type)")
+        switch type {
+        case .product:
+            pushProductViewController()
+        default:
+            break
+        }
+    }
 	/**
 	* 监听从messageBus分发的消息
 	*/
 	func messageBus(_ message: Message, sendStatus: DeliveryStatus) {
 		self.messageVC.update(message, status: sendStatus)
 	}
-
+    /// FIXME: 在这里监听和过滤一些其他的消息
 	func messageBus(on message: Message) {
-		// 来了消息之后插入列表
-		self.messageVC.instert(message)
+        // 消息过滤
+        if message.messageType != MessageType.custom {
+            // 来了消息之后插入消息列表
+            self.messageVC.instert(message)
+        }
 	}
+    
+    /// 退出productViewController
+    func pushProductViewController() -> Void {
+        let productVC = ProductViewController()
+        self.navigationController?.pushViewController(productVC, animated: true)
+    }
 }
 
 // MARK: - 录音事件

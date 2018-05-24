@@ -139,6 +139,7 @@ class Account {
 			print(error)
 		}
 		ABYSocket.manager.loginOut()
+        ABYRealmManager.instance.clearStore() // 清空数据库
 		NotificationCenter.default.post(name: logoutName, object: nil)
 	}
 	// MARK: -私有方法

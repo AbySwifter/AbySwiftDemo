@@ -170,6 +170,9 @@ extension ABYSocket {
         if !webSocket.isConnected {
             ABYPrint("加入房间的时候，没有连接上Socket")
             connect()
+            getSessionID()
+            let options = SocketSendOptions.init(path: "api/ims/join_group'", query: "")
+            self.send(options: options, body: ["room_id": "\(room)"])
         } else {
             getSessionID()
             let options = SocketSendOptions.init(path: "api/ims/join_group'", query: "")

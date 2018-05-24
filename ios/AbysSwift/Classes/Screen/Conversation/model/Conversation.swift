@@ -29,6 +29,8 @@ class Conversation: HandyJSON {
 	var message_read_count = 0
 	var message_list: Array<Message> = [] // 当前会话的消息列表
 
+    var timeOffset: Int = 0 // 时间偏移量(只存储在本地)
+    
 	// MARK: -本地属性，用于处理本地的一些任务
 	// 代理方法，用来改变Cell的东西
 	var delegate: ConversationDelegate?
@@ -44,7 +46,11 @@ class Conversation: HandyJSON {
 	var activeTime: Int = 0 // 客服开始恢复的时间
 	var type: ConversationType = .NormalType // 会话类型
 	var inService: Bool = false; // 是否正在服务中
-
+    // 存储管理员
+    let store: ABYRealmManager = {
+        return ABYRealmManager.instance
+    }()
+    
 	// MARK: -Computed property
 	/// 会话消息总数
 	var totalCount: Int {
@@ -68,8 +74,11 @@ class Conversation: HandyJSON {
 			string = "[语音消息]"
 		case .text:
 			string = lastMessage?.content?.text ?? ""
+        case .sysAlertMessage:
+            string = lastMessage?.content?.text ?? ""
 		default:
-			string = "[未知消息类型]" // 避免未出现的消息类型
+//            string = "[未知消息类型]" // 避免未出现的消息类型
+            string = lastMessage?.content?.text ?? "[未知类型的消息]"
 		}
 		return string
 	}
@@ -102,10 +111,12 @@ class Conversation: HandyJSON {
 	var tickTock: String {
 		let date = Date.init()
 		let join = TimeInterval.init(joinTime)
-		let duration = date.timeIntervalSince1970 - join/1000
+		let duration = date.timeIntervalSince1970 - join/1000 + Double.init(self.timeOffset)
+//        ABYPrint("joinTime: \(join) duration: \(date.timeIntervalSince1970)")
 		let hour = floor(duration / 3600) // 小时数
 		let min = floor(duration / 60).truncatingRemainder(dividingBy: 60) // 分钟数
 		let sec = floor(duration.truncatingRemainder(dividingBy: 60)) // 秒数
+//        ABYPrint("hour \(hour) min\(min) sec \(sec)")
 		if hour != 0 {
 			return "\(Int(hour))h\(Int(min))m\(Int(sec))s"
 		} else if min != 0 {
@@ -139,6 +150,11 @@ class Conversation: HandyJSON {
 		self.joinTime = message.msg_timestamp ?? 0
 		self.lastMessage = message
         self.message_list = [message]
+        if let time = message.msg_timestamp {
+            let duration = TimeInterval.init(time)
+            let offset = ceil(duration/1000 - Date.init().timeIntervalSince1970)
+            self.timeOffset = Int(offset)
+        }
 	}
     
     /// 从数据库初始化对象
@@ -152,6 +168,8 @@ class Conversation: HandyJSON {
         self.joinTime = UInt64(object.join_time)
         self.lastMessage = Message.init(messageObject: object.lastMessage)
         self.message_list = object.messages // 通过计算属性返回
+        self.room_id = Int16(object.room_id)
+        self.timeOffset = object.timeOffset // 读取时间差
     }
 
 	// MARK: -自定义消息格式
@@ -166,6 +184,7 @@ class Conversation: HandyJSON {
 		mapper >>> self.inService
 		mapper >>> self.time
 		mapper >>> self.nativeReadCount
+        mapper >>> self.timeOffset // 排除时间差的属性
 	}
     
     /// 转化为数据库存储对象
@@ -177,8 +196,15 @@ class Conversation: HandyJSON {
         obj.activeTime = Int(self.activeTime)
         obj.lastMessage = self.lastMessage?.toObject()
         obj.message_read_count = self.message_read_count
+        obj.room_id = Int(self.room_id)
+        obj.timeOffset = self.timeOffset
         for msg in self.message_list {
-            obj.message_list.append(msg.toObject())
+            // 根据MessageID进行筛选
+            if !obj.message_list.contains(where: { (obj) -> Bool in
+                return obj.messageID == msg.messageID
+            }) {
+                 obj.message_list.append(msg.toObject())
+            }
         }
         return obj
     }
@@ -194,11 +220,13 @@ extension Conversation {
 		ABYNetworkManager.shareInstance.aby_request(request: UserRouter.request(api: UserAPI.endService, params: params), callBack: { (result) -> (Void) in
 			if let res = result {
 				ABYPrint("\(res)")
-			}
-			complete(true, nil)
+                complete(true, nil)
+            } else {
+                complete(false, nil)
+            }
 		}) { (error) -> (Void) in
 			ABYPrint("\(error)")
-			complete(false, nil)
+			
 		}
 	}
 }

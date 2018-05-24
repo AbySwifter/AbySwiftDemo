@@ -24,6 +24,8 @@ enum MSG_ELEM: String, HandyJSONEnum {
 	case sysServiceTimeout = "SYS_SERVICE_TIMEOUT" // 服务超时
 	case sysServiceWaitCount = "SYS_SERVICE_WAIT_COUNT" // 等待队列消息
     case sysAlertMessage = "SYS_ALERT_MESSAGE" // 该用户已经离开服务
+    // custom
+    case customBotReply = "BOT_REPLY_ELEM" // 自动回复的消息，无需保存，无需记录，过滤掉
 	// product
 	case productContentVoyage = "PRODUCT_VOYAGE_ELEM"
 	case productCabinElem = "PRODUCT_CABIN_ELEM"
@@ -73,10 +75,16 @@ struct ImageSize: HandyJSON {
         self.init(width: w, height: h)
     }
     // 转化为数据库对象
-    func toObject() -> ImageSizeObject {
+    func toObject() -> ImageSizeObject? {
+        guard let width = self.width else {
+            return nil
+        }
+        guard let height = self.height else {
+            return nil
+        }
         let obj = ImageSizeObject.init()
-        obj.width = Float(self.width ?? 0)
-        obj.height = Float(self.height ?? 0)
+        obj.width = Float(width)
+        obj.height = Float(height)
         return obj
     }
 }

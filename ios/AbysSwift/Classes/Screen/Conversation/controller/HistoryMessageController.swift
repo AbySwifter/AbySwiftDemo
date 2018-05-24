@@ -41,6 +41,7 @@ class HistoryMessageController: ABYBaseViewController {
 }
 
 extension HistoryMessageController {
+    /// 分页加载历史记录
     func getHistoryList() -> Void {
         guard !self.end || self.totalCount == -1 else {
             messageVC.chatListView.mj_header.state = .noMoreData
@@ -50,7 +51,8 @@ extension HistoryMessageController {
             "room_id": self.room_id,
             "order": "desc",
             "page" : self.page,
-            "page_size": 10
+            "page_size": 10,
+            "current_id": Account.share.current_id,
         ]
         self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.historyList, params: params)) { (json) -> (Void) in
             if let res = json {

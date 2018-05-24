@@ -28,7 +28,8 @@ class ProductViewController: ABYBaseViewController {
     
 	func createReactNativeView() {
 		let jsCodeLocation = URL.init(string: "http://localhost:8081/index.bundle?platform=ios")
-		let mockData: NSDictionary = ["routeName":"Main"
+		let mockData: NSDictionary = [
+            "routeName":"Main"
 		]
 		let rootView = RCTRootView(bundleURL: jsCodeLocation!, moduleName: "ABYSwiftDemo", initialProperties: mockData as [NSObject: AnyObject], launchOptions: nil)
 		self.view = rootView!

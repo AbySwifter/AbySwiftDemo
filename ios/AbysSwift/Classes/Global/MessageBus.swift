@@ -29,7 +29,7 @@ class MessageBus: ABYSocketDelegate {
 	static let distance = MessageBus.init()
 	private init() {}
 	var delegate: MessageBusDelegate?
-
+    var delegates: [MessageBusDelegate] = []
 	var convManager: ConversationManager {
 		return ConversationManager.distance
 	}
@@ -37,7 +37,12 @@ class MessageBus: ABYSocketDelegate {
     let store: ABYRealmManager = {
         return ABYRealmManager.instance
     }()
+    /// 正在服务的房间
+    var atService: Int16 {
+        return self.convManager.atService
+    }
     
+    /// 从Socket接受数据的唯一接口
 	func onMessage(message: JSON) {
 		guard let dictionary = message.dictionaryObject else { return }
 		guard let msgModel = Message.deserialize(from: dictionary) else { return }
@@ -55,9 +60,15 @@ class MessageBus: ABYSocketDelegate {
 		}
 		// 处理房间的消息(公共业务： 保存消息，更新消息总数#2)
 		if msgModel.room_id != nil && msgModel.room_id != 0 {
+            // 先过滤消息，再分发消息
 			if msgModel.content?.type == MSG_ELEM.sysServiceEnd {
-				// 排除掉服务结束的消息
-			} else {
+				// 排除掉服务结束的消息，收到结束服务的消息，需要让回话弹出并结束
+                ABYPrint("收到服务结束的消息：\(msgModel.toJSON() ?? ["msg":"空的json转化"])")
+            } else if msgModel.messageType == MessageType.custom {
+                // 收到的是自定义消息， 需要过滤(1、不需要存储。2、不需要展示？看下产品信息的状态)
+            } else {
+                // 存储时机要对，先存储，再更新
+                self.store.update(message: msgModel) // 来的消息存起来
 				// 区分是否为自己发出去的消息
 				if msgModel.isKH == 0 && msgModel.sender?.sessionID == self.session_id {
 					// 自己发出去的消息需要更新发送状态
@@ -69,9 +80,10 @@ class MessageBus: ABYSocketDelegate {
                     if msgModel.content?.type == .voice {
                         msgModel.isPlayed = false // 刚进入的消息自动设置为未播放
                     }
-					delegate(on: msgModel)
+                    // 仅分发当前代理的消息
+                    delegate(on: msgModel) // 分发除了结束服务之外的消息
 				}
-                self.store.update(message: msgModel) // 来的消息存起来
+                self.convManager.messageBus(on: msgModel) // 将所有消息分发到会话列表，由会话列表进行进一步处理
 			}
 		}
 
@@ -90,30 +102,41 @@ class MessageBus: ABYSocketDelegate {
 	/// - Parameters:
 	///   - message: 分发的消息
 	private func delegate(on message: Message) -> Void {
-		self.convManager.messageBus(on: message) // 分发给会话列表
-		self.delegate?.messageBus(on: message) // 分发给其他的代理者（只有一个，同一时期）
+        if let room_id = message.room_id {
+            guard room_id == self.atService else { return }
+            self.delegate?.messageBus(on: message) // 分发给其他的代理者（只有一个，同一时期）
+        }
 	}
 }
 
 extension MessageBus {
 	// 发送消息
 	func send(message: Message) -> Void {
-//        self.store.update(message: message)
+        /// 首先简单存储消息，暂时不与会话关联，然后等到消息发送成功了以后，再与会话关联
         self.store.simpleUpdate(message: message)
 		ABYSocket.manager.send(message: message)
 	}
 	// 加入房间
 	func joinRoom(_ room_id:Int16) -> Void {
+        // FIXME: 提示加入房间失败
 		ABYSocket.manager.join(room: room_id)
 	}
-
+    // 添加代理
 	func addDelegate(_ delegate: MessageBusDelegate) -> Int {
 		self.delegate = delegate
-		return 0
+//        self.delegates.append(delegate)
+//        return self.delegates.count
+        return 0
 	}
 
-	func removeDelegate(index: Int?) -> Void {
-		self.delegate = nil
+    // 移除代理
+    func removeDelegate(index: Int) -> Void {
+//        if index>=0 && index < self.delegates.count {
+//            self.delegates.remove(at: index)
+//        } else {
+//            ABYPrint("移除代理失败")
+//        }
+        self.delegate = nil
 	}
 }
 

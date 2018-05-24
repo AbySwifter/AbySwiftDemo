@@ -36,7 +36,7 @@ class ConversationCell: UITableViewCell, ConversationDelegate {
 		self.setupUI()
 		self.selectionStyle = .default
 	}
-
+    
 	// MARK: - 数据设置自身的显示数据
 	func setCellWith(model: Conversation) -> Void {
 		self.userName.text = model.name
@@ -69,7 +69,8 @@ class ConversationCell: UITableViewCell, ConversationDelegate {
 		userName.textColor = UIColor.init(hexString: "333333")
 		self.contentView.addSubview(timeText)
 		timeText.numberOfLines = 1
-//		timeText.backgroundColor = UIColor.green
+        timeText.font = UIFont.systemFont(ofSize: W750(24.0))
+        timeText.textColor = UIColor.init(hexString: "666666") //时间展示的颜色
 		timeText.textAlignment = .right
 		self.contentView.addSubview(contentText)
 		contentText.numberOfLines = 1
