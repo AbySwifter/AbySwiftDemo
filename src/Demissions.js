@@ -22,7 +22,7 @@ const STANDARD_WIDTH = 750;
 
 // 根据屏幕宽度的标准，转换设计图的尺寸
 // TODO: 决定是否更换基准
-function W(number) {
+function W750(number) {
     if (number === 'minPix') {
         return pixel;
     } else {
@@ -38,4 +38,4 @@ export default {
     ScreenW,
 };
 
-export { W }
+export { W750 }

@@ -83,8 +83,19 @@ class KKChatViewController: ABYBaseViewController, MessageBusDelegate {
         let recordingV = KKChatVoiceView.init(frame: CGRect.zero)
         recordingV.isHidden = true
         return recordingV
+    }()    
+    lazy var back: ABYBackItem = {
+        let back = ABYBackItem.init(title: backTitle, titleColor: UIColor.black, icon: #imageLiteral(resourceName: "chat_back_icon"))
+        back.addTarget(self, action: #selector(popToLast), for: .touchUpInside)
+        return back
     }()
-
+    var backTitle: String {
+        if self.conversationManger.unreadTotal != 0 {
+            return "侃侃(\(self.conversationManger.unreadTotal))"
+        } else {
+            return "侃侃"
+        }
+    }
     // MARK:- 记录属性
     var finishRecordingVoice: Bool = true   // 决定是否停止录音还是取消录音
     
@@ -93,14 +104,9 @@ class KKChatViewController: ABYBaseViewController, MessageBusDelegate {
 		self.view.backgroundColor = UIColor.white
 		setup()
         registerNotification() // 注册通知
-        // Do any additional setup after loading the view.
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: back)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//         setWhiteNavigationBar()
-    }
-	
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setWhiteNavigationBar()
@@ -108,13 +114,21 @@ class KKChatViewController: ABYBaseViewController, MessageBusDelegate {
         chatBarVC.addNotification()
         _ = MessageBus.distance.addDelegate(self)
         conversationManger.change(atService: (conversation?.room_id) ?? -1, status: true)
+         back.set(title: backTitle)
     }
     
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
         chatBarVC.removeNotification()
 		conversationManger.change(atService: (conversation?.room_id) ?? -1, status: false)
+       
 	}
+    
+    @objc
+    func popToLast() -> Void {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     /// 弹出了右上角菜单
 	@objc
 	func popMenu(_ item: UIBarButtonItem) -> Void {
@@ -259,6 +273,7 @@ extension KKChatViewController: KKChatBarViewControllerDelegate{
             // 来了消息之后插入消息列表
             self.messageVC.instert(message)
         }
+        back.set(title: backTitle) // 更新视图信息
 	}
     
     /// 退出productViewController

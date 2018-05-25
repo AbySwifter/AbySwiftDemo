@@ -28,8 +28,8 @@ extension MessageBusDelegate {
 class MessageBus: ABYSocketDelegate {
 	static let distance = MessageBus.init()
 	private init() {}
-	var delegate: MessageBusDelegate?
-    var delegates: [MessageBusDelegate] = []
+	var delegate: MessageBusDelegate? // 针对会话处理的代理
+//    var delegates: [MessageBusDelegate] = []
 	var convManager: ConversationManager {
 		return ConversationManager.distance
 	}

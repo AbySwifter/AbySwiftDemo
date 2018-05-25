@@ -17,7 +17,6 @@ class ConversationObject: Object {
     
     @objc dynamic var isEnded: Bool = false // 标记会话是否结束的字段,目前暂时只在本地存储
     @objc dynamic var atService: Int = -1 // 默认不在服务
-    
     @objc dynamic var timeOffset: Int = 0 // 会话时间差，只存储在本地
     
     @objc dynamic var lastMessage: MessageObject?

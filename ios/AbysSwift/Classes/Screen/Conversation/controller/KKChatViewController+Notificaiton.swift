@@ -13,6 +13,7 @@ extension KKChatViewController {
     /// 注册通知
     func registerNotification() -> Void {
         NotificationCenter.default.addObserver(self, selector: #selector(showImages(_:)), name: NSNotification.Name.init(kNoteImageCellTap), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeTitle), name: Notification.Name.init(LIST_UPDATE), object: nil)
     }
     
     @objc
@@ -29,5 +30,10 @@ extension KKChatViewController {
             imageVC.cc_swipeBackDisabled = true
             self.present(imageVC, animated: true, completion: nil)
         }
+    }
+    
+    @objc
+    fileprivate func changeTitle() -> Void {
+        self.back.set(title: backTitle) // 设置标题
     }
 }

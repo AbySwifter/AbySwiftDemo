@@ -11,12 +11,12 @@ import {
     NativeModules,
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator'; // 动画的导入
 
 import MainScreen from './SelectDatePage';
 
+// 这里在mobx的Provide中提供RootStore
 import { Provider } from 'mobx-react';
-import store from './CalendarDataStore';
 
 const routes = {
     Main: {
@@ -84,7 +84,7 @@ class APP extends Component {
     render() {
         const NavigatorAPP = this.initRoute(this.props);
         return (
-            <Provider rootStore={store}>
+            <Provider >
                 <NavigatorAPP />
             </Provider>
         );

@@ -116,7 +116,10 @@ extension ABYRealmManager {
                 let msgObj = message.toObject()
                 realm.add(msgObj, update: true)
                 // 如果不包含这条消息, 包含这条消息的意义是更新了消息的状态
-                if !conversation!.message_list.contains(msgObj) {
+                let isExist = conversation!.message_list.contains { (obj) -> Bool in
+                    return obj.messageID == msgObj.messageID
+                }
+                if !isExist {
                     conversation!.message_list.append(msgObj)
                     conversation!.lastMessage = msgObj
                 }

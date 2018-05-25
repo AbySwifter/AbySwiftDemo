@@ -37,7 +37,7 @@ class ABYNavigationController: UINavigationController {
 		if viewControllers.count > 0 {
 			// push 后隐藏 tabbar
 			viewController.hidesBottomBarWhenPushed = true
-//			viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "checkUserType_backward_9x15_"), style: .plain, target: self, action: #selector(navigationBackClick))
+//            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "chat_back_icon"), style: .plain, target: self, action: #selector(navigationBackClick))
 		}
 		super.pushViewController(viewController, animated: animated)
 	}

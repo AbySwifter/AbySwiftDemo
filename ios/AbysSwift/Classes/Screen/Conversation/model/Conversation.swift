@@ -34,7 +34,7 @@ class Conversation: HandyJSON {
 	// MARK: -本地属性，用于处理本地的一些任务
 	// 代理方法，用来改变Cell的东西
 	var delegate: ConversationDelegate?
-	var nativeReadCount: Int = 0 // 记录本地已读数
+    var nativeReadCount: Int = 0 // 记录本地已读数 FIXME: 这个消息暂时没有用到
 	var lastMessage: Message? {
 		didSet {
 			if lastMessage != nil {

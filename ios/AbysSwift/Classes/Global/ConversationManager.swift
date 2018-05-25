@@ -10,10 +10,12 @@ import UIKit
 import SwiftyJSON
 
 let MSG_NOTIFICATION = "msg_event_notification"
+let LIST_UPDATE = "ListUpdate"
 /// 会话管理类: 用来管理整个APP会话的生命周期与各个会话的消息分发
-class ConversationManager {
+class ConversationManager : NSObject {
 	static let distance = ConversationManager.init()
-	private init() {
+    private override init() {
+        super.init()
         self.refreshList() // 初始化的时候刷新列表
     }
 	// 网络管理类
@@ -36,7 +38,18 @@ class ConversationManager {
 			}
 		}
 	}
-
+    
+    /// 总的未读计数
+    var unreadTotal: Int {
+        var totalCount: Int = 0
+        for (key, item) in self.conversations {
+            if key != self.atService {
+                totalCount += item.unreadCount
+            }
+        }
+        return totalCount
+    }
+    
 	// MessageBus的实例，用来发送消息
 	var bus: MessageBus {
 		return MessageBus.distance
@@ -52,22 +65,11 @@ class ConversationManager {
 
 	func updataConversationList(_ message: Message) -> Void {
 		guard let room_id = message.room_id else { return }
-//        let isHanve = conversations.keys.contains(room_id)
-//        if isHanve {
-//            // 已经存在房间
-//            let conversation = self.conversations[room_id]
-//            //加入房间的聊天列表去
-//            conversation?.message_list.append(message)
-//            conversation?.lastMessage = message
-//        } else {
-//            // 不存在房间，创建房间并添加到房间的字典中去
-//            createConversation(width: message)
-//            self.dataSource?.conversationListUpdata()
-//        }
         // 根据消息更新数据库
-//        self.store.update(message: message)
         self.conversations[room_id] = self.store.getConversation(room_id: Int(room_id))
         self.dataSource?.conversationListUpdata()
+        // 每次更新会话列表的时候，跟新相关信息
+        NotificationCenter.default.post(name: Notification.Name.init(LIST_UPDATE), object: nil)
 	}
 
 	// 通过消息创建会话（场景：新来会话的时候）
@@ -122,10 +124,15 @@ extension ConversationManager {
 		guard let current = self.conversations[roomID] else { return }
 		if status {
 			// 服务房间： 1、本地已读数为 全部。2 、会话未读数为 0
-			current.message_read_count = current.totalCount
 			self.atService = roomID
 			// 发送加入房间的消息
 			bus.joinRoom(roomID)
+            // 先更新本地会话已读数量
+            let count = self.store.getConversationListCount(room_id: Int(current.room_id)) ?? current.totalCount
+            current.message_read_count = count
+            // 更新本地已读会话数量
+            self.store.updateConversation(room_id: Int(current.room_id), count: count)
+            reportRead(count: count, room_id: current.room_id) // 然后上报
 		} else {
 			// 上报已读数量
             let count = self.store.getConversationListCount(room_id: Int(current.room_id)) ?? current.totalCount

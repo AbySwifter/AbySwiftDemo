@@ -130,7 +130,14 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 	// MARK: -ConversationManger的代理方法
 	func conversationListUpdata() {
 		self.tableview.reloadData()
-        self.tableview.mj_header.endRefreshing()
+        if self.tableview.mj_header.isRefreshing {
+            self.tableview.mj_header.endRefreshing()
+        }
+        if conversationManager.unreadTotal == 0 {
+            self.tabBarItem.badgeValue = nil
+        } else {
+             self.tabBarItem.badgeValue = "\(conversationManager.unreadTotal)"
+        }
 	}
 
 	func waitNumberUpdata(number: Int) {
@@ -186,6 +193,7 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 		let model: Conversation =	conversationManager.conversations[keys[indexPath.row]]!
 		let chatViewController = KKChatViewController()
 		chatViewController.conversation = model
+        model.message_read_count = model.totalCount // 设置本地已读数
 		navigationController?.pushViewController(chatViewController, animated: true)
 	}
 }
