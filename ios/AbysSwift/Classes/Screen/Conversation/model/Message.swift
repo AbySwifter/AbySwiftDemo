@@ -8,7 +8,7 @@
 
 import UIKit
 import HandyJSON
-
+import SwiftyJSON
 
 /// 消息类型枚举
 ///
@@ -19,6 +19,8 @@ enum MessageType: String, HandyJSONEnum {
 	case sys = "SYS_TYPE"
 	case chat = "CHAT_TYPE"
 	case custom = "CUSTOM_TYPE"
+    // 文章消息
+    case article = "ARTICLE_MSG"
 }
 
 enum DeliveryStatus: String {
@@ -173,6 +175,26 @@ extension Message {
         self.content = elem
     }
     
+    convenience init(custom content: String, room_id: Int16, isKH: Bool = false) {
+        self.init()
+        let json = JSON.init(parseJSON: content) // 从jsonString中解析
+        self.messageType = MessageType.custom
+        self.sender = MsgSender.init(isKH: isKH)
+        guard let elemType = json["elemType"].string else { return }
+        guard let type = MSG_ELEM.init(rawValue: elemType) else { return }
+        guard let contentData = try? json["content"].rawData(options: []) else { return }
+        let contentStr = String.init(data: contentData, encoding: .utf8)
+        self.content = MessageElem.init()
+        self.content?.type = type
+        self.content?.product = contentStr
+        self.content?.text = json["text"].string
+        let timeNum = (Date.init().timeIntervalSince1970) * 1000
+        self.timestamp = UInt64.init(timeNum)
+        self.isKH = isKH ? 1 : 0
+        self.room_id = room_id
+        self.messageID = newGUID() // 生成消息ID
+    }
+    
     ///从数据库初始化消息
     convenience init(messageObject: MessageObject?) {
         self.init()
@@ -276,6 +298,7 @@ extension Message {
         guard let type = self.content?.type else { return }
         self.deliveryStatus = .delivering
         self.delegate?.messageStatusChange(self.deliveryStatus)
+        self.updateTime()
         var time = 5.0
         switch type {
         case .text:
@@ -287,6 +310,7 @@ extension Message {
             self.uploadImage()
             time = 10.0
         default:
+            self.send()
             break
         }
         let timeout = DispatchTime.now() + time
@@ -301,6 +325,11 @@ extension Message {
 
     private func send() -> Void {
        MessageBus.distance.send(message: self)
+    }
+    
+    private func updateTime() -> Void {
+        let timeNum = (Date.init().timeIntervalSince1970 + 40) * 1000
+        self.timestamp = UInt64.init(timeNum)
     }
 }
 

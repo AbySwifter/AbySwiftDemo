@@ -9,8 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-let MSG_NOTIFICATION = "msg_event_notification"
-let LIST_UPDATE = "ListUpdate"
+
 /// 会话管理类: 用来管理整个APP会话的生命周期与各个会话的消息分发
 class ConversationManager : NSObject {
 	static let distance = ConversationManager.init()
@@ -30,6 +29,7 @@ class ConversationManager : NSObject {
 	// 直接跟数据有关的属性
 	var notificationArray: Array<Conversation> = [] // 存放通知消息的Array
 	var conversations: Dictionary<Int16, Conversation> = [:] // 存放会话信息的Array
+    var recommendReply: Dictionary<Int16, Message> = [:] // 记录推荐回复的话术
 	var dataSource: ConversationManagerDeleagate?
 	var waitCount: Int = 0 {
 		didSet {
@@ -166,6 +166,7 @@ extension ConversationManager {
     func removeConversation(room_id: Int16) -> Void {
         if self.atService == room_id {
             //FIXME: 如果要删除的房间正在服务中，必须退出房间再删除
+            ABYPrint("正在服务中的用户收到了会话超时的消息")
         }
         self.conversations[room_id] = nil
         self.store.removeConversation(roomID: room_id)
@@ -193,6 +194,10 @@ extension ConversationManager {
 		let msgModel = message
 		if msgModel.room_id != nil && msgModel.room_id != 0 {
 			updataConversationList(msgModel)
+            if msgModel.room_id! == self.atService {
+                self.conversations[self.atService]?.message_read_count += 1
+                self.store.updateConversation(room_id: Int(self.atService), count:  (self.conversations[self.atService]?.message_read_count)!)
+            }
 		}
 	}
 }
@@ -202,4 +207,6 @@ protocol ConversationManagerDeleagate {
 	func conversationListUpdata() -> Void
 	func waitNumberUpdata(number: Int) -> Void
 	func updateFail(_ error: Error?, _ message: String?) -> Void
+    
 }
+

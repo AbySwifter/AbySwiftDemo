@@ -44,7 +44,11 @@ let kKeyboardChangeFrameTime: TimeInterval = 0.25
 let kNoTextKeyboardHeight: CGFloat = 216.0
 
 class KKChatBarViewController: UIViewController {
-	var delegate: KKChatBarViewControllerDelegate?
+    var delegate: KKChatBarViewControllerDelegate? {
+        didSet {
+            ABYPrint("设置了代理\(delegate)")
+        }
+    }
     var pageViewController: UIViewController
     /// 聊天底部编辑栏
     lazy var chatEditor: KKChatEditorView = {
@@ -93,6 +97,14 @@ class KKChatBarViewController: UIViewController {
     var originHeight: CGFloat {
         return iPhoneHeight + editBarHeight + keyboardHeight
     }
+    
+    lazy var tips: UILabel = {
+        let label = UILabel.init()
+        label.font = UIFont.systemFont(ofSize: 14.0)
+        label.textColor = ABYGlobalThemeColor()
+        label.text = "有新推荐"
+        return label
+    }()
    
     /// 计算属性，处理消息的编辑状态
     var currentStatus: EditorStatus {
@@ -139,6 +151,14 @@ class KKChatBarViewController: UIViewController {
             make.left.right.bottom.equalTo(self.view)
             make.height.equalTo(iPhoneHeight)
         }
+        view.addSubview(tips)
+        tips.snp.makeConstraints { (make) in
+            make.right.equalTo(self.view.snp.right).offset(-15)
+            make.bottom.equalTo(self.view.snp.top).offset(-5)
+        }
+        tips.sizeToFit()
+        tips.isHidden = true
+        view.clipsToBounds = false
     }
 
     func addNotification() -> Void {
@@ -153,10 +173,46 @@ class KKChatBarViewController: UIViewController {
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-    /// 发送消息的总入口
+    /// 发送消息的总入口（在当前会话）
     func sendMessage(_ message: Message) -> Void {
         message.deliver() // 发送消息
         self.delegate?.chatBar(send: message)
+    }
+    
+    func showTips() -> Void {
+        self.tips.isHidden = false
+        let alphaAnimation = CABasicAnimation.init(keyPath: "opacity")
+        alphaAnimation.fromValue = 0.0
+        alphaAnimation.toValue = 1.0
+        alphaAnimation.duration = 0.5
+        alphaAnimation.beginTime = 0.0
+        let alphaAnimation_2 = CABasicAnimation.init(keyPath: "opacity")
+        alphaAnimation_2.fromValue = 1.0
+        alphaAnimation_2.toValue = 0.0
+        alphaAnimation_2.duration = 0.5
+        alphaAnimation_2.beginTime = 1.0
+        let group = CAAnimationGroup.init()
+        group.animations = [alphaAnimation, alphaAnimation_2]
+        group.duration = 1.5
+        group.repeatCount = 1
+        group.delegate = self
+        group.fillMode = kCAFillModeForwards
+        self.tips.layer.add(group, forKey: nil)
+    }
+    
+    func hiddenTip(_ hidden: Bool) {
+        self.chatEditor.showTip = !hidden
+        self.moreBoard.changeTips(who: [.speakRoutine], status: hidden)
+    }
+}
+
+extension KKChatBarViewController: CAAnimationDelegate {
+    func animationDidStart(_ anim: CAAnimation) {
+        self.tips.layer.opacity = 1.0
+    }
+    
+    func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        self.tips.layer.opacity = 0.0
     }
 }
 

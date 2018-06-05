@@ -27,7 +27,7 @@ import UIKit
 import AVFoundation
 import Photos
 
-class KKChatViewController: ABYBaseViewController, MessageBusDelegate {
+class KKChatViewController: ABYBaseViewController {
     /// 会话管理者
     var conversationManger: ConversationManager {
 		return ConversationManager.distance
@@ -48,18 +48,31 @@ class KKChatViewController: ABYBaseViewController, MessageBusDelegate {
 	}()
     /// 当前会话
 	var conversation: Conversation?
-	
+	/// 提示消息
+    var tipMessage: Message?
+    ///是否显示提示
+    var isShowtips: Bool {
+        get {
+            return tipMessage != nil
+        }
+        set {
+            if !newValue {
+                tipMessage = nil
+            }
+        }
+    }
     /// 输入控制器
 	lazy var chatBarVC: KKChatBarViewController = {
 		let room_id = conversation?.room_id ?? 0
         let barVC = KKChatBarViewController.init(roomID: room_id, page: self)
-		self.view.addSubview(barVC.view)
-		barVC.view.snp.makeConstraints({ (make) in
-			make.bottom.equalTo(self.view.snp.bottom)
-			make.width.equalToSuperview()
-			make.centerX.equalToSuperview()
-			make.height.equalTo(barVC.originHeight)
-		})
+        barVC.delegate = self
+        self.view.addSubview(barVC.view)
+        barVC.view.snp.makeConstraints({ (make) in
+            make.bottom.equalTo(self.view.snp.bottom)
+            make.width.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.height.equalTo(barVC.originHeight)
+        })
 		return barVC
 	}()
     
@@ -98,34 +111,39 @@ class KKChatViewController: ABYBaseViewController, MessageBusDelegate {
     }
     // MARK:- 记录属性
     var finishRecordingVoice: Bool = true   // 决定是否停止录音还是取消录音
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 		self.view.backgroundColor = UIColor.white
 		setup()
-        registerNotification() // 注册通知
+        BaseBridgeCenter.center.delegate = self
         self.navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: back)
+        conversationManger.change(atService: (conversation?.room_id) ?? -1, status: true)
+        back.set(title: backTitle)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setWhiteNavigationBar()
+        registerNotification() // 注册通知
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
-        chatBarVC.addNotification()
+        chatBarVC.addNotification() // 这些通知和UI的交互有关系, 建议只存在于视图出现的情况
         _ = MessageBus.distance.addDelegate(self)
-        conversationManger.change(atService: (conversation?.room_id) ?? -1, status: true)
-         back.set(title: backTitle)
     }
     
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
         chatBarVC.removeNotification()
-		conversationManger.change(atService: (conversation?.room_id) ?? -1, status: false)
-       
+        removeNotification()
 	}
+   
+    deinit {
+        ABYPrint("KKChatViewController，走了deinit的方法")
+    }
     
     @objc
     func popToLast() -> Void {
+        conversationManger.change(atService: (conversation?.room_id) ?? -1, status: false)
+        BaseBridgeCenter.center.delegate = nil
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -206,8 +224,8 @@ extension KKChatViewController {
 		navigationItem.title = conversation?.name ?? ""
 		// 设置右侧按钮
 		createRightBtnItem(icon: #imageLiteral(resourceName: "chat_right_icon"), method: #selector(popMenu(_ :)))
-		chatBarVC.delegate = self
         messageVC.delegate = self
+        chatBarVC.hiddenTip(!isShowtips)
         // 添加子视图
         self.view.addSubview(recordingView)
         // 布局
@@ -216,11 +234,37 @@ extension KKChatViewController {
             make.bottom.equalTo(self.view.snp.bottom).offset(-100)
             make.left.right.equalTo(self.view)
         }
+        view.bringSubview(toFront: chatBarVC.view)
+        // 设置其他代理
 	}
+    /// 打开产品页面
+    func pushProductViewController() -> Void {
+        let productVC = ProductViewController()
+        self.navigationController?.pushViewController(productVC, animated: true)
+    }
+    
+    /// 打开话术推荐页面
+    func pushReplyViewController() -> Void {
+        let replayVC = ReplayViewController()
+        replayVC.message = self.tipMessage
+        self.conversationManger.recommendReply[self.conversation?.room_id ?? 0] = nil
+        self.chatBarVC.hiddenTip(true)
+        replayVC.sendAction = {(text: String) -> Void in
+            guard let roomid = self.conversation?.room_id else {
+                return
+            }
+            let message = Message.init(text: text, room_id: roomid)
+            self.chatBarVC.sendMessage(message)
+            // 发送出去之后要清空数据
+            self.tipMessage = nil
+            self.conversationManger.recommendReply[roomid] = nil
+        }
+        self.navigationController?.pushViewController(replayVC, animated: true)
+    }
 }
 
 // MARK: - delegate
-extension KKChatViewController: KKChatBarViewControllerDelegate{
+extension KKChatViewController: KKChatBarViewControllerDelegate, MessageBusDelegate{
     /// 底部高度改变的回调方法
     ///
     /// - Parameter height: 改变的高度
@@ -256,6 +300,8 @@ extension KKChatViewController: KKChatBarViewControllerDelegate{
         switch type {
         case .product:
             pushProductViewController()
+        case .speakRoutine:
+            pushReplyViewController()
         default:
             break
         }
@@ -276,10 +322,23 @@ extension KKChatViewController: KKChatBarViewControllerDelegate{
         back.set(title: backTitle) // 更新视图信息
 	}
     
-    /// 退出productViewController
-    func pushProductViewController() -> Void {
-        let productVC = ProductViewController()
-        self.navigationController?.pushViewController(productVC, animated: true)
+    func messageBus(onCustom message: Message) {
+        // 收到自定义消息
+        if message.content?.type == MSG_ELEM.customBotReply {
+            self.chatBarVC.showTips()
+            self.tipMessage = message
+            self.chatBarVC.hiddenTip(!isShowtips)
+        }
+        if message.content?.type == MSG_ELEM.customproductReply {
+            ABYPrint("产品回复：\(message.content?.product ?? "空的产品信息")")
+        }
+    }
+    
+    func messageBus(onEvent message: Message) {
+        // 收到事件消息
+        if message.content?.type == .sysServiceTimeout || message.content?.type == .sysChatTimeout || message.content?.type == .sysServiceEnd {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
 }
 

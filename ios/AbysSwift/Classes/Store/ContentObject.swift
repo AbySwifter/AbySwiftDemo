@@ -21,6 +21,9 @@ class ContentObject: Object {
     // image
     @objc dynamic var image: String?
     @objc dynamic var size: ImageSizeObject?
+    
+    let data = List<ArticlItemObject>.init()
+    
     // linkObject 所属消息的对应关系
     let message = LinkingObjects.init(fromType: MessageObject.self, property: "content")
     
@@ -45,5 +48,18 @@ class SenderObject: Object {
     
     override static func primaryKey() -> String? {
         return "sessionID"
+    }
+}
+
+class ArticlItemObject: Object {
+    @objc dynamic var descriptionTitle: String?
+    @objc dynamic var title: String?
+    @objc dynamic var image: String?
+    @objc dynamic var url: String = ""
+    
+    let content = LinkingObjects.init(fromType: ContentObject.self, property: "data")
+    
+    override static func primaryKey() -> String? {
+        return "url"
     }
 }

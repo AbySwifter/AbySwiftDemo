@@ -23,7 +23,7 @@ class MainScreen extends Component<{}> {
     render() {
         return (
             <View style={MainScreenStyle.container}>
-
+                <Text>测试页面</Text>
             </View>
         );
     }

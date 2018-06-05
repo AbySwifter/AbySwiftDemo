@@ -14,14 +14,26 @@ import SwiftyJSON
 protocol MessageBusDelegate {
 	// 只有会话页面需要实现的消息
 	func messageBus(_ message: Message, sendStatus: DeliveryStatus) -> Void // 更新room消息的状态
-
+    // 分发消息
 	func messageBus(on message: Message) -> Void
+    // 分发事件消息
+    func messageBus(onEvent message: Message) -> Void
+    // 分发自定义消息
+    func messageBus(onCustom message: Message) -> Void
 }
 
 extension MessageBusDelegate {
 	func messageBus(_ message: Message, sendStatus: DeliveryStatus) {
 		ABYPrint("更新消息的默认实现")
 	}
+    
+    func messageBus(onEvent message: Message) -> Void {
+        ABYPrint("事件消息分发的默认实现")
+    }
+    
+    func messageBus(onCustom message: Message) -> Void {
+        ABYPrint("收到自定义消息的默认实现")
+    }
 }
 
 /// 消息管理分发类
@@ -50,6 +62,7 @@ class MessageBus: ABYSocketDelegate {
 		// 特殊消息的处理(首先处理超时，服务队列更新的消息#1)
 		if msgModel.messageType == MessageType.sys {
 			if msgModel.content?.type == .sysServiceTimeout || msgModel.content?.type ==  .sysChatTimeout {
+                self.delegate?.messageBus(onEvent: msgModel)
 				// 会话超时，更改数据库
                 self.convManager.removeConversation(room_id: msgModel.room_id ?? 0)
 			}
@@ -63,9 +76,17 @@ class MessageBus: ABYSocketDelegate {
             // 先过滤消息，再分发消息
 			if msgModel.content?.type == MSG_ELEM.sysServiceEnd {
 				// 排除掉服务结束的消息，收到结束服务的消息，需要让回话弹出并结束
+                self.delegate?.messageBus(onEvent: msgModel)
                 ABYPrint("收到服务结束的消息：\(msgModel.toJSON() ?? ["msg":"空的json转化"])")
+                self.convManager.removeConversation(room_id: msgModel.room_id ?? 0)
             } else if msgModel.messageType == MessageType.custom {
-                // 收到的是自定义消息， 需要过滤(1、不需要存储。2、不需要展示？看下产品信息的状态)
+                self.delegate?.messageBus(onCustom: msgModel)
+                // FIXME: 需要在会话中处理。收到的是自定义消息， 需要过滤(1、不需要存储。2、不需要展示？看下产品信息的状态)
+                if msgModel.content?.type == MSG_ELEM.customBotReply {
+                    if let roomID = msgModel.room_id {
+                        self.convManager.recommendReply[roomID] = msgModel
+                    }
+                }
             } else {
                 // 存储时机要对，先存储，再更新
                 self.store.update(message: msgModel) // 来的消息存起来
@@ -80,9 +101,10 @@ class MessageBus: ABYSocketDelegate {
                     if msgModel.content?.type == .voice {
                         msgModel.isPlayed = false // 刚进入的消息自动设置为未播放
                     }
-                    // 仅分发当前代理的消息
+                    // 向当前代理发送消息
                     delegate(on: msgModel) // 分发除了结束服务之外的消息
 				}
+                // 每次来消息，先在MessageBus里处理一番，然后传递给ConversationManager去处理
                 self.convManager.messageBus(on: msgModel) // 将所有消息分发到会话列表，由会话列表进行进一步处理
 			}
 		}
@@ -112,8 +134,11 @@ class MessageBus: ABYSocketDelegate {
 extension MessageBus {
 	// 发送消息
 	func send(message: Message) -> Void {
-        /// 首先简单存储消息，暂时不与会话关联，然后等到消息发送成功了以后，再与会话关联
-        self.store.simpleUpdate(message: message)
+        // 首先简单存储消息，暂时不与会话关联，然后等到消息发送成功了以后，再与会话关联
+        // 存储的时候需要过滤custom类型的消息
+        if message.messageType != .custom {
+             self.store.simpleUpdate(message: message)
+        }
 		ABYSocket.manager.send(message: message)
 	}
 	// 加入房间

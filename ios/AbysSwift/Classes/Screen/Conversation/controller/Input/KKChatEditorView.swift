@@ -67,6 +67,11 @@ class KKChatEditorView: UIView {
             return kChatBarOriginHeight
         }
     }
+    var showTip: Bool = false {
+        didSet {
+            self.tip.isHidden = !showTip
+        }
+    }
     // 语音消息的记录
     private let normalTitle = "按住 说话"
     private let highlightedTitle = "松开 结束"
@@ -93,6 +98,14 @@ class KKChatEditorView: UIView {
         btn.imageView?.contentMode = .scaleAspectFit
         btn.addTarget(self, action: #selector(switchMoreBoard(_:)), for: .touchUpInside)
         return btn
+    }()
+    // 菜单按钮的tips
+    lazy var tip: UIView = {
+        let tip = UIView.init()
+        tip.backgroundColor = UIColor.red
+        tip.layer.cornerRadius = 3.0
+        tip.isHidden = !showTip
+        return tip
     }()
     // 发送消息的方法
     lazy var sendBtn: UIButton = {
@@ -310,6 +323,7 @@ extension KKChatEditorView {
     fileprivate func addSubViewAction() -> Void {
         addSubview(changeStateBtn)
         addSubview(menuBtn)
+        menuBtn.addSubview(tip)
         addSubview(sendBtn)
         addSubview(textMsgInput)
         addSubview(voiceBtn)
@@ -333,6 +347,11 @@ extension KKChatEditorView {
             make.centerY.equalToSuperview()
             make.height.equalTo(30)
             make.width.equalTo(40)
+        }
+        tip.snp.makeConstraints { (make) in
+            make.height.width.equalTo(6.0)
+            make.top.equalToSuperview().offset(1)
+            make.right.equalToSuperview().offset(-10)
         }
         textMsgInput.snp.makeConstraints { (make) in
             make.left.equalTo(changeStateBtn.snp.right).offset(15)

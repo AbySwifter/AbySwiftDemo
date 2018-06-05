@@ -27,7 +27,11 @@ class Conversation: HandyJSON {
 	var joinTime: UInt64 = 0
 	var name: String = ""
 	var message_read_count = 0
-	var message_list: Array<Message> = [] // 当前会话的消息列表
+    var message_list: Array<Message> = [] {
+        didSet {
+            ABYPrint("会话长度为：\(message_list.count)")
+        }
+    }// 当前会话的消息列表
 
     var timeOffset: Int = 0 // 时间偏移量(只存储在本地)
     

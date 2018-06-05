@@ -190,9 +190,10 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 		// 点击了Cell的事件
 		tableView.deselectRow(at: indexPath, animated: true)
 		let keys = Array(conversationManager.conversations.keys)
-		let model: Conversation =	conversationManager.conversations[keys[indexPath.row]]!
+		let model: Conversation = conversationManager.conversations[keys[indexPath.row]]!
 		let chatViewController = KKChatViewController()
 		chatViewController.conversation = model
+        chatViewController.tipMessage = conversationManager.recommendReply[keys[indexPath.row]]
         model.message_read_count = model.totalCount // 设置本地已读数
 		navigationController?.pushViewController(chatViewController, animated: true)
 	}

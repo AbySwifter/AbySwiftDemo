@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 extension KKChatViewController {
     
@@ -14,6 +15,15 @@ extension KKChatViewController {
     func registerNotification() -> Void {
         NotificationCenter.default.addObserver(self, selector: #selector(showImages(_:)), name: NSNotification.Name.init(kNoteImageCellTap), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeTitle), name: Notification.Name.init(LIST_UPDATE), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showArticle(_:)), name: Notification.Name.init(KNoteArticleCellTap), object: nil)
+    }
+    
+    // 移除通知
+    func removeNotification() {
+        // 移除通知
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.init(kNoteImageCellTap), object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.init(LIST_UPDATE), object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.init(KNoteArticleCellTap), object: nil)
     }
     
     @objc
@@ -33,7 +43,30 @@ extension KKChatViewController {
     }
     
     @objc
+    fileprivate func showArticle(_ notification: Notification) -> Void {
+        let url = notification.object as? String
+        ABYPrint("点击的URL是：\(url ?? "")")
+        let articleVC = ABYWebViewController.init()
+        articleVC.url = url
+        self.navigationController?.pushViewController(articleVC, animated: true)
+    }
+    
+    @objc
     fileprivate func changeTitle() -> Void {
         self.back.set(title: backTitle) // 设置标题
+    }
+}
+
+extension KKChatViewController: BridgeCenterDelegate {
+    func onJSONString(value: String) {
+        self.sendCustomMsg(value: value)
+    }
+    
+    fileprivate func sendCustomMsg(value: String) -> Void {
+//        guard let json = JSON.init(parseJSON: value) else { return }
+        if self.conversation?.room_id != nil {
+            let msg = Message.init(custom: value, room_id: (self.conversation?.room_id)!)
+            msg.deliver() // 投递消息，此时不需要插入会话列表，在收到消息的时候，再插入会话列表
+        }
     }
 }

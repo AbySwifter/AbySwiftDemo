@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import <React/RCTBridgeMethod.h>
 #import <React/RCTBridgeModule.h>
 
 @interface RCT_EXTERN_MODULE(BaseBridge, NSObject)
@@ -23,6 +22,8 @@ RCT_EXTERN_METHOD(addEvent:(NSString *)name location:(NSString *)location date:(
 RCT_EXTERN_METHOD(nativePop)
 
 RCT_EXTERN_METHOD(changeTab:(BOOL)hidden)
+
+RCT_EXTERN_METHOD(passJSON:(NSString  *)value type:(NSString*)type)
 /**
  处理多线程
 

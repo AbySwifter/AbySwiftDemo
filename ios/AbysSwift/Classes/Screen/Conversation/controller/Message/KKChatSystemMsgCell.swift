@@ -35,7 +35,11 @@ class KKChatSystemMsgCell: KKChatBaseCell {
 		self.addSubview(contentLable)
 		contentLable.snp.makeConstraints { (make) in
 			make.center.equalToSuperview()
+            make.left.equalToSuperview().offset(60)
+            make.right.equalToSuperview().offset(-60)
 		}
+        contentLable.numberOfLines = 0
+        contentLable.textAlignment = .center
 	}
 	override func getCellHeight() -> CGFloat {
 		return 50.0

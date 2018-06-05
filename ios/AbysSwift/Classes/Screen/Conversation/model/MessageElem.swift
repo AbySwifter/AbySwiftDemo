@@ -26,10 +26,14 @@ enum MSG_ELEM: String, HandyJSONEnum {
     case sysAlertMessage = "SYS_ALERT_MESSAGE" // 该用户已经离开服务
     // custom
     case customBotReply = "BOT_REPLY_ELEM" // 自动回复的消息，无需保存，无需记录，过滤掉
+    case customproductReply = "PRODUCT_PATTERN_REPLY_ELEM" // 自动回复的铲平推荐
+    case h5Evaluate = "H5_CUSTOMER_EVALUATE_ELEM" // H5的回复消息
 	// product
 	case productContentVoyage = "PRODUCT_VOYAGE_ELEM"
 	case productCabinElem = "PRODUCT_CABIN_ELEM"
 	case productOrderElem = "PRODUCT_ORDER_ELEM"
+    // article
+    case articleElem = "ARTICLE_ELEM"
 }
 
 
@@ -82,6 +86,9 @@ struct ImageSize: HandyJSON {
         guard let height = self.height else {
             return nil
         }
+        if width == 0 || height == 0 {
+            return nil
+        }
         let obj = ImageSizeObject.init()
         obj.width = Float(width)
         obj.height = Float(height)
@@ -103,7 +110,35 @@ class MessageElem: NSObject, HandyJSON {
 
     // system
     var count: Int = 0
+    // custom
+    var product: String?
+    var message: String?
+    var reply: String?
+    // Article
+    var data: [ArticlItem] = [ArticlItem]()
 	required override init() {}
+    
+    func mapping(mapper: HelpingMapper) {
+        mapper <<<
+            self.reply <-- ("content", TransformOf.init(fromJSON: { (rawValue: Dictionary<String, String>?) -> String? in
+                if let dic = rawValue {
+                    return dic["reply"]
+                }
+                return ""
+            }, toJSON: { (value:String?) -> Dictionary<String, String>? in
+                return nil
+            }))
+        mapper <<<
+            self.message <-- ("content", TransformOf.init(fromJSON: { (rawValue: Dictionary<String, String>?) -> String? in
+                if let dic = rawValue {
+                    return dic["message"]
+                }
+                return ""
+            }, toJSON: { (value:String?) -> Dictionary<String, String>? in
+                return nil
+            }))
+        
+    }
 }
 
 extension MessageElem {
@@ -142,7 +177,12 @@ extension MessageElem {
         self.voice = obj.voice
         self.image = obj.image
         self.size = ImageSize.init(object: obj.size)
+        self.product = obj.product
         // FIXME: 消息初始化的拓展
+        for itemObj in obj.data {
+            let item = ArticlItem.init(object: itemObj)
+            self.data.append(item)
+        }
     }
     
     // 转化为数据库对象
@@ -154,6 +194,11 @@ extension MessageElem {
         object.duration.value = self.duration
         object.image = self.image
         object.size = self.size?.toObject()
+        object.product = self.product
+        for item in self.data {
+            let obj = item.toObject()
+            object.data.append(obj)
+        }
         // FIXME: 消息类型的拓展
         return object
     }

@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let rootViewController = ABYTabBarComtroller()
 		self.window?.rootViewController = rootViewController
 		self.window?.makeKeyAndVisible()
+        ABYPrint("\(AlamofireVersionNumber)") // 打印下当前网络请求的版本号
 		return true
 	}
     

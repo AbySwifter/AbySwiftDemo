@@ -31,6 +31,7 @@ fileprivate let KKChattextCellID = "KKChattextCell"
 fileprivate let KKChatAudioCellID = "KKChatAudioCell"
 fileprivate let KKSystemMsgCellID = "KKChatSystemMsgCell"
 fileprivate let KKChatImageCellID = "KKChatImageCell"
+fileprivate let KKArticleCellID = "KKArticleCell"
 
 protocol KKMessageViewControllerDelegate {
     func listBeenTaped() -> Void
@@ -57,6 +58,7 @@ class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITabl
 		tab.register(KKChatAudioCell.classForCoder(), forCellReuseIdentifier: KKChatAudioCellID)
 		tab.register(KKChatSystemMsgCell.classForCoder(), forCellReuseIdentifier: KKSystemMsgCellID) // 聊天系统消息
         tab.register(KKChatImageCell.classForCoder(), forCellReuseIdentifier: KKChatImageCellID)
+        tab.register(KKArrticalCell.classForCoder(), forCellReuseIdentifier: KKArticleCellID)
 		return tab
 	}()
 
@@ -205,6 +207,10 @@ extension KKMessageViewController {
 		chatListView.scrollToRow(at: indexPath, at: .top, animated: false)
 		chatListView.mj_header.endRefreshing()
 	}
+    
+    func refresh() -> Void {
+        chatListView.reloadData()
+    }
 }
 
 // tabView的代理方法和数据源
@@ -231,15 +237,18 @@ extension KKMessageViewController {
 				cell = tableView.dequeueReusableCell(withIdentifier: KKChatAudioCellID) as? KKChatAudioCell
             } else if model.content?.type == MSG_ELEM.image {
                 cell = tableView.dequeueReusableCell(withIdentifier: KKChatImageCellID) as? KKChatImageCell
+            } else if model.content?.type == MSG_ELEM.articleElem {
+                cell = tableView.dequeueReusableCell(withIdentifier: KKArticleCellID) as? KKArrticalCell
             } else {
 				cell = tableView.dequeueReusableCell(withIdentifier: KKChatBaseCellID) as? KKChatBaseCell
 			}
 			break
 			//		case .custom:
 			//			break
-			case .sys:
-				cell = tableView.dequeueReusableCell(withIdentifier: KKSystemMsgCellID) as? KKChatSystemMsgCell
-			break
+        case .sys:
+            cell = tableView.dequeueReusableCell(withIdentifier: KKSystemMsgCellID) as? KKChatSystemMsgCell
+        case .article:
+            cell = tableView.dequeueReusableCell(withIdentifier: KKArticleCellID) as? KKArrticalCell
 		default:
 			cell = tableView.dequeueReusableCell(withIdentifier: KKChatBaseCellID) as? KKChatBaseCell
 			break

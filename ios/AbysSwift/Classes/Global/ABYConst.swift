@@ -21,21 +21,6 @@ func W750(_ number: CGFloat) -> CGFloat {
 	return (number / standWidth) * UIScreen.main.bounds.size.width
 }
 
-// 主题色
-func ABYGlobalThemeColor() ->  UIColor {
-	return UIColor.init(hexString: "0084bf")
-}
-
-// 主题背景色
-func ABYGlobalBackGroundColor() -> UIColor {
-	return UIColor.init(hexString: "f5f5f5")
-}
-
-// boder色
-func ABYGlobalBorderColor() -> UIColor {
-	return UIColor.init(hexString: "e9e9e9")
-}
-
 // 生成随机字符串
 func newGUID(length: Int = 30) -> String {
 	let characters = "0123456789abcdef"

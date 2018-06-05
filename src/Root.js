@@ -2,7 +2,7 @@
  * Created by aby.wang on 2018/4/13.
  */
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
     StyleSheet,
     Image,
@@ -10,55 +10,59 @@ import {
     View,
     NativeModules,
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator'; // 动画的导入
+import { createStackNavigator } from 'react-navigation';
+import CardStackStyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator'; // 动画的导入
 
-import MainScreen from './SelectDatePage';
+import MainScreen from './screen/MainScreen';
+import { Product, ProductInformation } from './ViJing';
 
 // 这里在mobx的Provide中提供RootStore
 import { Provider } from 'mobx-react';
 
 const routes = {
     Main: {
-        screen: MainScreen,
+        screen: Product,
         navigationOptions: {
-            title: '主页',
+            title: '产品',
             header: null,
-            headerTitleStyle: { fontSize: 18, color: '#fff' },
-            headerStyle: { backgroundColor: '#0084bf' },
+            headerTitleStyle: {fontSize: 18, color: '#fff'},
+            headerStyle: {backgroundColor: '#0084bf'},
             headerTintColor: '#ffffff',
         },
     },
+    ProductInformation: {
+        screen: ProductInformation,
+    }
 };
 
 function getRouteConfig(name) {
     const BaseBridge = NativeModules.BaseBridge;
     return {
         initialRouteName: name,
-        navigationOptions:{
+        navigationOptions: {
             // 开启动画
-            animationEnabled:true,
+            animationEnabled: true,
             // 开启边缘触摸返回
-            gesturesEnabled:true,
+            gesturesEnabled: true,
             navigationOptions: {
-                title: '主页',
-                headerTitleStyle: { fontSize: 18, color: 'green' },
-                headerStyle: { backgroundColor: '#0fb' },
+                title: '选择产品',
+                headerTitleStyle: {fontSize: 18, color: 'green'},
+                headerStyle: {backgroundColor: '#0fb'},
                 headerTintColor: '#0fb',
             }
         },
-        mode:'card',
-        transitionConfig:()=>({
-            // 统一安卓和苹果页面跳转的动画
+        mode: 'card',
+        headerMode: 'float',
+        transitionConfig:() => ({
             screenInterpolator: CardStackStyleInterpolator.forHorizontal,
         }),
         onTransitionEnd: (info) => {
-            // console.log('end',info.index);
-            // if (info.index === 0) {
-            //     BaseBridge.changeTab(false);
-            // } else {
-            //     BaseBridge.changeTab(true);
-            // }
+            console.log('end',info.index);
+            if (info.index === 0) {
+                BaseBridge.changeTab(false);
+            } else {
+                BaseBridge.changeTab(true);
+            }
         },
         onTransitionStart: (info) => {
             console.log('end',info.index);
@@ -75,16 +79,16 @@ function getRouteConfig(name) {
 class APP extends Component {
     initRoute = (params) => {
         if (params.routeName === 'Main') {
-            console.log('jslog',params);
-            return StackNavigator(routes, getRouteConfig('Main'));
+            return createStackNavigator(routes, getRouteConfig('ProductInformation'));
         } else {
-            return StackNavigator(routes, getRouteConfig('Main'));
+            return createStackNavigator(routes, getRouteConfig('Main'));
         }
     }
+
     render() {
         const NavigatorAPP = this.initRoute(this.props);
         return (
-            <Provider >
+            <Provider>
                 <NavigatorAPP />
             </Provider>
         );

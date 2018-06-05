@@ -21,6 +21,8 @@
 		DD19313B20AAB05C00C63132 /* HistoryMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD19313A20AAB05C00C63132 /* HistoryMessageController.swift */; };
 		DD1C09DF2031428300B8847D /* UIViewController+showHud.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C09DE2031428300B8847D /* UIViewController+showHud.swift */; };
 		DD1C09E12031840100B8847D /* ABYBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD1C09E02031840100B8847D /* ABYBaseViewController.swift */; };
+		DD27129B20BCFF7E00FCF9F9 /* ArticleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD27129A20BCFF7E00FCF9F9 /* ArticleItemView.swift */; };
+		DD27129D20BD2D6900FCF9F9 /* ArticlItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD27129C20BD2D6900FCF9F9 /* ArticlItem.swift */; };
 		DD28B0FA206B375300B75324 /* MessageElem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD28B0F9206B375300B75324 /* MessageElem.swift */; };
 		DD29D23120A5973F0002FEE8 /* ClientInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD29D23020A5973F0002FEE8 /* ClientInfoViewController.swift */; };
 		DD31DAE120A29AEF00D02112 /* KKPhotoBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD31DAE020A29AEF00D02112 /* KKPhotoBrowserViewController.swift */; };
@@ -68,13 +70,18 @@
 		DD916B3D2080530E00A31A09 /* BaseBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD916B3C2080530E00A31A09 /* BaseBridge.swift */; };
 		DD916B3F2080540A00A31A09 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD916B3E2080540A00A31A09 /* ProductViewController.swift */; };
 		DD92CD54202987340090FB19 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD92CD53202987340090FB19 /* API.swift */; };
+		DD9474E720C0D9980090A183 /* ReplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9474E620C0D9980090A183 /* ReplayViewController.swift */; };
 		DD95E1AE20A962630030394A /* ClientInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD95E1AD20A962630030394A /* ClientInfoCell.swift */; };
 		DD974B2E20A3E57200D0470F /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD974B2D20A3E57200D0470F /* UIButton+Extension.swift */; };
 		DD974B3020A3F0FD00D0470F /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD974B2F20A3F0FD00D0470F /* UIDevice+Extension.swift */; };
 		DD974B3220A3FE6D00D0470F /* KKChatEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD974B3120A3FE6D00D0470F /* KKChatEditorView.swift */; };
 		DD9766C82048F3F40037C232 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9766C72048F3F40037C232 /* FormView.swift */; };
+		DDA5EB2520BCFC28002ECB36 /* KKArrticalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA5EB2420BCFC28002ECB36 /* KKArrticalCell.swift */; };
 		DDA7AD7820902BF700BD70F3 /* KKChatBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA7AD7720902BF700BD70F3 /* KKChatBarViewController.swift */; };
 		DDA7AD7A20902C2000BD70F3 /* KKMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA7AD7920902C2000BD70F3 /* KKMessageViewController.swift */; };
+		DDB861C020BC02D000C8AC8F /* BridgeConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB861BF20BC02D000C8AC8F /* BridgeConst.swift */; };
+		DDBDEA0720BE77C000473C43 /* BaseBridgeCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBDEA0620BE77C000473C43 /* BaseBridgeCenter.swift */; };
+		DDBDEA0920BE8E9E00473C43 /* ABYWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBDEA0820BE8E9E00473C43 /* ABYWebViewController.swift */; };
 		DDC007C62086E479001FFAF3 /* ABYEmptyDataSetable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC007C52086E479001FFAF3 /* ABYEmptyDataSetable.swift */; };
 		DDC281A6209ADDA3000B2CBE /* AudioTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC281A5209ADDA3000B2CBE /* AudioTool.swift */; };
 		DDC281A8209ADE9F000B2CBE /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC281A7209ADE9F000B2CBE /* FileManager.swift */; };
@@ -149,6 +156,8 @@
 		DD19313A20AAB05C00C63132 /* HistoryMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMessageController.swift; sourceTree = "<group>"; };
 		DD1C09DE2031428300B8847D /* UIViewController+showHud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+showHud.swift"; sourceTree = "<group>"; };
 		DD1C09E02031840100B8847D /* ABYBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYBaseViewController.swift; sourceTree = "<group>"; };
+		DD27129A20BCFF7E00FCF9F9 /* ArticleItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleItemView.swift; sourceTree = "<group>"; };
+		DD27129C20BD2D6900FCF9F9 /* ArticlItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticlItem.swift; sourceTree = "<group>"; };
 		DD28B0F9206B375300B75324 /* MessageElem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageElem.swift; sourceTree = "<group>"; };
 		DD29D23020A5973F0002FEE8 /* ClientInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoViewController.swift; sourceTree = "<group>"; };
 		DD31DAE020A29AEF00D02112 /* KKPhotoBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKPhotoBrowserViewController.swift; sourceTree = "<group>"; };
@@ -195,13 +204,18 @@
 		DD916B3C2080530E00A31A09 /* BaseBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBridge.swift; sourceTree = "<group>"; };
 		DD916B3E2080540A00A31A09 /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		DD92CD53202987340090FB19 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		DD9474E620C0D9980090A183 /* ReplayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplayViewController.swift; sourceTree = "<group>"; };
 		DD95E1AD20A962630030394A /* ClientInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoCell.swift; sourceTree = "<group>"; };
 		DD974B2D20A3E57200D0470F /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		DD974B2F20A3F0FD00D0470F /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		DD974B3120A3FE6D00D0470F /* KKChatEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatEditorView.swift; sourceTree = "<group>"; };
 		DD9766C72048F3F40037C232 /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
+		DDA5EB2420BCFC28002ECB36 /* KKArrticalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKArrticalCell.swift; sourceTree = "<group>"; };
 		DDA7AD7720902BF700BD70F3 /* KKChatBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatBarViewController.swift; sourceTree = "<group>"; };
 		DDA7AD7920902C2000BD70F3 /* KKMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKMessageViewController.swift; sourceTree = "<group>"; };
+		DDB861BF20BC02D000C8AC8F /* BridgeConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeConst.swift; sourceTree = "<group>"; };
+		DDBDEA0620BE77C000473C43 /* BaseBridgeCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBridgeCenter.swift; sourceTree = "<group>"; };
+		DDBDEA0820BE8E9E00473C43 /* ABYWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYWebViewController.swift; sourceTree = "<group>"; };
 		DDC007C52086E479001FFAF3 /* ABYEmptyDataSetable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYEmptyDataSetable.swift; sourceTree = "<group>"; };
 		DDC281A5209ADDA3000B2CBE /* AudioTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTool.swift; sourceTree = "<group>"; };
 		DDC281A7209ADE9F000B2CBE /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
@@ -317,6 +331,7 @@
 				DD001F6F202323DE00C912D2 /* ABYTabBarComtroller.swift */,
 				DD739868202443EE006242FD /* ABYNavigationController.swift */,
 				DD1C09E02031840100B8847D /* ABYBaseViewController.swift */,
+				DDBDEA0820BE8E9E00473C43 /* ABYWebViewController.swift */,
 			);
 			path = ABYMain;
 			sourceTree = "<group>";
@@ -498,6 +513,8 @@
 				DD916B3A208052EC00A31A09 /* BaseBridgemanager.m */,
 				DD916B39208052EB00A31A09 /* AbysSwift-Bridging-Header.h */,
 				DD916B3C2080530E00A31A09 /* BaseBridge.swift */,
+				DDB861BF20BC02D000C8AC8F /* BridgeConst.swift */,
+				DDBDEA0620BE77C000473C43 /* BaseBridgeCenter.swift */,
 			);
 			path = ReactBridge;
 			sourceTree = "<group>";
@@ -546,6 +563,7 @@
 				DD3A321E2094498500D74958 /* KKChatSystemMsgCell.swift */,
 				DD37216C209551B800E7EC4E /* KKChatAudioCell.swift */,
 				DDF4036820A14D4B00D8C22A /* KKChatImageCell.swift */,
+				DDA5EB2420BCFC28002ECB36 /* KKArrticalCell.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -575,6 +593,7 @@
 				DD67F939205BC57A00A55280 /* Conversation.swift */,
 				DD0F986D206A1EAD00BA9C27 /* Message.swift */,
 				DD28B0F9206B375300B75324 /* MessageElem.swift */,
+				DD27129C20BD2D6900FCF9F9 /* ArticlItem.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -585,6 +604,7 @@
 				DDD3845020592B1D00A525DF /* ConversationCell.swift */,
 				DD95E1AD20A962630030394A /* ClientInfoCell.swift */,
 				DD898BA320AA82B90019F5F6 /* OtherInfoCell.swift */,
+				DD27129A20BCFF7E00FCF9F9 /* ArticleItemView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -601,6 +621,7 @@
 				DD29D23020A5973F0002FEE8 /* ClientInfoViewController.swift */,
 				DD898BA120AA783B0019F5F6 /* ToOtherViewController.swift */,
 				DD19313A20AAB05C00C63132 /* HistoryMessageController.swift */,
+				DD9474E620C0D9980090A183 /* ReplayViewController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -834,6 +855,7 @@
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/RNVectorIcons/RNVectorIcons.framework",
 				"${BUILT_PRODUCTS_DIR}/React/React.framework",
+				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftDate/SwiftDate.framework",
@@ -854,6 +876,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNVectorIcons.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftDate.framework",
@@ -879,6 +902,7 @@
 				DD974B3020A3F0FD00D0470F /* UIDevice+Extension.swift in Sources */,
 				DD67F93A205BC57A00A55280 /* Conversation.swift in Sources */,
 				DD466AD320AD5CFE00F37465 /* RealmManager.swift in Sources */,
+				DD27129B20BCFF7E00FCF9F9 /* ArticleItemView.swift in Sources */,
 				DD31DAE520A2A02600D02112 /* KKConst.swift in Sources */,
 				DD70778A202450B40034CB00 /* LoginViewController.swift in Sources */,
 				DD70778D202452650034CB00 /* ABYNetworkManager.swift in Sources */,
@@ -888,6 +912,7 @@
 				DD73986720243B6A006242FD /* ABYConst.swift in Sources */,
 				DDC332FE20873AFD004B9669 /* KKChatBaseCell.swift in Sources */,
 				DD73985C202417D5006242FD /* FormsViewController.swift in Sources */,
+				DDA5EB2520BCFC28002ECB36 /* KKArrticalCell.swift in Sources */,
 				DD31DAE320A29EE400D02112 /* KKChatViewController+Notificaiton.swift in Sources */,
 				DDDEC7AF209166030076C2AB /* ABYPopMenu.swift in Sources */,
 				DD47C4C8202C49BC00A45EA1 /* Account.swift in Sources */,
@@ -898,9 +923,11 @@
 				DD898BA220AA783B0019F5F6 /* ToOtherViewController.swift in Sources */,
 				DD31DAEF20A2D85C00D02112 /* CCSwipBackPresentationController.swift in Sources */,
 				DD79B3E8206895FC00979582 /* WebSocketManager.swift in Sources */,
+				DDB861C020BC02D000C8AC8F /* BridgeConst.swift in Sources */,
 				DD916B3B208052EC00A31A09 /* BaseBridgemanager.m in Sources */,
 				DDF4036920A14D4C00D8C22A /* KKChatImageCell.swift in Sources */,
 				DD73985F20241956006242FD /* MineViewController.swift in Sources */,
+				DD27129D20BD2D6900FCF9F9 /* ArticlItem.swift in Sources */,
 				DD31DAF020A2D85C00D02112 /* CCZoomTransitioner.swift in Sources */,
 				DD95E1AE20A962630030394A /* ClientInfoCell.swift in Sources */,
 				DD19313B20AAB05C00C63132 /* HistoryMessageController.swift in Sources */,
@@ -924,11 +951,13 @@
 				DDA7AD7820902BF700BD70F3 /* KKChatBarViewController.swift in Sources */,
 				DD0F8B67206CBF33008C6049 /* ChatFooterMenu.swift in Sources */,
 				DD29D23120A5973F0002FEE8 /* ClientInfoViewController.swift in Sources */,
+				DD9474E720C0D9980090A183 /* ReplayViewController.swift in Sources */,
 				DD51C3B52051129900FE0F6C /* OhterDataView.swift in Sources */,
 				DD1C09E12031840100B8847D /* ABYBaseViewController.swift in Sources */,
 				DDC3BD09208D80FA00D46F19 /* KKChatMsgDataHelper.swift in Sources */,
 				DD8278442099504D004D8747 /* ChatVoiceView.swift in Sources */,
 				DDD4A18D204FDF2300F02490 /* ABYProgressView.swift in Sources */,
+				DDBDEA0720BE77C000473C43 /* BaseBridgeCenter.swift in Sources */,
 				DD001F412023238500C912D2 /* AppDelegate.swift in Sources */,
 				DD466AD920AD641C00F37465 /* ContentObject.swift in Sources */,
 				DD916B3D2080530E00A31A09 /* BaseBridge.swift in Sources */,
@@ -946,6 +975,7 @@
 				DDD3845120592B1D00A525DF /* ConversationCell.swift in Sources */,
 				DD14B81B2047B8AC00265CD3 /* ABYValueFormatter.swift in Sources */,
 				DDD3844D205929A800A525DF /* ConversationManager.swift in Sources */,
+				DDBDEA0920BE8E9E00473C43 /* ABYWebViewController.swift in Sources */,
 				DD51C3B7205129F400FE0F6C /* FormVCModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

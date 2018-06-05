@@ -18,12 +18,19 @@ extension ABYRealmManager {
         // 将所查到的结果转化为列表
         for obj in result {
             let messagesResult = realm.objects(MessageObject.self).filter("isSendSuccess == %@ AND room_id == %@", false, obj.room_id)
-            var messageList: [Message] = []
-            for item in messagesResult {
-                messageList.append(Message.init(messageObject: item))
-            }
             let conv = Conversation.init(object: obj)
-            conv.message_list = conv.message_list + messageList
+            for item in messagesResult {
+                let isContain = conv.message_list.contains { (msg) -> Bool in
+                    return msg.messageID == item.messageID
+                }
+                if !isContain {
+                     conv.message_list.append(Message.init(messageObject: item))
+                } else {
+                    try? realm.write {
+                        item.isSendSuccess = true
+                    }
+                }
+            }
             conv.message_list.sort { (m1, m2) -> Bool in
                 return m1.timestamp ?? 0 < m2.timestamp ?? 0
             }
@@ -51,7 +58,11 @@ extension ABYRealmManager {
             }
             // 开始存列表
             for conv in list {
+                let conObj = realm.object(ofType: ConversationObject.self, forPrimaryKey: Int(conv.room_id))
                 let obj = conv.toObject()
+                if let readCont = conObj?.message_read_count {
+                    obj.message_read_count = readCont > obj.message_read_count ? readCont : obj.message_read_count
+                }
                 tempList.append(obj)
             }
             try realm.write {

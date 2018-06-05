@@ -14,7 +14,7 @@ class ABYRealmManager {
         var config = Realm.Configuration.init()
         config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("KKRealm.realm") // 更改默认名称
         ABYPrint("数据库的路径为\(config.fileURL!)")
-        config.schemaVersion = 9
+        config.schemaVersion = 10
         //数据库发生迁移的时候需要处理的事情
         config.migrationBlock = {(migration, oldSchemaVersion ) in
             // 在这里进行版本构架的迭代处理
