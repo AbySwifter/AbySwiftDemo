@@ -76,7 +76,7 @@ class Account {
 	let deviceName: String = ""
 	let systemVersion: String = UIDevice.current.systemName + " " + UIDevice.current.systemVersion
 	let JPushRegistrationID: String = ""
-	let AppVersion: String = "1.2.0"
+	let AppVersion: String = "V1.3.0"
 	var deviceInfo: [String: String] {
 		return ["deviceID": deviceID, "deviceName": deviceName, "systemVersion": systemVersion, "JPushRegistrationID": JPushRegistrationID, "AppVersion": AppVersion]
 	}

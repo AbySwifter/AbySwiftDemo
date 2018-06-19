@@ -35,7 +35,7 @@ class KKChatViewController: ABYBaseViewController {
     /// 右上角客户信息的加载
 	lazy var popMenu: ABYPopMenu = {
 		var popMenuItems: [ABYPopMenuItem] = [ABYPopMenuItem]()
-		let imageArr = [(#imageLiteral(resourceName: "user_info"), "客户信息"),(#imageLiteral(resourceName: "another_user"), "转接客服"),(#imageLiteral(resourceName: "history_conversation"), "历史消息"),(#imageLiteral(resourceName: "exit_conversation"), "结束服务")]
+		let imageArr = [(#imageLiteral(resourceName: "user_info"), "客户信息"),(#imageLiteral(resourceName: "another_user"), "转接客服"),(#imageLiteral(resourceName: "history_conversation"), "历史消息"),(#imageLiteral(resourceName: "evalute_icon"), "服务评价"),(#imageLiteral(resourceName: "exit_conversation"), "结束服务")]
 		for item in imageArr {
 			let popItem: ABYPopMenuItem = ABYPopMenuItem.init(image: item.0, title: item.1)
 			popMenuItems.append(popItem)
@@ -150,6 +150,7 @@ class KKChatViewController: ABYBaseViewController {
     /// 弹出了右上角菜单
 	@objc
 	func popMenu(_ item: UIBarButtonItem) -> Void {
+        self.chatBarVC.changeEditorStatus(.none)
 		self.popMenu.showMenu(on: self.view, opacity: 0.5)
 	}
     
@@ -163,6 +164,11 @@ class KKChatViewController: ABYBaseViewController {
         case 2:
             routeHistoryList()
 		case 3:
+            ABYPrint("点击了服务评价")
+            showAlert(title: "提示", content: "发起服务评价？") { () -> (Void) in
+               self.sendEvaluate() // 发送评价消息
+            }
+        case 4:
 			showAlert(title: "提示", content: "结束服务？") { () -> (Void) in
 				// 这里进行结束服务处理
 				self.endService()
@@ -203,6 +209,23 @@ class KKChatViewController: ABYBaseViewController {
 			}
 		})
 	}
+    private func sendEvaluate() {
+        showLoading()
+        let params: [String: Any] = [
+            "room_id": self.conversation?.room_id ?? 0,
+            "cuttent_id": Account.share.current_id,
+            "session_id": Account.share.session_id,
+        ]
+        self.networkManager.aby_request(request: UserRouter.request(api: .sendEvaluate, params:params)) { (result) -> (Void) in
+            self.hideLoading()
+            if let res = result {
+                ABYPrint(res)
+                self.showToast("满意度调查消息发送成功")
+            } else {
+                self.showToast("满意度调查消息发送失败")
+            }
+        }
+    }
 }
 
 extension KKChatViewController: KKMessageViewControllerDelegate {
@@ -254,6 +277,7 @@ extension KKChatViewController {
                 return
             }
             let message = Message.init(text: text, room_id: roomid)
+            message.content?.is_bot = 1 // 发送话术的标识
             self.chatBarVC.sendMessage(message)
             // 发送出去之后要清空数据
             self.tipMessage = nil

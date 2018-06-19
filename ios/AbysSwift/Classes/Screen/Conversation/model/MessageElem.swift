@@ -114,8 +114,10 @@ class MessageElem: NSObject, HandyJSON {
     var product: String?
     var message: String?
     var reply: String?
+    var is_bot: Int = 0
     // Article
     var data: [ArticlItem] = [ArticlItem]()
+    
 	required override init() {}
     
     func mapping(mapper: HelpingMapper) {

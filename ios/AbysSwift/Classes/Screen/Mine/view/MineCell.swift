@@ -11,8 +11,10 @@ import UIKit
 
 class MineCell: UITableViewCell {
 	let icon: UIImageView = UIImageView.init()
-	var cellTitle: UILabel = UILabel.init()
+	let cellTitle: UILabel = UILabel.init()
 	let rightIcon: UIImageView = UIImageView.init()
+    let subTitle: UILabel = UILabel.init()
+    
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
 	}
@@ -30,6 +32,15 @@ class MineCell: UITableViewCell {
 	func setCell(data: SettingCellData) -> Void {
 		icon.image = data.icon
 		cellTitle.text = data.title
+        if data.hasSubTitle {
+            rightIcon.isHidden = true
+            subTitle.isHidden = false
+            subTitle.text = data.subTitle
+        } else {
+            subTitle.isHidden = true
+            rightIcon.isHidden = false
+        }
+        
 	}
 	private func setUI() {
 		self.addSubview(icon)
@@ -63,5 +74,12 @@ class MineCell: UITableViewCell {
 			make.bottom.equalToSuperview().offset(1)
 		}
 		view.backgroundColor = UIColor.init(hexString: "cccccc")
+        self.addSubview(subTitle)
+        subTitle.snp.makeConstraints { (make) in
+            make.right.equalTo(self.snp.right).offset(-20)
+            make.centerY.equalTo(cellTitle.snp.centerY)
+        }
+        subTitle.font = UIFont.systemFont(ofSize: W375(14.0))
+        subTitle.textColor = UIColor.init(hexString: "666666")
 	}
 }

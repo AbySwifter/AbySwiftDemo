@@ -12,27 +12,27 @@ class ClientInfoCell: UITableViewCell {
 
     lazy var icon: UIImageView = {
         let view = UIImageView.init()
-        view.contentMode = .left
+        view.contentMode = .scaleAspectFit
         return view
     }()
     
     lazy var title: UILabel = {
         let title = UILabel.init()
         title.font = UIFont.systemFont(ofSize: 16.0)
-        title.textColor = UIColor.init(hexString: "666666")
+        title.textColor = UIColor.init(hexString: "333333")
         return title
     }()
     
     lazy var content: UILabel = {
         let content: UILabel = UILabel.init()
         content.font = UIFont.systemFont(ofSize: 16.0)
-        content.textColor = UIColor.init(hexString: "666666")
+        content.textColor = UIColor.init(hexString: "333333")
         return content
     }()
     
     lazy var separator: UIView = {
-        let separator = UIView.init(frame: CGRect.init(x: 15, y: self.frame.height-1, width: self.frame.width - 30, height: 1/UIScreen.main.scale))
-        separator.backgroundColor = UIColor.init(hexString: "cccccc")
+        let separator = UIView.init(frame: CGRect.init(x: 15, y: self.frame.height-1, width: self.frame.width - 40, height: 1/UIScreen.main.scale))
+        separator.backgroundColor = UIColor.init(hexString: "e5e5e5")
         return separator
     }()
     
@@ -40,7 +40,7 @@ class ClientInfoCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.isHidden = true // 隐藏原有的内容视图
-        self.backgroundColor = UIColor.init(hexString: "f5f5f5")
+        self.backgroundColor = UIColor.init(hexString: "ffffff")
         self.selectionStyle = .none // 选中样式
         setup()
     }
@@ -60,14 +60,14 @@ class ClientInfoCell: UITableViewCell {
     private func setup() -> Void {
         self.addSubview(icon)
         icon.snp.makeConstraints { (make) in
-            make.left.equalTo(self.snp.left).offset(15)
-            make.height.equalTo(W750(50))
-            make.width.equalTo(W750(90))
+            make.left.equalTo(self.snp.left).offset(20)
+            make.height.equalTo(W375(20))
+            make.width.equalTo(W375(20))
             make.centerY.equalTo(self)
         }
         self.addSubview(title)
         title.snp.makeConstraints { (make) in
-            make.left.equalTo(icon.snp.right)
+            make.left.equalTo(icon.snp.right).offset(W375(20))
             make.centerY.equalTo(self)
 //            make.size.equalTo(title)
         }

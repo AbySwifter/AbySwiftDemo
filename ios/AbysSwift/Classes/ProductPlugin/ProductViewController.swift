@@ -8,24 +8,49 @@
 
 import UIKit
 import React
+import JGProgressHUD
+
+let zipUrl = "http://0.0.0.0:8888/api/file/jsbundle.zip"
 
 class ProductViewController: ABYBaseViewController {
 
+    lazy var package: ABYPackage = {
+        let p = ABYPackage.init()
+        p.delegate = self
+        p.remoteURL = "http://0.0.0.0:8888/api/file/jsbundle.zip" // 设置更新路径
+        return p
+    }()
+    
+    lazy var hud: JGProgressHUD = {
+        let hud: JGProgressHUD = JGProgressHUD.init(style: JGProgressHUDStyle.dark)
+        return hud
+    }()
+    
+    // 返回按钮
+    lazy var close: UIButton = {
+        let btn = UIButton.init(type: .custom)
+        btn.setImage(#imageLiteral(resourceName: "close"), for: .normal)
+        btn.addTarget(self, action: #selector(dismissSelf), for: .touchUpInside)
+        return btn
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        registerNotification()
-        // 隐藏Header
         self.navigationController?.setNavigationBarHidden(true, animated: true)
-        guard getbundleFromDocument() else {
-            #if DEBUGSWIFT
-                createReactNativeView() // 调试的时候就直接从网络加载
-            #else
-            // 不存在的话，就先下载
-            // 提示用户下载并加载
-            #endif
-            return
+        registerNotification()
+        self.view.addSubview(close)
+        close.snp.makeConstraints { (make) in
+            make.height.width.equalTo(20)
+            make.top.left.equalToSuperview().offset(30)
         }
-        let _ = getBundleFromResouce()
+        self.view.backgroundColor = UIColor.init(hexString: "f5f5f5")
+        package.isNeedUpdate { (result) -> (Void) in
+            if result {
+                self.package.downLoadBundle()
+            } else {
+                self.createReactNativeView(jsCodeLocation: self.package.bundleURL()!)
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -33,55 +58,26 @@ class ProductViewController: ABYBaseViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         removeNotification()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
-	func createReactNativeView() {
-		let jsCodeLocation = URL.init(string: "http://localhost:8081/index.bundle?platform=ios")
+    func createReactNativeView(jsCodeLocation: URL) {
+        // http://localhost:8081/index.bundle?platform=ios
 		let mockData: NSDictionary = [
             "routeName":"Main"
 		]
-		let rootView = RCTRootView(bundleURL: jsCodeLocation!, moduleName: "ABYSwiftDemo", initialProperties: mockData as [NSObject: AnyObject], launchOptions: nil)
-		self.view = rootView!
+		let rootView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "ABYSwiftDemo", initialProperties: mockData as [NSObject: AnyObject], launchOptions: nil)
+        rootView?.frame = self.view.bounds
+        self.view.addSubview(rootView!)
 	}
 
-    // 在住文件中寻找路径
-    func getBundleFromResouce() -> Bool {
-        let path = Bundle.main.path(forResource: "main", ofType: "jsbundle")
-        ABYPrint("路径为\(path)")
-        if FileManager.default.fileExists(atPath: path ?? "") {
-            let jsCodeLocation = URL.init(string: path!)
-            let mockData: NSDictionary = ["routeName": "Main"]
-            let rootView = RCTRootView(bundleURL: jsCodeLocation!, moduleName: "ABYSwiftDemo", initialProperties: mockData as [NSObject: AnyObject], launchOptions: nil)
-            self.view = rootView!
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    // 在沙盒中寻找路径
-	func getbundleFromDocument() -> Bool {
-        let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
-        ABYPrint("路径为\(documents)")
-        guard let documentPath: String = documents.first else { return false }
-        let filePath = documentPath + "/main.jsbundle"
-        if FileManager.default.fileExists(atPath: filePath) {
-            let jsCodeLocation = URL.init(string: filePath)
-            let mockData: NSDictionary = ["routeName":"Main"]
-            let rootView = RCTRootView(bundleURL: jsCodeLocation!, moduleName: "ABYSwiftDemo", initialProperties: mockData as [NSObject: AnyObject], launchOptions: nil)
-            self.view = rootView!
-            return true
-        } else {
-            return false
-        }
-	}
 	@objc
 	func dismissSelf() -> Void {
-		self.navigationController?.popViewController(animated: true)
+        if let nav = self.navigationController {
+            nav.popViewController(animated: true)
+        } else {
+            self.dismiss(animated: true) {
+                // 处理返回键
+            }
+        }
 	}
 }
 
@@ -93,5 +89,41 @@ extension ProductViewController {
     
     func removeNotification() -> Void {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.init("ChangeUIDismiss"), object: nil)
+    }
+}
+
+extension ProductViewController: ABYPackageDelegate {
+    func updateStatusChange(_ status: PackageLoadingStatus) {
+        // 更新的状态改变了
+        switch status {
+        case .startDownload:
+            self.hud.indicatorView = JGProgressHUDRingIndicatorView.init()
+            self.hud.textLabel.text = "更新中..."
+            self.hud.show(in: self.view)
+        case .downloading(progress:let progress):
+            self.hud.detailTextLabel.text = String.init(format: "%.2f%%", progress.fractionCompleted*100)
+            self.hud.setProgress(Float(progress.fractionCompleted), animated: true)
+        case .downloadSuccess:
+            self.hud.textLabel.text = "下载完成"
+            self.hud.detailTextLabel.text = ""
+            self.hud.indicatorView = JGProgressHUDSuccessIndicatorView.init()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0, execute: {
+                self.hud.dismiss()
+            })
+        case .downloadFailed(error: _):
+            self.hud.textLabel.text = "下载失败，请重试"
+            self.hud.indicatorView = JGProgressHUDErrorIndicatorView.init()
+            self.hud.detailTextLabel.text = ""
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.0, execute: {
+                self.hud.dismiss()
+            })
+        case .zipArchivingResult(path:let path, successed: let success, error: _):
+            ABYPrint("文件路径为\(path)")
+            if success {
+                createReactNativeView(jsCodeLocation: package.bundleURL()!)
+            }
+        default:
+            break
+        }
     }
 }

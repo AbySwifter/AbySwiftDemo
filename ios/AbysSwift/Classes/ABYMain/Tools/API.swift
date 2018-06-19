@@ -21,6 +21,7 @@ enum UserAPI: String {
     case changePassword = "change_password" // 修改该密码接口
 	// 会话接口
 	case endService = "end_service" // 结束服务
+    case sendEvaluate = "send_evaluate" // 发送评价消息
 	case setReadCount = "set_room_read_message" // 上报未读消息
 	// 会话列表接口
 	case chatList = "chat_list" //会话列表

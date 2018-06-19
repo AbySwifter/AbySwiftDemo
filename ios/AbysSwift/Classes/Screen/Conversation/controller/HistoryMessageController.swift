@@ -31,11 +31,14 @@ class HistoryMessageController: ABYBaseViewController {
             make.left.right.top.bottom.equalTo(self.view)
         })
         messageVC.conversation = self.conversation
+        messageVC.showBot = true
         return messageVC
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // FIXME: 添加等待的loading
+        self.showLoading()
         getHistoryList() // 加载历史消息
     }
 }
@@ -60,11 +63,15 @@ extension HistoryMessageController {
                 guard let tempList = res["data"]["message_list"].arrayObject else { return }
                 guard let msgList = [Message].deserialize(from: tempList) else { return }
                 if self.page == 1 {
+                    
                     self.messageVC.setMessage(list: msgList as! [Message])
                 } else {
                     self.messageVC.addMessageRemote(list: msgList as! [Message])
                 }
                 self.page += 1
+            }
+            if self.page == 1 {
+                self.hideLoading()
             }
             self.messageVC.chatListView.mj_header.endRefreshing()
         }

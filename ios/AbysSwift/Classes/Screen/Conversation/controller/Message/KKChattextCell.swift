@@ -31,7 +31,7 @@ class KKChattextCell: KKChatBaseCell {
 			setModel()
 		}
 	}
-
+    var showBot: Bool = false
 	lazy var contentLabel: UILabel = {
 		let contentL = UILabel.init()
 		contentL.numberOfLines = 0 // 可以多行显示
@@ -66,6 +66,10 @@ extension KKChattextCell {
 		contentLabel.textColor = color
 		let normalImage = img.resizableImage(withCapInsets: UIEdgeInsetsMake(10, 10, 10, 10), resizingMode: .stretch)
 		bubbleView.image = normalImage
+        if showBot && message.content?.is_bot == 1 {
+            bubbleView.image = normalImage.withRenderingMode(.alwaysTemplate)
+            bubbleView.tintColor = UIColor.init(hexString: "00ADA3")
+        }
 		// 计算尺寸, 最大宽高不限
 		let contentSize = contentLabel.sizeThatFits(CGSize.init(width: self.maxMsgWidth, height: CGFloat(Float.greatestFiniteMagnitude)))
         // 头像的通用样式

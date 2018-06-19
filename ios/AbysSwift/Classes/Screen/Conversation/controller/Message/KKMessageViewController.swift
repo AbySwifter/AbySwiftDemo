@@ -38,10 +38,11 @@ protocol KKMessageViewControllerDelegate {
 }
 
 class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITableViewDataSource {
-    
+    var showBot: Bool = false // 控制是否显示Bot消息标记
     var isChatView: Bool = true
     var delegate: KKMessageViewControllerDelegate?
     var loadMoreAction: (() -> (Void))? // 如果此属性为真，则默认的历史消息拉取方法不执行
+    var loadFromRemote: (() -> (Void))? // 此属性存在，则在本地消息完毕后自动拉取历史消息
     /// 显示消息Item的tableView
 	lazy var chatListView: UITableView = {
 		let tab = UITableView.init(frame: CGRect.zero, style: .plain)
@@ -179,6 +180,7 @@ extension KKMessageViewController {
 		guard historyList.count != 0 else {
 			// 没有历史消息
 			chatListView.mj_header.endRefreshing()
+            // FIXME: 执行远程加载历史消息的方法
 			return
 		}
 		// 在加载历史消息之前，先判断消息的显示
@@ -233,6 +235,7 @@ extension KKMessageViewController {
 		case .chat:
 			if model.content?.type == MSG_ELEM.text {
 				cell = tableView.dequeueReusableCell(withIdentifier: KKChattextCellID) as? KKChattextCell
+                (cell as! KKChattextCell).showBot = self.showBot
 			} else if model.content?.type == MSG_ELEM.voice {
 				cell = tableView.dequeueReusableCell(withIdentifier: KKChatAudioCellID) as? KKChatAudioCell
             } else if model.content?.type == MSG_ELEM.image {
@@ -337,5 +340,4 @@ extension KKMessageViewController {
 		}
 	}
 }
-
 

@@ -15,10 +15,16 @@ let kScreenWidth = UIScreen.main.bounds.width
 let KScreenHeight = UIScreen.main.bounds.height
 
 let SystemVersion: String = UIDevice.current.systemName + " " + UIDevice.current.systemVersion
-// 计算比例的函数
+/// 计算比例的函数（750）的设计图
 func W750(_ number: CGFloat) -> CGFloat {
 	let standWidth: CGFloat = 750.0
 	return (number / standWidth) * UIScreen.main.bounds.size.width
+}
+
+/// 计算比例的函数（375的设计图）
+func W375(_ number: CGFloat) -> CGFloat {
+    let standWidth: CGFloat = 375.0
+    return (number / standWidth) * UIScreen.main.bounds.size.width
 }
 
 // 生成随机字符串

@@ -49,6 +49,7 @@
 		DD67F93A205BC57A00A55280 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67F939205BC57A00A55280 /* Conversation.swift */; };
 		DD70778A202450B40034CB00 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD707789202450B40034CB00 /* LoginViewController.swift */; };
 		DD70778D202452650034CB00 /* ABYNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD70778C202452650034CB00 /* ABYNetworkManager.swift */; };
+		DD72899E20C6691D001E98E0 /* ABYPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD72899D20C6691D001E98E0 /* ABYPackage.swift */; };
 		DD739859202416A4006242FD /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD739858202416A4006242FD /* ConversationViewController.swift */; };
 		DD73985C202417D5006242FD /* FormsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD73985B202417D5006242FD /* FormsViewController.swift */; };
 		DD73985F20241956006242FD /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD73985E20241956006242FD /* MineViewController.swift */; };
@@ -77,8 +78,10 @@
 		DD974B3220A3FE6D00D0470F /* KKChatEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD974B3120A3FE6D00D0470F /* KKChatEditorView.swift */; };
 		DD9766C82048F3F40037C232 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9766C72048F3F40037C232 /* FormView.swift */; };
 		DDA5EB2520BCFC28002ECB36 /* KKArrticalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA5EB2420BCFC28002ECB36 /* KKArrticalCell.swift */; };
+		DDA6182C20D363D100843957 /* AddTagController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA6182B20D363D100843957 /* AddTagController.swift */; };
 		DDA7AD7820902BF700BD70F3 /* KKChatBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA7AD7720902BF700BD70F3 /* KKChatBarViewController.swift */; };
 		DDA7AD7A20902C2000BD70F3 /* KKMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA7AD7920902C2000BD70F3 /* KKMessageViewController.swift */; };
+		DDB3FA3320D2114600E1A9E7 /* TagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB3FA3220D2114600E1A9E7 /* TagView.swift */; };
 		DDB861C020BC02D000C8AC8F /* BridgeConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB861BF20BC02D000C8AC8F /* BridgeConst.swift */; };
 		DDBDEA0720BE77C000473C43 /* BaseBridgeCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBDEA0620BE77C000473C43 /* BaseBridgeCenter.swift */; };
 		DDBDEA0920BE8E9E00473C43 /* ABYWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDBDEA0820BE8E9E00473C43 /* ABYWebViewController.swift */; };
@@ -92,6 +95,7 @@
 		DDD3845120592B1D00A525DF /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD3845020592B1D00A525DF /* ConversationCell.swift */; };
 		DDD4A175204FCAD500F02490 /* PartName.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD4A174204FCAD500F02490 /* PartName.swift */; };
 		DDD4A18D204FDF2300F02490 /* ABYProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD4A18C204FDF2300F02490 /* ABYProgressView.swift */; };
+		DDD68BEF20D8A7ED005539F7 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD68BEE20D8A7ED005539F7 /* NotificationViewController.swift */; };
 		DDDC8485208755E000939232 /* KKChattextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDC8484208755E000939232 /* KKChattextCell.swift */; };
 		DDDEC7AF209166030076C2AB /* ABYPopMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDEC7AE209166030076C2AB /* ABYPopMenu.swift */; };
 		DDDEF6A820B7BAA200A026AF /* ABYBackItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDEF6A720B7BAA100A026AF /* ABYBackItem.swift */; };
@@ -182,6 +186,7 @@
 		DD67F939205BC57A00A55280 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		DD707789202450B40034CB00 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DD70778C202452650034CB00 /* ABYNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYNetworkManager.swift; sourceTree = "<group>"; };
+		DD72899D20C6691D001E98E0 /* ABYPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYPackage.swift; sourceTree = "<group>"; };
 		DD739858202416A4006242FD /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		DD73985B202417D5006242FD /* FormsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormsViewController.swift; sourceTree = "<group>"; };
 		DD73985E20241956006242FD /* MineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
@@ -211,8 +216,10 @@
 		DD974B3120A3FE6D00D0470F /* KKChatEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatEditorView.swift; sourceTree = "<group>"; };
 		DD9766C72048F3F40037C232 /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 		DDA5EB2420BCFC28002ECB36 /* KKArrticalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKArrticalCell.swift; sourceTree = "<group>"; };
+		DDA6182B20D363D100843957 /* AddTagController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTagController.swift; sourceTree = "<group>"; };
 		DDA7AD7720902BF700BD70F3 /* KKChatBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatBarViewController.swift; sourceTree = "<group>"; };
 		DDA7AD7920902C2000BD70F3 /* KKMessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKMessageViewController.swift; sourceTree = "<group>"; };
+		DDB3FA3220D2114600E1A9E7 /* TagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagView.swift; sourceTree = "<group>"; };
 		DDB861BF20BC02D000C8AC8F /* BridgeConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeConst.swift; sourceTree = "<group>"; };
 		DDBDEA0620BE77C000473C43 /* BaseBridgeCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBridgeCenter.swift; sourceTree = "<group>"; };
 		DDBDEA0820BE8E9E00473C43 /* ABYWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYWebViewController.swift; sourceTree = "<group>"; };
@@ -222,10 +229,12 @@
 		DDC332FD20873AFD004B9669 /* KKChatBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatBaseCell.swift; sourceTree = "<group>"; };
 		DDC332FF2087427F004B9669 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DDC3BD08208D80FA00D46F19 /* KKChatMsgDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatMsgDataHelper.swift; sourceTree = "<group>"; };
+		DDC4F79420D8DECF00D62850 /* AbysSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AbysSwift.entitlements; sourceTree = "<group>"; };
 		DDD3844C205929A800A525DF /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
 		DDD3845020592B1D00A525DF /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		DDD4A174204FCAD500F02490 /* PartName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartName.swift; sourceTree = "<group>"; };
 		DDD4A18C204FDF2300F02490 /* ABYProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYProgressView.swift; sourceTree = "<group>"; };
+		DDD68BEE20D8A7ED005539F7 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		DDDC8484208755E000939232 /* KKChattextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChattextCell.swift; sourceTree = "<group>"; };
 		DDDEC7AE209166030076C2AB /* ABYPopMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYPopMenu.swift; sourceTree = "<group>"; };
 		DDDEF6A720B7BAA100A026AF /* ABYBackItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ABYBackItem.swift; sourceTree = "<group>"; };
@@ -297,6 +306,7 @@
 		DD001F3F2023238500C912D2 /* AbysSwift */ = {
 			isa = PBXGroup;
 			children = (
+				DDC4F79420D8DECF00D62850 /* AbysSwift.entitlements */,
 				DD73985520241655006242FD /* Classes */,
 				DD001F402023238500C912D2 /* AppDelegate.swift */,
 				DD128A1620883BB100F85809 /* Assets.xcassets */,
@@ -404,6 +414,14 @@
 				DD7EAE8620735C2000A7BBF5 /* ABYJsonModel.swift */,
 			);
 			path = Tools;
+			sourceTree = "<group>";
+		};
+		DD72899C20C66900001E98E0 /* ABYPackage */ = {
+			isa = PBXGroup;
+			children = (
+				DD72899D20C6691D001E98E0 /* ABYPackage.swift */,
+			);
+			path = ABYPackage;
 			sourceTree = "<group>";
 		};
 		DD73985520241655006242FD /* Classes */ = {
@@ -605,6 +623,7 @@
 				DD95E1AD20A962630030394A /* ClientInfoCell.swift */,
 				DD898BA320AA82B90019F5F6 /* OtherInfoCell.swift */,
 				DD27129A20BCFF7E00FCF9F9 /* ArticleItemView.swift */,
+				DDB3FA3220D2114600E1A9E7 /* TagView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -622,6 +641,7 @@
 				DD898BA120AA783B0019F5F6 /* ToOtherViewController.swift */,
 				DD19313A20AAB05C00C63132 /* HistoryMessageController.swift */,
 				DD9474E620C0D9980090A183 /* ReplayViewController.swift */,
+				DDA6182B20D363D100843957 /* AddTagController.swift */,
 			);
 			path = controller;
 			sourceTree = "<group>";
@@ -631,6 +651,7 @@
 			children = (
 				DD73985E20241956006242FD /* MineViewController.swift */,
 				DD87B42620AC02920090BCD3 /* ChangePWDViewController.swift */,
+				DDD68BEE20D8A7ED005539F7 /* NotificationViewController.swift */,
 			);
 			path = viewController;
 			sourceTree = "<group>";
@@ -653,6 +674,7 @@
 		DDDEC7AC209165BD0076C2AB /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				DD72899C20C66900001E98E0 /* ABYPackage */,
 				DDDEF6A620B7BA9300A026AF /* ABYButtons */,
 				DD31DAE820A2D85C00D02112 /* CCZoomTransition */,
 				DDDEC7AD209165D50076C2AB /* ABYPopMenu */,
@@ -758,6 +780,11 @@
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0930;
 						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 0;
+							};
+						};
 					};
 					DD001F502023238500C912D2 = {
 						CreatedOnToolsVersion = 9.2;
@@ -902,6 +929,7 @@
 				DD974B3020A3F0FD00D0470F /* UIDevice+Extension.swift in Sources */,
 				DD67F93A205BC57A00A55280 /* Conversation.swift in Sources */,
 				DD466AD320AD5CFE00F37465 /* RealmManager.swift in Sources */,
+				DDA6182C20D363D100843957 /* AddTagController.swift in Sources */,
 				DD27129B20BCFF7E00FCF9F9 /* ArticleItemView.swift in Sources */,
 				DD31DAE520A2A02600D02112 /* KKConst.swift in Sources */,
 				DD70778A202450B40034CB00 /* LoginViewController.swift in Sources */,
@@ -919,9 +947,11 @@
 				DD9766C82048F3F40037C232 /* FormView.swift in Sources */,
 				DD974B3220A3FE6D00D0470F /* KKChatEditorView.swift in Sources */,
 				DD001F70202323DE00C912D2 /* ABYTabBarComtroller.swift in Sources */,
+				DD72899E20C6691D001E98E0 /* ABYPackage.swift in Sources */,
 				DD87B42720AC02920090BCD3 /* ChangePWDViewController.swift in Sources */,
 				DD898BA220AA783B0019F5F6 /* ToOtherViewController.swift in Sources */,
 				DD31DAEF20A2D85C00D02112 /* CCSwipBackPresentationController.swift in Sources */,
+				DDB3FA3320D2114600E1A9E7 /* TagView.swift in Sources */,
 				DD79B3E8206895FC00979582 /* WebSocketManager.swift in Sources */,
 				DDB861C020BC02D000C8AC8F /* BridgeConst.swift in Sources */,
 				DD916B3B208052EC00A31A09 /* BaseBridgemanager.m in Sources */,
@@ -973,6 +1003,7 @@
 				DD31DAED20A2D85C00D02112 /* CCZoomAnimatedTransitioning.swift in Sources */,
 				DDC281A8209ADE9F000B2CBE /* FileManager.swift in Sources */,
 				DDD3845120592B1D00A525DF /* ConversationCell.swift in Sources */,
+				DDD68BEF20D8A7ED005539F7 /* NotificationViewController.swift in Sources */,
 				DD14B81B2047B8AC00265CD3 /* ABYValueFormatter.swift in Sources */,
 				DDD3844D205929A800A525DF /* ConversationManager.swift in Sources */,
 				DDBDEA0920BE8E9E00473C43 /* ABYWebViewController.swift in Sources */,

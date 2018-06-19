@@ -51,7 +51,7 @@ class KKChatBarViewController: UIViewController {
     }
     var pageViewController: UIViewController
     /// 聊天底部编辑栏
-    lazy var chatEditor: KKChatEditorView = {
+    private lazy var chatEditor: KKChatEditorView = {
         let view: KKChatEditorView = KKChatEditorView.init()
         view.delegate = self
         return view

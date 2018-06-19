@@ -17,29 +17,16 @@ class ClientInfoViewController: ABYBaseViewController {
         (#imageLiteral(resourceName: "device"), "终端：", ""),
         (#imageLiteral(resourceName: "source"), "来源：", "")
     ]
+    var tags: [String] = ["女性消费者", "土豪", "穷游", "喜爱美食", "关心价格", "不介意价格"]
     var info: ClientInfo? {
         didSet {
            setInfo()
         }
     }
-    var remarkHeight: CGFloat = W750(50)
     var footerHeight: CGFloat {
-        return remarkHeight + W750(59)
+        return tagView.totalHeight > W750(45) ? tagView.totalHeight + W375(10) : W750(45)
     }
-    // 备注的输入栏
-    lazy var remark: UITextView = {
-        let textView = UITextView.init()
-        textView.font = UIFont.systemFont(ofSize: 14)
-        textView.textColor = UIColor.init(hexString: "666666")
-        textView.backgroundColor = UIColor.init(hexString: "f5f5f5")
-        textView.delegate = self
-        textView.contentInsetAdjustmentBehavior = .never
-        textView.bounces = false
-        textView.contentInset = UIEdgeInsets.init(top: 0, left: 0, bottom: 0, right: 0)
-        textView.isEditable = false
-        return textView
-    }()
-    
+   
     // 整个页面的Tab
     lazy var tabview: UITableView = {
         let tab = UITableView.init(frame: self.view.bounds, style: .plain)
@@ -50,26 +37,27 @@ class ClientInfoViewController: ABYBaseViewController {
         // 注册cell
         tab.tableHeaderView = headView
         tab.separatorStyle = .none
-        tab.rowHeight = W750(107)
+        tab.rowHeight = W375(50)
         tab.bounces = false
-        tab.backgroundColor = UIColor.init(hexString: "f5f5f5")
+        tab.backgroundColor = UIColor.init(hexString: "ffffff")
         tab.register(ClientInfoCell.classForCoder(), forCellReuseIdentifier: "ClientInfoCell")
         return tab
     }()
-    
+   
+    /// 返回用户信息的头部视图
     private lazy var headView: UIView = {
-        let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.width, height: self.view.height / 3))
-        view.backgroundColor = ABYGlobalThemeColor()
+        let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.width, height: W375(105)))
+        view.backgroundColor = UIColor.white // 背景为白色
         view.addSubview(avatar)
         avatar.snp.makeConstraints({ (make) in
-            make.centerX.equalTo(view)
-            make.height.width.equalTo(W750(150))
-            make.bottom.equalTo(view.snp.bottom).offset(-W750(120))
+            make.left.equalTo(view.snp.left).offset(20)
+            make.height.width.equalTo(W375(70))
+            make.centerY.equalTo(view.snp.centerY)
         })
         view.addSubview(name)
         name.snp.makeConstraints({ (make) in
-            make.centerX.equalTo(view)
-            make.bottom.equalTo(view.snp.bottom).offset(-W750(40))
+            make.centerY.equalTo(view)
+            make.left.equalTo(avatar.snp.right).offset(W375(20))
         })
         return view
     }()
@@ -88,74 +76,66 @@ class ClientInfoViewController: ABYBaseViewController {
     
     lazy var name: UILabel = {
         let name: UILabel = UILabel.init()
-        name.font = UIFont.systemFont(ofSize: 16, weight: UIFont.Weight.bold)
-        name.textColor = UIColor.white
+        name.font = UIFont.systemFont(ofSize: 22)
+        name.textColor = UIColor.init(hexString: "333333")
         name.text = "用户名"
         return name
+    }()
+    
+    lazy var tagView: TagView = {
+        let maxW = self.view.width - label.width - 40 - W375(40)
+        let tagView = TagView.init(tags: tags, maxRowW: maxW, rowH: W375(45), marginX: W375(20))
+        tagView.delegate = self
+        return tagView
+    }()
+    
+    private lazy var label: UILabel = {
+        let label = UILabel.init()
+        label.text = "备注："
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.init(hexString: "333333")
+        label.sizeToFit()
+        return label
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.title = "客户信息"
-        addNotification()
         // Do any additional setup after loading the view.
         view.addSubview(tabview)
         getCustomerInfo() // 获取用户信息
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.setNavigationBarTranslucent()
+//        self.setNavigationBarTranslucent()
+        self.setThemeNavigationBar()
     }
     func initFooterView() -> UIView {
         let view = UIView.init()
-        view.backgroundColor = UIColor.init(hexString: "f5f5f5")
+        view.backgroundColor = UIColor.init(hexString: "ffffff")
         let imageView = UIImageView.init()
         imageView.image = #imageLiteral(resourceName: "remark")
-        imageView.contentMode = .left
-        let label = UILabel.init()
-        label.text = "备注："
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.init(hexString: "666666")
+        imageView.contentMode = .scaleAspectFit
+        
         view.addSubview(imageView)
         imageView.snp.makeConstraints { (make) in
-            make.top.equalTo(view.snp.top).offset(W750(28))
-            make.left.equalTo(view.snp.left).offset(15)
-            make.height.equalTo(W750(50))
-            make.width.equalTo(W750(90))
+            make.top.equalTo(view.snp.top).offset(W375(15))
+            make.left.equalTo(view.snp.left).offset(20)
+            make.height.equalTo(W375(20))
+            make.width.equalTo(W375(20))
         }
         view.addSubview(label)
         label.snp.makeConstraints { (make) in
-            make.top.equalTo(imageView)
-            make.left.equalTo(imageView.snp.right)
-            make.height.equalTo(imageView)
+            make.centerY.equalTo(imageView)
+            make.left.equalTo(imageView.snp.right).offset(W375(20))
         }
-        label.sizeToFit()
-        let button = UIButton.init(type: .custom)
-        button.setImage(#imageLiteral(resourceName: "edit_remark"), for: .normal)
-        button.addTarget(self, action: #selector(remarkAction(sender:)), for: .touchUpInside)
-        view.addSubview(button)
-        button.snp.makeConstraints { (make) in
-            make.top.equalTo(imageView)
-            make.right.equalTo(view.snp.right).offset(-15)
-            make.height.equalTo(imageView.snp.height)
-            make.width.equalTo(W750(50))
-        }
-        view.addSubview(remark)
-        remark.snp.makeConstraints { (make) in
-            make.top.equalTo(imageView)
+        view.addSubview(tagView)
+        tagView.snp.makeConstraints { (make) in
             make.left.equalTo(label.snp.right)
-            make.right.equalTo(button.snp.left)
-            make.bottom.equalTo(view.snp.bottom).offset(-W750(27))
-        }
-        let separator = UIView.init()
-        separator.backgroundColor = UIColor.init(hexString: "cccccc")
-        view.addSubview(separator)
-        separator.snp.makeConstraints { (make) in
-            make.height.equalTo(1/UIScreen.main.scale)
-            make.left.equalTo(view.snp.left).offset(15)
-            make.right.equalTo(view.snp.right).offset(-15)
-            make.bottom.equalTo(view.snp.bottom)
+            make.top.equalTo(imageView.snp.top).offset(-12.5)
+            make.width.equalTo(tagView.maxRowWidth)
+            make.height.equalTo(tagView.totalHeight)
         }
         return view
     }
@@ -173,13 +153,13 @@ extension ClientInfoViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView.init()
-        return view
-    }
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 44
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let view = UIView.init()
+//        return view
+//    }
+//    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        return 44
+//    }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return self.footerView
@@ -222,82 +202,56 @@ extension ClientInfoViewController {
         self.dataSource[1].2 = info.address ?? "保密"
         self.dataSource[2].2 = "unknown"
         self.dataSource[3].2 = info.source ?? "未知"
-        self.remark.text = info.remark ?? ""
         self.tabview.reloadData()
     }
     
 }
 
 // MARK: -UITextViewDelegate, notification
-extension ClientInfoViewController: UITextViewDelegate {
-    
-    func addNotification() -> Void {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: Notification.Name.UIKeyboardWillShow, object: nil)
-    }
-    
-    func textViewDidChange(_ textView: UITextView) {
-        var height = textView.sizeThatFits(CGSize.init(width: textView.width, height: CGFloat.greatestFiniteMagnitude)).height
-        // 根据高度去改变视图的大小
-        height = height > W750(50) ? height : W750(50)
-        height = height < W750(200) ? height : W750(200)
-        if height != remarkHeight {
-            remarkHeight = height
-            self.tabview.beginUpdates()
-            self.tabview.reloadData()
-            self.tabview.endUpdates()
-        }
-    }
-    
-    @objc
-    func keyboardWillShow(notification: Notification) {
-        guard let kbInfo = notification.userInfo else {
-            return
-        }
-        //        let duration = kbInfo[UIKeyboardAnimationDurationUserInfoKey] as! Double
-        let keyboardHeight = (kbInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect?)?.height ?? 0
-        var frame = self.view.bounds
-        frame.size.height = frame.height - keyboardHeight
-        self.tabview.frame = frame
-    }
-    
-    @objc
-    func keyboardWillHide(notification: Notification) {
-        self.tabview.frame = self.view.bounds
-        self.tabview.layoutIfNeeded()
-    }
+extension ClientInfoViewController {
     
     @objc
     func remarkAction(sender: UIButton) -> Void {
-        if remark.isEditable {
-            remark.resignFirstResponder()
-            // 在这里提交备注
-            updateRemark()
-            remark.isEditable = false
-        } else {
-            remark.isEditable = true
-            remark.becomeFirstResponder()
-        }
+//        if remark.isEditable {
+//            remark.resignFirstResponder()
+//            // 在这里提交备注
+//            updateRemark()
+//            remark.isEditable = false
+//        } else {
+//            remark.isEditable = true
+//            remark.becomeFirstResponder()
+//        }
     }
     
     func updateRemark() {
-        guard let room_id = self.room_id else {
-            return
-        }
-        let params: [String: Any] = [
-            "customer_id": "\(room_id)",
-            "remark": "\(remark.text ?? "")"
-        ]
-        showLoading()
-        self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.updateCustomRemark, params: params)) { (json) -> (Void) in
-            self.hideLoading()
-            if json != nil {
-                self.showToast("修改备注成功")
-            } else {
-                self.showToast("修改备注失败")
-            }
-        }
+//        guard let room_id = self.room_id else {
+//            return
+//        }
+//        let params: [String: Any] = [
+////            "customer_id": "\(room_id)",
+////            "remark": "\(remark.text ?? "")"
+//        ]
+//        showLoading()
+//        self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.updateCustomRemark, params: params)) { (json) -> (Void) in
+//            self.hideLoading()
+//            if json != nil {
+//                self.showToast("修改备注成功")
+//            } else {
+//                self.showToast("修改备注失败")
+//            }
+//        }
+    }
+}
 
+extension ClientInfoViewController: TagViewDelegate {
+    func touchTagClose(tag: Int, title: String) {
+        ABYPrint("点击了\(title)")
+    }
+    
+    func touchTagAdd(tag: Int) {
+        /// 打开添加标签的页面
+        let addVC = AddTagController()
+        self.navigationController?.pushViewController(addVC, animated: true)
     }
 }
 
