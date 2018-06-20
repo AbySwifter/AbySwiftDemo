@@ -80,13 +80,25 @@ class TagView: UIView {
     }()
     
     //MARK: Initial Methods
-    convenience init(tags: [String], maxRowW: CGFloat, rowH: CGFloat, marginX: CGFloat) {
+    convenience init(tags: [String], maxRowW: CGFloat, rowH: CGFloat, marginX: CGFloat, showAddBtn: Bool = true, showClose: Bool = true) {
         self.init()
         self.marginX = marginX
         self.maxRowWidth = maxRowW
         self.rowHeight = rowH
         self.tags = tags
+        self.showAddBtn = showAddBtn
+        self.showClose = showClose
         self.createTags()
+    }
+    
+    func updataTag() -> Void {
+        for item in self.subviews {
+            item.removeFromSuperview()
+        }
+        lastButton = nil
+        currentRow = 0
+        totalRowW = 0
+        self.createTags() // 重新创建
     }
     
     //MARK: Internal Methods

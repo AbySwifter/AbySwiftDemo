@@ -245,13 +245,25 @@ extension ClientInfoViewController {
 
 extension ClientInfoViewController: TagViewDelegate {
     func touchTagClose(tag: Int, title: String) {
-        ABYPrint("点击了\(title)")
+        ABYPrint("点击了关闭按钮\(title)")
+        tags.remove(at: tag)
+        tagView.tags = tags
+        tagView.updataTag()
     }
     
     func touchTagAdd(tag: Int) {
         /// 打开添加标签的页面
         let addVC = AddTagController()
+        addVC.delegate = self
         self.navigationController?.pushViewController(addVC, animated: true)
+    }
+}
+
+extension ClientInfoViewController: AddTagControllerdelegate {
+    func add(tags: [String]) {
+        // 实现添加的代码
+        tagView.tags += tags
+        tagView.updataTag()
     }
 }
 
