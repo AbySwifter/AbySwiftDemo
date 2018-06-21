@@ -1,44 +1,166 @@
 PODS:
-  - Alamofire (4.6.0)
+  - Alamofire (4.7.2)
+  - boost-for-react-native (1.63.0)
   - Charts (3.0.5):
     - Charts/Core (= 3.0.5)
   - Charts/Core (3.0.5)
-  - HandyJSON (4.0.0-beta.1)
-  - JGProgressHUD (2.0)
-  - Kingfisher (4.6.1)
+  - DoubleConversion (1.1.5)
+  - DZNEmptyDataSet (1.8.1)
+  - Folly (2016.09.26.00):
+    - boost-for-react-native
+    - DoubleConversion
+    - glog
+  - glog (0.3.4)
+  - HandyJSON (4.1.1)
+  - JGProgressHUD (2.0.3)
+  - Kingfisher (4.6.4)
+  - MJRefresh (3.1.15.3)
+  - React (0.55.4):
+    - React/Core (= 0.55.4)
+  - React/ART (0.55.4):
+    - React/Core
+  - React/Core (0.55.4):
+    - yoga (= 0.55.4.React)
+  - React/CxxBridge (0.55.4):
+    - Folly (= 2016.09.26.00)
+    - React/Core
+    - React/cxxreact
+  - React/cxxreact (0.55.4):
+    - boost-for-react-native (= 1.63.0)
+    - Folly (= 2016.09.26.00)
+    - React/jschelpers
+    - React/jsinspector
+  - React/DevSupport (0.55.4):
+    - React/Core
+    - React/RCTWebSocket
+  - React/fishhook (0.55.4)
+  - React/jschelpers (0.55.4):
+    - Folly (= 2016.09.26.00)
+    - React/PrivateDatabase
+  - React/jsinspector (0.55.4)
+  - React/PrivateDatabase (0.55.4)
+  - React/RCTActionSheet (0.55.4):
+    - React/Core
+  - React/RCTAnimation (0.55.4):
+    - React/Core
+  - React/RCTBlob (0.55.4):
+    - React/Core
+  - React/RCTCameraRoll (0.55.4):
+    - React/Core
+    - React/RCTImage
+  - React/RCTGeolocation (0.55.4):
+    - React/Core
+  - React/RCTImage (0.55.4):
+    - React/Core
+    - React/RCTNetwork
+  - React/RCTLinkingIOS (0.55.4):
+    - React/Core
+  - React/RCTNetwork (0.55.4):
+    - React/Core
+  - React/RCTSettings (0.55.4):
+    - React/Core
+  - React/RCTText (0.55.4):
+    - React/Core
+  - React/RCTVibration (0.55.4):
+    - React/Core
+  - React/RCTWebSocket (0.55.4):
+    - React/Core
+    - React/fishhook
+    - React/RCTBlob
+  - RNVectorIcons (4.6.0):
+    - React
   - SnapKit (4.0.0)
-  - Starscream (3.0.3)
-  - SwiftyJSON (4.0.0)
+  - SSZipArchive (2.1.3)
+  - Starscream (3.0.5)
+  - SwiftDate (4.5.1)
+  - SwiftyJSON (4.1.0)
+  - yoga (0.55.4.React)
 
 DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Charts (~> 3.0.5)
-  - HandyJSON (from `https://github.com/levanlongktmt/HandyJSON`)
+  - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - DZNEmptyDataSet
+  - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
+  - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - HandyJSON (~> 4.1.0)
   - JGProgressHUD
   - Kingfisher (~> 4.6.1)
+  - MJRefresh
+  - React/ART (from `../node_modules/react-native`)
+  - React/Core (from `../node_modules/react-native`)
+  - React/CxxBridge (from `../node_modules/react-native`)
+  - React/DevSupport (from `../node_modules/react-native`)
+  - React/RCTActionSheet (from `../node_modules/react-native`)
+  - React/RCTAnimation (from `../node_modules/react-native`)
+  - React/RCTCameraRoll (from `../node_modules/react-native`)
+  - React/RCTGeolocation (from `../node_modules/react-native`)
+  - React/RCTImage (from `../node_modules/react-native`)
+  - React/RCTLinkingIOS (from `../node_modules/react-native`)
+  - React/RCTNetwork (from `../node_modules/react-native`)
+  - React/RCTSettings (from `../node_modules/react-native`)
+  - React/RCTText (from `../node_modules/react-native`)
+  - React/RCTVibration (from `../node_modules/react-native`)
+  - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons/RNVectorIcons.podspec`)
   - SnapKit (~> 4.0.0)
+  - SSZipArchive
   - Starscream (~> 3.0.3)
+  - SwiftDate
   - SwiftyJSON
+  - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - boost-for-react-native
+    - Charts
+    - DZNEmptyDataSet
+    - HandyJSON
+    - JGProgressHUD
+    - Kingfisher
+    - MJRefresh
+    - SnapKit
+    - SSZipArchive
+    - Starscream
+    - SwiftDate
+    - SwiftyJSON
 
 EXTERNAL SOURCES:
-  HandyJSON:
-    :git: https://github.com/levanlongktmt/HandyJSON
-
-CHECKOUT OPTIONS:
-  HandyJSON:
-    :commit: a3bada0f06052a56f713e590f616efc875742d8b
-    :git: https://github.com/levanlongktmt/HandyJSON
+  DoubleConversion:
+    :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  Folly:
+    :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
+  glog:
+    :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  React:
+    :path: "../node_modules/react-native"
+  RNVectorIcons:
+    :podspec: "../node_modules/react-native-vector-icons/RNVectorIcons.podspec"
+  yoga:
+    :path: "../node_modules/react-native/ReactCommon/yoga"
 
 SPEC CHECKSUMS:
-  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   Charts: 45cdc985b764c838b35ee47eb1365d15735f6d1a
-  HandyJSON: fe8eb05d9dcc1891d5c181758930d340295e0913
-  JGProgressHUD: c402c0f41fc291ca7e33bba2f999118d9682dd9c
-  Kingfisher: 1f9157d9c02b380cbd0b7cc890161195164eb634
+  DoubleConversion: e22e0762848812a87afd67ffda3998d9ef29170c
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  Folly: 211775e49d8da0ca658aebc8eab89d642935755c
+  glog: 1de0bb937dccdc981596d3b5825ebfb765017ded
+  HandyJSON: 3a3de917c4118767ffe41c29b5acba23409649f4
+  JGProgressHUD: 12b20a8f4ffe05258f8635c1ab92816e451f904d
+  Kingfisher: 68498a706e46c2a050b0c9572f100e5db407f6e0
+  MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
+  React: aa2040dbb6f317b95314968021bd2888816e03d5
+  RNVectorIcons: a3c395829c56e2cb054a0730126298bf805a2dca
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
-  Starscream: dfb1b3f39506717ee52b67fb48de0c8269504cbc
-  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  SSZipArchive: 51a800ebb77f95a8329b6ced1faaff394b47f509
+  Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
+  SwiftDate: 7b56d42a221f582047287deb256b23fc5ed49a60
+  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
+  yoga: 618bddc9ca65121bba7c93bdbe8b649edb816558
 
-PODFILE CHECKSUM: 36fe6d939df97270fd272730bc9e5336c9f54d82
+PODFILE CHECKSUM: 8209db28ad785fa9a5eac9d2d19af140fdb4df4b
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.3

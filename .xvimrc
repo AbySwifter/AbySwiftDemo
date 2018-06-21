@@ -1,0 +1,6 @@
+set ignorecase
+set wrapscan
+set guioptions=r
+nmap n e
+set statusline=\ %<%F[%1*%M%*%n%R%H]%=\ %y\ %0(%{&fileformat}\ %{&encoding}\ %c:%l/%L%)\ 
+" 设置在状态行显示的信息 

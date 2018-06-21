@@ -14,6 +14,7 @@ class ABYNavigationController: UINavigationController {
         super.viewDidLoad()
 		// Do any additional setup after loading the view.
 		setBarStyle()
+        self.view.backgroundColor = UIColor.white
     }
 
 	func setBarStyle() -> Void {
@@ -21,7 +22,7 @@ class ABYNavigationController: UINavigationController {
 		navBar.isTranslucent = false
 		navBar.barTintColor = ABYGlobalThemeColor()
 		navBar.tintColor = UIColor.white
-		navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
+        navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
 	}
 
 	/**
@@ -36,16 +37,16 @@ class ABYNavigationController: UINavigationController {
 		if viewControllers.count > 0 {
 			// push 后隐藏 tabbar
 			viewController.hidesBottomBarWhenPushed = true
-//			viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "checkUserType_backward_9x15_"), style: .plain, target: self, action: #selector(navigationBackClick))
+//            viewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "chat_back_icon"), style: .plain, target: self, action: #selector(navigationBackClick))
 		}
 		super.pushViewController(viewController, animated: animated)
 	}
-
+    
 	@objc func navigationBackClick() {
 		if UIApplication.shared.isNetworkActivityIndicatorVisible {
 			UIApplication.shared.isNetworkActivityIndicatorVisible = false
 		}
-		popViewController(animated: true)
+		_ = popViewController(animated: true)
 	}
 
     override func didReceiveMemoryWarning() {

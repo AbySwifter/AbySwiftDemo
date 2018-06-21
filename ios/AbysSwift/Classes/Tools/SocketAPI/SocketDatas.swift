@@ -17,10 +17,11 @@ struct SocketData: HandyJSON {
 	var device: String = SystemVersion
 	var ims_version: String = ABYSocket.IMS_VERSION
 	var message_type: String = "client"
-	var session_id: String = newGUID()
+	var session_id: String = ""
 	var type: String = ""
 	var client_id: String = ""
-	var body: [String: Any] = [:]
+    var body: [String: Any] = [:]
+//    var body: Message?
 }
 
 struct SocketSendOptions {

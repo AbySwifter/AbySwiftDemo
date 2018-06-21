@@ -1,7 +1,3 @@
-This repository is forked from https://github.com/alibaba/HandyJSON because original repository has been abandoned. I will continue maintain this project. But Im not iOS master, so I hope have help of everyone. Many thanks to all.
-
-I don't know Chinese, so please using English for Issues and Pull request. Thanks ^^.
-
 # HandyJSON
 
 HandyJSON is a framework written in Swift which to make converting model objects( **pure classes/structs** ) to and from JSON easy on iOS.
@@ -114,7 +110,7 @@ An overview of types supported can be found at file: [BasicTypes.swift](./HandyJ
 
 **To use with Swift 3.x using >= 1.8.0**
 
-**To use with Swift 4.0 using == 4.0.0**
+**To use with Swift 4.0 using == 4.1.1**
 
 For Legacy Swift2.x support, take a look at the [swift2 branch](https://github.com/alibaba/HandyJSON/tree/master_for_swift_2x).
 
@@ -123,7 +119,7 @@ For Legacy Swift2.x support, take a look at the [swift2 branch](https://github.c
 Add the following line to your `Podfile`:
 
 ```
-pod 'HandyJSON', '~> 1.8.0'
+pod 'HandyJSON', '~> 4.1.1'
 ```
 
 Then, run the following command:
@@ -137,7 +133,7 @@ $ pod install
 You can add a dependency on `HandyJSON` by adding the following line to your `Cartfile`:
 
 ```
-github "levanlongktmt/HandyJSON" ~> 4.0.0
+github "alibaba/HandyJSON" ~> 4.1.1
 ```
 
 ## Manually

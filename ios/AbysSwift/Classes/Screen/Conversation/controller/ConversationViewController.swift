@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import MJRefresh
 
 class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UITableViewDataSource, ConversationManagerDeleagate {
 	// 视图列表组件
@@ -22,7 +22,22 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 	let headView = UIView.init()
 	let headLabel = UILabel.init()
 	let conversationManager = ConversationManager.distance
-	let refreshControl = UIRefreshControl.init()
+    
+    lazy var rightMenuView: ABYPopMenu = {
+        var popMenuItems: [ABYPopMenuItem] = [ABYPopMenuItem]()
+        let imageArr = [(#imageLiteral(resourceName: "menu_online"), "在线"),(#imageLiteral(resourceName: "menu_offline"), "离线")]
+        for item in imageArr {
+            let popItem: ABYPopMenuItem = ABYPopMenuItem.init(image: item.0, title: item.1)
+            popMenuItems.append(popItem)
+        }
+        let menu = ABYPopMenu.init(menus: popMenuItems, lineNumber: 1, targetPoint: CGPoint.init(x: self.view.frame.width - 15, y: 10))
+        menu.popMenuDidSelectedBlock = {(index: Int, item: ABYPopMenuItem) in
+            let status: Bool = index == 0
+            self.setOnLine(status: status)
+        }
+        return menu
+    }()
+    
 	// MARK: -控制器生命周期
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,8 +46,14 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 		addUI()
 		conversationManager.dataSource = self
 		conversationManager.initData()
-		refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
-		tableview.addSubview(refreshControl)
+        let header: MJRefreshNormalHeader = MJRefreshNormalHeader.init(refreshingTarget: self, refreshingAction: #selector(refreshData))
+        header.lastUpdatedTimeLabel.isHidden = true // 隐藏时间
+        header.setTitle("下拉刷新", for: MJRefreshState.idle)
+        header.setTitle("松开刷新", for: .pulling)
+        header.setTitle("加载中...", for: .refreshing)
+        header.setTitle("没有新的内容", for: .noMoreData)
+        tableview.mj_header = header
+//		setTable() // 设置空视图的方法，暂时屏蔽掉
     }
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -41,6 +62,10 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 			ABYSocket.manager.login(options: nil, userInfo: ["email": user.email, "password":""])
 		}
 		conversationManager.initData()
+	}
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+        self.setThemeNavigationBar()
 	}
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
@@ -66,6 +91,9 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 			make.top.equalTo(headView.snp.bottom)
 			make.bottom.left.right.equalToSuperview()
 		}
+        // 添加右边的按钮(根据用户状态)
+        let rightImage = Account.share.user?.is_online == 1 ? #imageLiteral(resourceName: "online") : #imageLiteral(resourceName: "offline")
+        self.createRightBtnItem(icon: rightImage, method: #selector(popMenu(_:)))
 	}
 
 	// 设置头部等待视图
@@ -95,11 +123,21 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 		// 刷新当前页面
 		conversationManager.getList()
 	}
-
+    @objc
+    func popMenu(_ item: UIBarButtonItem) {
+       self.rightMenuView.showMenu(on: self.view, opacity: 0.5)
+    }
 	// MARK: -ConversationManger的代理方法
 	func conversationListUpdata() {
 		self.tableview.reloadData()
-		self.refreshControl.endRefreshing()
+        if self.tableview.mj_header.isRefreshing {
+            self.tableview.mj_header.endRefreshing()
+        }
+        if conversationManager.unreadTotal == 0 {
+            self.tabBarItem.badgeValue = nil
+        } else {
+             self.tabBarItem.badgeValue = "\(conversationManager.unreadTotal)"
+        }
 	}
 
 	func waitNumberUpdata(number: Int) {
@@ -107,7 +145,7 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 	}
 
 	func updateFail(_ error: Error?, _ message: String?) {
-		self.refreshControl.endRefreshing()
+		self.tableview.mj_header.endRefreshing()
 	}
 
 	// MARK: TableView的代理方法
@@ -151,7 +189,63 @@ class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UI
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		// 点击了Cell的事件
 		tableView.deselectRow(at: indexPath, animated: true)
-		let conversationDetail: ConvDetailViewController = ConvDetailViewController()
-		self.navigationController?.pushViewController(conversationDetail, animated: true)
+		let keys = Array(conversationManager.conversations.keys)
+		let model: Conversation = conversationManager.conversations[keys[indexPath.row]]!
+		let chatViewController = KKChatViewController()
+		chatViewController.conversation = model
+        chatViewController.tipMessage = conversationManager.recommendReply[keys[indexPath.row]]
+        model.message_read_count = model.totalCount // 设置本地已读数
+		navigationController?.pushViewController(chatViewController, animated: true)
+	}
+}
+
+// MARK: - 处理用户状态
+extension ConversationViewController {
+	/// 设置用户状态的具体方法
+    func setOnLine(status: Bool) -> Void {
+        self.navigationItem.rightBarButtonItem?.image = status ? #imageLiteral(resourceName: "online") : #imageLiteral(resourceName: "offline")
+        let statusDes: String = status ? "1" : "0"
+        let params: [String: Any] = [
+            "current_id": Account.share.current_id,
+            "status": statusDes
+        ]
+        // 进行离线在线状态的修改
+        self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.switchServiceStatus, params: params)) { (result) -> (Void) in
+            if let json = result {
+                if json["message"].string == "修改成功" {
+                    Account.share.user?.is_online = Int(statusDes) ?? 1
+                    self.showToast("在线状态修改成功")
+                } else {
+                    // 提示修改失败
+                    self.showToast("在线状态修改失败")
+                    // 并修改回去
+                    self.navigationItem.rightBarButtonItem?.image = !status ? #imageLiteral(resourceName: "online") : #imageLiteral(resourceName: "offline")
+                }
+            } else {
+                // 提示修改失败
+                self.showToast("在线状态修改失败")
+                // 并修改回去
+                self.navigationItem.rightBarButtonItem?.image = !status ? #imageLiteral(resourceName: "online") : #imageLiteral(resourceName: "offline")
+            }
+        }
+    }
+}
+
+// MARK: - 数据为空的时候的处理方式
+extension ConversationViewController: ABYEmptyDataSetable {
+
+	/// 设置空视图的方法
+	fileprivate func setTable() {
+		aby_EmptyDataSet(tableview) { () -> ([ABYEmptyDataSetAttributeKeyType : Any]) in
+			return [
+				.tipStr:"暂时没有服务中的用户...",
+				.verticalOffset: -150,
+				.allowScroll: false
+			]
+		}
+
+		aby_tapEmptyView(tableview) { (view) in
+			ABYPrint("点击了空视图")
+		}
 	}
 }

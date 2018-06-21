@@ -27,12 +27,18 @@ class Conversation: HandyJSON {
 	var joinTime: UInt64 = 0
 	var name: String = ""
 	var message_read_count = 0
-	var message_list: Array<Message> = [] // 当前会话的消息列表
+    var message_list: Array<Message> = [] {
+        didSet {
+            ABYPrint("会话长度为：\(message_list.count)")
+        }
+    }// 当前会话的消息列表
 
+    var timeOffset: Int = 0 // 时间偏移量(只存储在本地)
+    
 	// MARK: -本地属性，用于处理本地的一些任务
 	// 代理方法，用来改变Cell的东西
 	var delegate: ConversationDelegate?
-	var nativeReadCount: Int = 0 // 记录本地已读数
+    var nativeReadCount: Int = 0 // 记录本地已读数 FIXME: 这个消息暂时没有用到
 	var lastMessage: Message? {
 		didSet {
 			if lastMessage != nil {
@@ -44,7 +50,11 @@ class Conversation: HandyJSON {
 	var activeTime: Int = 0 // 客服开始恢复的时间
 	var type: ConversationType = .NormalType // 会话类型
 	var inService: Bool = false; // 是否正在服务中
-
+    // 存储管理员
+    let store: ABYRealmManager = {
+        return ABYRealmManager.instance
+    }()
+    
 	// MARK: -Computed property
 	/// 会话消息总数
 	var totalCount: Int {
@@ -52,8 +62,10 @@ class Conversation: HandyJSON {
 	}
 	// 未读消息数
 	var unreadCount: Int {
-		let count = totalCount - message_read_count
-		return count < 0 ? 0 : count
+		get {
+			let count = totalCount - message_read_count
+			return count < 0 ? 0 : count
+		}
 	}
 	// 返回最后一条消息的内容
 	var lastMsgContent: String {
@@ -63,11 +75,14 @@ class Conversation: HandyJSON {
 		case .image:
 			string = "[图片消息]"
 		case .voice:
-			string = "[声音消息]"
+			string = "[语音消息]"
 		case .text:
 			string = lastMessage?.content?.text ?? ""
+        case .sysAlertMessage:
+            string = lastMessage?.content?.text ?? ""
 		default:
-			string = "[位置消息类型]"
+//            string = "[未知消息类型]" // 避免未出现的消息类型
+            string = lastMessage?.content?.text ?? "[未知类型的消息]"
 		}
 		return string
 	}
@@ -100,10 +115,12 @@ class Conversation: HandyJSON {
 	var tickTock: String {
 		let date = Date.init()
 		let join = TimeInterval.init(joinTime)
-		let duration = date.timeIntervalSince1970 - join/1000
+		let duration = date.timeIntervalSince1970 - join/1000 + Double.init(self.timeOffset)
+//        ABYPrint("joinTime: \(join) duration: \(date.timeIntervalSince1970)")
 		let hour = floor(duration / 3600) // 小时数
 		let min = floor(duration / 60).truncatingRemainder(dividingBy: 60) // 分钟数
 		let sec = floor(duration.truncatingRemainder(dividingBy: 60)) // 秒数
+//        ABYPrint("hour \(hour) min\(min) sec \(sec)")
 		if hour != 0 {
 			return "\(Int(hour))h\(Int(min))m\(Int(sec))s"
 		} else if min != 0 {
@@ -127,7 +144,6 @@ class Conversation: HandyJSON {
 			self.name = "通知消息"
 		}
 	}
-
 	// 根据消息创建Item
 	convenience init (width message: Message) {
 		self.init()
@@ -137,7 +153,28 @@ class Conversation: HandyJSON {
 		self.room_id = message.room_id ?? 0
 		self.joinTime = message.msg_timestamp ?? 0
 		self.lastMessage = message
+        self.message_list = [message]
+        if let time = message.msg_timestamp {
+            let duration = TimeInterval.init(time)
+            let offset = ceil(duration/1000 - Date.init().timeIntervalSince1970)
+            self.timeOffset = Int(offset)
+        }
 	}
+    
+    /// 从数据库初始化对象
+    convenience init(object: ConversationObject) {
+        self.init()
+        self.type = .NormalType // 正常会话
+        self.activeTime = object.activeTime
+        self.headImgUrl = object.headImgUrl
+        self.name = object.nickname
+        self.message_read_count = object.message_read_count
+        self.joinTime = UInt64(object.join_time)
+        self.lastMessage = Message.init(messageObject: object.lastMessage)
+        self.message_list = object.messages // 通过计算属性返回
+        self.room_id = Int16(object.room_id)
+        self.timeOffset = object.timeOffset // 读取时间差
+    }
 
 	// MARK: -自定义消息格式
 	func mapping(mapper: HelpingMapper) {
@@ -151,11 +188,55 @@ class Conversation: HandyJSON {
 		mapper >>> self.inService
 		mapper >>> self.time
 		mapper >>> self.nativeReadCount
+        mapper >>> self.timeOffset // 排除时间差的属性
 	}
+    
+    /// 转化为数据库存储对象
+    func toObject() -> ConversationObject {
+        let obj = ConversationObject.init()
+        obj.nickname = self.name
+        obj.join_time = Int(self.joinTime)
+        obj.headImgUrl = self.headImgUrl ?? ""
+        obj.activeTime = Int(self.activeTime)
+        obj.lastMessage = self.lastMessage?.toObject()
+        obj.message_read_count = self.message_read_count
+        obj.room_id = Int(self.room_id)
+        obj.timeOffset = self.timeOffset
+        for msg in self.message_list {
+            // 根据MessageID进行筛选
+            if !obj.message_list.contains(where: { (obj) -> Bool in
+                return obj.messageID == msg.messageID
+            }) {
+                 obj.message_list.append(msg.toObject())
+            }
+        }
+        return obj
+    }
+}
 
+extension Conversation {
+	func endService(complete: @escaping (_ result: Bool, _ message: String?) -> ()) -> Void {
+		let params: [String: Any] = [
+			"room_id": self.room_id,
+			"current_id": Account.share.user?.id ?? 0,
+			"session_id": Account.share.session_id,
+		]
+		ABYNetworkManager.shareInstance.aby_request(request: UserRouter.request(api: UserAPI.endService, params: params), callBack: { (result) -> (Void) in
+			if let res = result {
+				ABYPrint("\(res)")
+                complete(true, nil)
+            } else {
+                complete(false, nil)
+            }
+		}) { (error) -> (Void) in
+			ABYPrint("\(error)")
+			
+		}
+	}
 }
 
 protocol ConversationDelegate {
 	func lastMessageChange(text: String,atttributeText:NSMutableAttributedString) -> Void
 	func unReadCountChange(count: Int) -> Void
 }
+

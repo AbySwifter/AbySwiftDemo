@@ -10,7 +10,7 @@ import UIKit
 import Kingfisher
 
 
-typealias SettingCellData = (icon: UIImage, title: String, hasSubTitle: Bool)
+typealias SettingCellData = (icon: UIImage, title: String, hasSubTitle: Bool, subTitle: String)
 
 class MineViewController: ABYBaseViewController, UITableViewDelegate, UITableViewDataSource {
 	lazy var tableView: UITableView = {
@@ -31,10 +31,10 @@ class MineViewController: ABYBaseViewController, UITableViewDelegate, UITableVie
 		return Account.share
 	}()
 	let itemData: Array<SettingCellData> = [
-		(#imageLiteral(resourceName: "change_password"), "修改密码", false),
-		(#imageLiteral(resourceName: "notification"), "提醒设置", false),
-		(#imageLiteral(resourceName: "cleaner"), "清理缓存", false),
-		(#imageLiteral(resourceName: "version"), "当前版本", true),
+		(#imageLiteral(resourceName: "change_password"), "修改密码", false, ""),
+		(#imageLiteral(resourceName: "notification"), "提醒设置", false, ""),
+		(#imageLiteral(resourceName: "cleaner"), "清理缓存", false, ""),
+		(#imageLiteral(resourceName: "version"), "当前版本", true, Account.share.AppVersion),
 	]
 	// MARK: 生命周期函数
     override func viewDidLoad() {
@@ -43,16 +43,19 @@ class MineViewController: ABYBaseViewController, UITableViewDelegate, UITableVie
         // Do any additional setup after loading the view.
 		setNavigationRightButtons()
 		self.view.addSubview(self.tableView)
+		NotificationCenter.default.addObserver(self, selector: #selector(setAccountValue), name: NSNotification.Name.init(account.updateUserInfoKey), object: nil)
     }
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		self.navigationItem.title = "个人中心"
 		self.navigationController?.navigationBar.titleTextAttributes =  [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
-		setNavigationBarType()
+//        setNavigationBarTranslucent()
+        setWhiteNavigationBar()
+        self.navigationController?.navigationBar.clipsToBounds = true
 		setAccountValue()
 	}
 	// 设置用户信息
-	func setAccountValue() -> Void {
+	@objc func setAccountValue() -> Void {
 		userName.text = account.user?.real_name
 		userEmail.text = "账号: \(account.user?.email ?? "")"
 		userNumber.text = "工号: \(account.user?.number ?? "")"
@@ -99,6 +102,21 @@ class MineViewController: ABYBaseViewController, UITableViewDelegate, UITableVie
 	}
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		// TODO：Tbaleview的点击事件除了
+        switch indexPath.row {
+        case 0:
+            let viewController = ChangePWDViewController()
+            self.navigationController?.pushViewController(viewController, animated: true)
+        case 1:
+            // 提醒设置页面
+            let viewController = NotificationViewController()
+            viewController.title = "提醒设置"
+            self.navigationController?.pushViewController(viewController, animated: true)
+        case 2:
+            // 清理缓存
+            clearCache()
+        default:
+            break
+        }
 	}
 	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 		let view = UIView.init()
@@ -159,4 +177,16 @@ class MineViewController: ABYBaseViewController, UITableViewDelegate, UITableVie
 	func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
 		return W750(172)
 	}
+}
+
+extension MineViewController {
+    func clearCache() -> Void {
+        let cache = KingfisherManager.shared.cache
+        cache.clearDiskCache() // 清理图片磁盘缓存
+//        cache.clearMemoryCache() // 清理内存缓存
+        cache.cleanExpiredDiskCache() // 清理过期的缓存
+        
+        ABYRealmManager.instance.clearStore() // 清理数据缓存
+        self.showToast("清理缓存成功")
+    }
 }

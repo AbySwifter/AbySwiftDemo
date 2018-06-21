@@ -18,9 +18,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		let rootViewController = ABYTabBarComtroller()
 		self.window?.rootViewController = rootViewController
 		self.window?.makeKeyAndVisible()
+        ABYPrint("\(AlamofireVersionNumber)") // 打印下当前网络请求的版本号
 		return true
 	}
-
+    
 	func applicationWillResignActive(_ application: UIApplication) {
 		// Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
 		// Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.

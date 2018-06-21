@@ -24,18 +24,22 @@ class FormView: UIView {
 	}
 	override func layoutSubviews() {
 		lineChart.snp.makeConstraints { (make) in
-			make.edges.equalToSuperview()
+//            make.edges.equalToSuperview().inset(UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 10))
+            make.edges.equalToSuperview()
+            
 		}
 		setStyleOfLineChart()
 	}
 
-	func setData(_ data: [Double], xValues: [String]) -> Void {
+    /// 设置报表的数据
+    func setData(_ data: [Double], xValues: [String], unit: String = "数量") -> Void {
 		var dataEntris = [ChartDataEntry]() // 初始化数据数组
 		for index in 0..<data.count {
 			let dataEntry = ChartDataEntry.init(x: Double(index), y: data[index])
 			dataEntris.append(dataEntry)
 		}
-		let dataSet: LineChartDataSet = LineChartDataSet.init(values: dataEntris, label: "数量")
+        // 设置数据
+		let dataSet: LineChartDataSet = LineChartDataSet.init(values: dataEntris, label: unit)
 		let lineChartData: LineChartData = LineChartData.init(dataSets: [dataSet])
 		lineChart.data = lineChartData
 		lineChart.xAxis.valueFormatter = ABYXAxisValueFormatter.init(values: xValues)
@@ -62,7 +66,7 @@ class FormView: UIView {
 		lineChart.noDataText = "暂无数据"
 		lineChart.chartDescription?.enabled = false // 是否显示描述
 		lineChart.drawGridBackgroundEnabled = false // 网格背景是否绘制
-		lineChart.drawBordersEnabled = true // 是否绘制边框
+		lineChart.drawBordersEnabled = false // 是否绘制边框
 		lineChart.borderLineWidth = 1.0
 		lineChart.borderColor = self.gridColor
 		lineChart.backgroundColor = UIColor.white
@@ -80,11 +84,13 @@ class FormView: UIView {
 	private func xAxisSetting() {
 		let xAxis = lineChart.xAxis
 		xAxis.labelPosition = .bottom // X轴的位置
-		xAxis.labelFont = .systemFont(ofSize: 10.0)
+		xAxis.labelFont = .systemFont(ofSize: 10.0) // x轴的字体设置
 		xAxis.drawGridLinesEnabled = true
 		xAxis.granularity = 1.0
 		xAxis.gridColor = self.gridColor
 		xAxis.gridLineWidth = 1.0
+        xAxis.drawLabelsEnabled = true
+        xAxis.avoidFirstLastClippingEnabled = true // 是否将X轴收回来
 	}
 
 	/// Y轴样式设置
@@ -99,7 +105,6 @@ class FormView: UIView {
 		leftAxis.granularity = 1.0
 		// 轴线设置
 		leftAxis.drawAxisLineEnabled = false
-
 		// 右侧轴线
 		let rightAxis = lineChart.rightAxis
 		rightAxis.drawAxisLineEnabled = false // 不画右侧轴线
@@ -117,6 +122,7 @@ class FormView: UIView {
 		legend.formSize = 9.0
 		legend.font = .systemFont(ofSize: 10)
 		legend.xEntrySpace = 4.0
+        legend.enabled = true
 	}
     /*
     // Only override draw() if you perform custom drawing.

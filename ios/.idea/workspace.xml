@@ -22,19 +22,7 @@
     <option name="FILTER_BY_CURRENT_PROJECT" value="true" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5d1dcd5-c5c4-43b5-bd73-b2b47b07f65f" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/model/Message.swift" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/model/MessageElem.swift" />
-      <change beforePath="$PROJECT_DIR$/AbysSwift.xcodeproj/project.pbxproj" afterPath="$PROJECT_DIR$/AbysSwift.xcodeproj/project.pbxproj" />
-      <change beforePath="$PROJECT_DIR$/AbysSwift/Classes/ABYMain/Tools/API.swift" afterPath="$PROJECT_DIR$/AbysSwift/Classes/ABYMain/Tools/API.swift" />
-      <change beforePath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/controller/ConvDetailViewController.swift" afterPath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/controller/ConvDetailViewController.swift" />
-      <change beforePath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/controller/ConversationViewController.swift" afterPath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/controller/ConversationViewController.swift" />
-      <change beforePath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/model/Conversation.swift" afterPath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/model/Conversation.swift" />
-      <change beforePath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/model/ConversationManager.swift" afterPath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/model/ConversationManager.swift" />
-      <change beforePath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/view/ConversationCell.swift" afterPath="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/view/ConversationCell.swift" />
-      <change beforePath="$PROJECT_DIR$/AbysSwift/Classes/Tools/SocketAPI/SocketProtocl.swift" afterPath="$PROJECT_DIR$/AbysSwift/Classes/Tools/SocketAPI/SocketProtocl.swift" />
-      <change beforePath="$PROJECT_DIR$/AbysSwift/Classes/Tools/SocketAPI/WebSocketManager.swift" afterPath="$PROJECT_DIR$/AbysSwift/Classes/Tools/SocketAPI/WebSocketManager.swift" />
-    </list>
+    <list default="true" id="a5d1dcd5-c5c4-43b5-bd73-b2b47b07f65f" name="Default" comment="" />
     <ignored path="$USER_HOME$/Library/Developer/Xcode/DerivedData/AbysSwift-dxamkrvnazvvpbgaqtxseigfkioi/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -43,23 +31,12 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="iphonesimulator_A29EF80A-A555-44B7-8A15-F0A149645C7A" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="iphoneos_" />
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ConversationCell.swift" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/view/ConversationCell.swift">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="596">
-              <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -67,6 +44,7 @@
         <option value="$PROJECT_DIR$/AbysSwift/Classes/Tools/SocketAPI/WebSocketManager.swift" />
         <option value="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/model/ConversationManager.swift" />
         <option value="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/view/ConversationCell.swift" />
+        <option value="$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/controller/ConversationViewController.swift" />
       </list>
     </option>
   </component>
@@ -76,10 +54,13 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/../node_modules/react-native/node_modules" />
+  </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
     <option name="width" value="1440" />
-    <option name="height" value="831" />
+    <option name="height" value="830" />
   </component>
   <component name="ProjectView">
     <navigator currentView="Cidr.FilesView" proportions="" version="1">
@@ -96,6 +77,62 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Cidr.FilesView">
+        <subPane>
+          <expand>
+            <path>
+              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="AbysSwift" type="47feb1d3:ProjectViewModuleNode" />
+            </path>
+            <path>
+              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="AbysSwift" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="ios" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="AbysSwift" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="ios" type="462c0819:PsiDirectoryNode" />
+              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="AbysSwift" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="ios" type="462c0819:PsiDirectoryNode" />
+              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
+              <item name="Classes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="AbysSwift" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="ios" type="462c0819:PsiDirectoryNode" />
+              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
+              <item name="Classes" type="462c0819:PsiDirectoryNode" />
+              <item name="Screen" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="AbysSwift" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="ios" type="462c0819:PsiDirectoryNode" />
+              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
+              <item name="Classes" type="462c0819:PsiDirectoryNode" />
+              <item name="Screen" type="462c0819:PsiDirectoryNode" />
+              <item name="Conversation" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
+              <item name="AbysSwift" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="ios" type="462c0819:PsiDirectoryNode" />
+              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
+              <item name="Classes" type="462c0819:PsiDirectoryNode" />
+              <item name="Screen" type="462c0819:PsiDirectoryNode" />
+              <item name="Conversation" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -157,77 +194,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Cidr.FilesView">
-        <subPane>
-          <expand>
-            <path>
-              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="Classes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="Classes" type="462c0819:PsiDirectoryNode" />
-              <item name="ABYMain" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="Classes" type="462c0819:PsiDirectoryNode" />
-              <item name="Screen" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="Classes" type="462c0819:PsiDirectoryNode" />
-              <item name="Screen" type="462c0819:PsiDirectoryNode" />
-              <item name="Conversation" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="Classes" type="462c0819:PsiDirectoryNode" />
-              <item name="Screen" type="462c0819:PsiDirectoryNode" />
-              <item name="Conversation" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="Classes" type="462c0819:PsiDirectoryNode" />
-              <item name="Screen" type="462c0819:PsiDirectoryNode" />
-              <item name="Conversation" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="AbysSwift" type="dad4c3:CidrFilesViewHelper$MyProjectTreeStructure$1" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="AbysSwift" type="462c0819:PsiDirectoryNode" />
-              <item name="Classes" type="462c0819:PsiDirectoryNode" />
-              <item name="Screen" type="462c0819:PsiDirectoryNode" />
-              <item name="Conversation" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -269,6 +235,7 @@
       <updated>1522123887499</updated>
       <workItem from="1522123890038" duration="903000" />
       <workItem from="1522220547104" duration="170000" />
+      <workItem from="1525746856845" duration="861000" />
     </task>
     <task id="LOCAL-00001" summary="新的配置。">
       <created>1522124279271</created>
@@ -281,25 +248,24 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1073000" />
+    <option name="totallyTimeSpent" value="1934000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="831" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="22" width="1440" height="830" extended-state="0" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23194444" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23194444" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="LuaJ" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TeamCity" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -324,21 +290,11 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/model/ConversationManager.swift">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#140#152#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/model/ConversationManager.swift" />
     <entry file="file://$PROJECT_DIR$/AbysSwift/Classes/Tools/SocketAPI/WebSocketManager.swift">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1919">
           <caret line="104" column="61" lean-forward="false" selection-start-line="104" selection-start-column="61" selection-end-line="104" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -346,25 +302,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="456">
           <caret line="25" column="24" lean-forward="false" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/model/ConversationManager.swift">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1444">
-          <caret line="76" column="108" lean-forward="false" selection-start-line="76" selection-start-column="108" selection-end-line="76" selection-end-column="108" />
-          <folding>
-            <element signature="e#140#152#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/model/ConversationManager.swift" />
     <entry file="file://$PROJECT_DIR$/AbysSwift/Classes/Tools/SocketAPI/WebSocketManager.swift">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="50">
           <caret line="114" column="61" lean-forward="false" selection-start-line="114" selection-start-column="61" selection-end-line="114" selection-end-column="61" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -372,13 +317,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="437">
           <caret line="24" column="24" lean-forward="false" selection-start-line="24" selection-start-column="24" selection-end-line="24" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/controller/ConversationViewController.swift">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="194" column="4" lean-forward="false" selection-start-line="194" selection-start-column="4" selection-end-line="194" selection-end-column="4" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/AbysSwift/Classes/Screen/Conversation/view/ConversationCell.swift">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="596">
+        <state relative-caret-position="1710">
           <caret line="90" column="0" lean-forward="false" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
           <folding />
         </state>
