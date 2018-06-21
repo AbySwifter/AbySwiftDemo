@@ -16,6 +16,7 @@ extension KKChatViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(showImages(_:)), name: NSNotification.Name.init(kNoteImageCellTap), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changeTitle), name: Notification.Name.init(LIST_UPDATE), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showArticle(_:)), name: Notification.Name.init(KNoteArticleCellTap), object: nil)
+       
     }
     
     // 移除通知
