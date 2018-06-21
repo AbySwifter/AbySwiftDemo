@@ -1,9 +1,13 @@
+source 'https://gitee.com/momo96553/DTSepc.git' #私有远程库
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, "10.0"
 use_frameworks!
 
 target "AbysSwift" do
-
+    
+#私有远程库
+pod 'DTTools', '~> 0.1.0'
+# 公有远程库
 pod 'SnapKit', '~> 4.0.0'
 pod 'Alamofire', '~> 4.5'
 pod 'HandyJSON',:'~> 4.1.0'
