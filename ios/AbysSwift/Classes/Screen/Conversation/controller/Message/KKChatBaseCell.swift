@@ -38,8 +38,8 @@ class KKChatBaseCell: UITableViewCell, MessageStatusChangeDelegate {
 		let bg = UIView()
 		bg.layer.cornerRadius = 4
 		bg.layer.masksToBounds = true
-		bg.backgroundColor = UIColor.init(normalr: 190.0, g: 190.0, b: 190.0, a: 0.6)
-        
+//        bg.backgroundColor = UIColor.init(normalr: 190.0, g: 190.0, b: 190.0, a: 0.6)
+        bg.backgroundColor = UIColor.init(r: 190.0, g: 190.0, b: 190.0, a: 0.6)
 		return bg
 	}()
 	// 聊天内容

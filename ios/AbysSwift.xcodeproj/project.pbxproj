@@ -53,12 +53,10 @@
 		DD739859202416A4006242FD /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD739858202416A4006242FD /* ConversationViewController.swift */; };
 		DD73985C202417D5006242FD /* FormsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD73985B202417D5006242FD /* FormsViewController.swift */; };
 		DD73985F20241956006242FD /* MineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD73985E20241956006242FD /* MineViewController.swift */; };
-		DD73986420243B05006242FD /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD73986320243B05006242FD /* UIColor+Extension.swift */; };
 		DD73986720243B6A006242FD /* ABYConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD73986620243B6A006242FD /* ABYConst.swift */; };
 		DD739869202443EE006242FD /* ABYNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD739868202443EE006242FD /* ABYNavigationController.swift */; };
 		DD79B3E8206895FC00979582 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD79B3E7206895FC00979582 /* WebSocketManager.swift */; };
 		DD79B3EC2068F7FA00979582 /* SocketDatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD79B3EB2068F7FA00979582 /* SocketDatas.swift */; };
-		DD7EAE8520733B0C00A7BBF5 /* String+Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EAE8420733B0C00A7BBF5 /* String+Range.swift */; };
 		DD7EAE8720735C2000A7BBF5 /* ABYJsonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EAE8620735C2000A7BBF5 /* ABYJsonModel.swift */; };
 		DD7EAE892073807200A7BBF5 /* MessageBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EAE882073807200A7BBF5 /* MessageBus.swift */; };
 		DD8278442099504D004D8747 /* ChatVoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8278432099504D004D8747 /* ChatVoiceView.swift */; };
@@ -73,8 +71,6 @@
 		DD92CD54202987340090FB19 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD92CD53202987340090FB19 /* API.swift */; };
 		DD9474E720C0D9980090A183 /* ReplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9474E620C0D9980090A183 /* ReplayViewController.swift */; };
 		DD95E1AE20A962630030394A /* ClientInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD95E1AD20A962630030394A /* ClientInfoCell.swift */; };
-		DD974B2E20A3E57200D0470F /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD974B2D20A3E57200D0470F /* UIButton+Extension.swift */; };
-		DD974B3020A3F0FD00D0470F /* UIDevice+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD974B2F20A3F0FD00D0470F /* UIDevice+Extension.swift */; };
 		DD974B3220A3FE6D00D0470F /* KKChatEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD974B3120A3FE6D00D0470F /* KKChatEditorView.swift */; };
 		DD9766C82048F3F40037C232 /* FormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9766C72048F3F40037C232 /* FormView.swift */; };
 		DDA5EB2520BCFC28002ECB36 /* KKArrticalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDA5EB2420BCFC28002ECB36 /* KKArrticalCell.swift */; };
@@ -89,7 +85,6 @@
 		DDC281A6209ADDA3000B2CBE /* AudioTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC281A5209ADDA3000B2CBE /* AudioTool.swift */; };
 		DDC281A8209ADE9F000B2CBE /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC281A7209ADE9F000B2CBE /* FileManager.swift */; };
 		DDC332FE20873AFD004B9669 /* KKChatBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC332FD20873AFD004B9669 /* KKChatBaseCell.swift */; };
-		DDC333002087427F004B9669 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC332FF2087427F004B9669 /* UIView+Extension.swift */; };
 		DDC3BD09208D80FA00D46F19 /* KKChatMsgDataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDC3BD08208D80FA00D46F19 /* KKChatMsgDataHelper.swift */; };
 		DDD3844D205929A800A525DF /* ConversationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD3844C205929A800A525DF /* ConversationManager.swift */; };
 		DDD3845120592B1D00A525DF /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDD3845020592B1D00A525DF /* ConversationCell.swift */; };
@@ -190,12 +185,10 @@
 		DD739858202416A4006242FD /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		DD73985B202417D5006242FD /* FormsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormsViewController.swift; sourceTree = "<group>"; };
 		DD73985E20241956006242FD /* MineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineViewController.swift; sourceTree = "<group>"; };
-		DD73986320243B05006242FD /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		DD73986620243B6A006242FD /* ABYConst.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYConst.swift; sourceTree = "<group>"; };
 		DD739868202443EE006242FD /* ABYNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYNavigationController.swift; sourceTree = "<group>"; };
 		DD79B3E7206895FC00979582 /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
 		DD79B3EB2068F7FA00979582 /* SocketDatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketDatas.swift; sourceTree = "<group>"; };
-		DD7EAE8420733B0C00A7BBF5 /* String+Range.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Range.swift"; sourceTree = "<group>"; };
 		DD7EAE8620735C2000A7BBF5 /* ABYJsonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYJsonModel.swift; sourceTree = "<group>"; };
 		DD7EAE882073807200A7BBF5 /* MessageBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBus.swift; sourceTree = "<group>"; };
 		DD8278432099504D004D8747 /* ChatVoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVoiceView.swift; sourceTree = "<group>"; };
@@ -211,8 +204,6 @@
 		DD92CD53202987340090FB19 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		DD9474E620C0D9980090A183 /* ReplayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplayViewController.swift; sourceTree = "<group>"; };
 		DD95E1AD20A962630030394A /* ClientInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoCell.swift; sourceTree = "<group>"; };
-		DD974B2D20A3E57200D0470F /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
-		DD974B2F20A3F0FD00D0470F /* UIDevice+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extension.swift"; sourceTree = "<group>"; };
 		DD974B3120A3FE6D00D0470F /* KKChatEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatEditorView.swift; sourceTree = "<group>"; };
 		DD9766C72048F3F40037C232 /* FormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormView.swift; sourceTree = "<group>"; };
 		DDA5EB2420BCFC28002ECB36 /* KKArrticalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKArrticalCell.swift; sourceTree = "<group>"; };
@@ -227,7 +218,6 @@
 		DDC281A5209ADDA3000B2CBE /* AudioTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTool.swift; sourceTree = "<group>"; };
 		DDC281A7209ADE9F000B2CBE /* FileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		DDC332FD20873AFD004B9669 /* KKChatBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatBaseCell.swift; sourceTree = "<group>"; };
-		DDC332FF2087427F004B9669 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		DDC3BD08208D80FA00D46F19 /* KKChatMsgDataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatMsgDataHelper.swift; sourceTree = "<group>"; };
 		DDC4F79420D8DECF00D62850 /* AbysSwift.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AbysSwift.entitlements; sourceTree = "<group>"; };
 		DDD3844C205929A800A525DF /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
@@ -486,14 +476,9 @@
 		DD73986220243AE0006242FD /* Extension&Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				DD73986320243B05006242FD /* UIColor+Extension.swift */,
 				DD1C09DE2031428300B8847D /* UIViewController+showHud.swift */,
 				DD14B81A2047B8AC00265CD3 /* ABYValueFormatter.swift */,
-				DD7EAE8420733B0C00A7BBF5 /* String+Range.swift */,
 				DDC007C52086E479001FFAF3 /* ABYEmptyDataSetable.swift */,
-				DDC332FF2087427F004B9669 /* UIView+Extension.swift */,
-				DD974B2D20A3E57200D0470F /* UIButton+Extension.swift */,
-				DD974B2F20A3F0FD00D0470F /* UIDevice+Extension.swift */,
 			);
 			path = "Extension&Protocol";
 			sourceTree = "<group>";
@@ -873,6 +858,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-AbysSwift/Pods-AbysSwift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/DTTools/DTTools.framework",
 				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
 				"${BUILT_PRODUCTS_DIR}/DoubleConversion/DoubleConversion.framework",
 				"${BUILT_PRODUCTS_DIR}/Folly/folly.framework",
@@ -894,6 +880,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DTTools.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DoubleConversion.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/folly.framework",
@@ -926,7 +913,6 @@
 				DD916B3F2080540A00A31A09 /* ProductViewController.swift in Sources */,
 				DDC007C62086E479001FFAF3 /* ABYEmptyDataSetable.swift in Sources */,
 				DDC281A6209ADDA3000B2CBE /* AudioTool.swift in Sources */,
-				DD974B3020A3F0FD00D0470F /* UIDevice+Extension.swift in Sources */,
 				DD67F93A205BC57A00A55280 /* Conversation.swift in Sources */,
 				DD466AD320AD5CFE00F37465 /* RealmManager.swift in Sources */,
 				DDA6182C20D363D100843957 /* AddTagController.swift in Sources */,
@@ -962,7 +948,6 @@
 				DD95E1AE20A962630030394A /* ClientInfoCell.swift in Sources */,
 				DD19313B20AAB05C00C63132 /* HistoryMessageController.swift in Sources */,
 				DDDC8485208755E000939232 /* KKChattextCell.swift in Sources */,
-				DD974B2E20A3E57200D0470F /* UIButton+Extension.swift in Sources */,
 				DDD4A175204FCAD500F02490 /* PartName.swift in Sources */,
 				DDA7AD7A20902C2000BD70F3 /* KKMessageViewController.swift in Sources */,
 				DD466AD520AD5FBC00F37465 /* ConversationObject.swift in Sources */,
@@ -975,7 +960,6 @@
 				DD37216D209551B800E7EC4E /* KKChatAudioCell.swift in Sources */,
 				DD466AD720AD63FF00F37465 /* MessageObject.swift in Sources */,
 				DD466ADB20AD73D100F37465 /* RealmManagerOperator.swift in Sources */,
-				DD7EAE8520733B0C00A7BBF5 /* String+Range.swift in Sources */,
 				DD0C113B209032E800DDE5C7 /* KKChatViewController.swift in Sources */,
 				DD1C09DF2031428300B8847D /* UIViewController+showHud.swift in Sources */,
 				DDA7AD7820902BF700BD70F3 /* KKChatBarViewController.swift in Sources */,
@@ -993,12 +977,10 @@
 				DD916B3D2080530E00A31A09 /* BaseBridge.swift in Sources */,
 				DD08BA7B207315FE000497C2 /* AppConfig.swift in Sources */,
 				DD7EAE8720735C2000A7BBF5 /* ABYJsonModel.swift in Sources */,
-				DD73986420243B05006242FD /* UIColor+Extension.swift in Sources */,
 				DDE8CFA9206903BB00758AA4 /* SocketProtocl.swift in Sources */,
 				DD898BA420AA82B90019F5F6 /* OtherInfoCell.swift in Sources */,
 				DDDEF6A820B7BAA200A026AF /* ABYBackItem.swift in Sources */,
 				DD28B0FA206B375300B75324 /* MessageElem.swift in Sources */,
-				DDC333002087427F004B9669 /* UIView+Extension.swift in Sources */,
 				DD92CD54202987340090FB19 /* API.swift in Sources */,
 				DD31DAED20A2D85C00D02112 /* CCZoomAnimatedTransitioning.swift in Sources */,
 				DDC281A8209ADE9F000B2CBE /* FileManager.swift in Sources */,

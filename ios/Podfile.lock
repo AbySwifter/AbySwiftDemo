@@ -5,6 +5,7 @@ PODS:
     - Charts/Core (= 3.0.5)
   - Charts/Core (3.0.5)
   - DoubleConversion (1.1.5)
+  - DTTools (0.1.1)
   - DZNEmptyDataSet (1.8.1)
   - Folly (2016.09.26.00):
     - boost-for-react-native
@@ -80,6 +81,7 @@ DEPENDENCIES:
   - Alamofire (~> 4.5)
   - Charts (~> 3.0.5)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - DTTools (~> 0.1.1)
   - DZNEmptyDataSet
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
@@ -111,6 +113,8 @@ DEPENDENCIES:
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
+  https://gitee.com/momo96553/DTSepc.git:
+    - DTTools
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - boost-for-react-native
@@ -145,6 +149,7 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   Charts: 45cdc985b764c838b35ee47eb1365d15735f6d1a
   DoubleConversion: e22e0762848812a87afd67ffda3998d9ef29170c
+  DTTools: a6a6c125d6b9e5ee748146fb15ed294fc1506c69
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
   Folly: 211775e49d8da0ca658aebc8eab89d642935755c
   glog: 1de0bb937dccdc981596d3b5825ebfb765017ded
@@ -161,6 +166,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   yoga: 618bddc9ca65121bba7c93bdbe8b649edb816558
 
-PODFILE CHECKSUM: 8209db28ad785fa9a5eac9d2d19af140fdb4df4b
+PODFILE CHECKSUM: ccc0f5b5387f5f5cd3784acbb7811989a976e4b9
 
 COCOAPODS: 1.5.3

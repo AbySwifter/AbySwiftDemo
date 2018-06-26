@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import DTTools
 
 // 全局的网络信息
 enum URLinfo: String {

@@ -1,0 +1,6 @@
+framework module DTTools {
+  umbrella header "DTTools-umbrella.h"
+
+  export *
+  module * { export * }
+}

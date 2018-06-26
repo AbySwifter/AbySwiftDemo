@@ -13,7 +13,7 @@ class KKChatVoiceView: UIView {
     /// 中心视图
     private lazy var centerView: UIView = {
         let centerV = UIView()
-        centerV.backgroundColor = UIColor.init(normalr: 0, g: 0, b: 0, a: 0.5) // 黑色遮罩
+        centerV.backgroundColor = UIColor.init(r: 0, g: 0, b: 0, a: 0.5) // 黑色遮罩
         centerV.layer.cornerRadius = 10.0
         return centerV
     }()
