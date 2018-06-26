@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import DTRequest
 
 struct User:Codable {
 //	var username:String = ""
@@ -36,10 +37,11 @@ class Account {
 	static let share = Account.init()
 
 	let updateUserInfoKey = "UpdateUserInfoKey"
-
-	let networkManager: ABYNetworkManager = {
-		return ABYNetworkManager.shareInstance
-	}()
+    /// 新的网络管理类
+    var net: DTNetworkManager {
+        return DTNetworkManager.share
+    }
+    
 	let userPath: String = NSHomeDirectory() + "/Documents/user.data"
 	var delegate: LoginProtocol?
 	var user: User? {
@@ -92,39 +94,39 @@ class Account {
 	}
 	func login(username: String, password: String, captcha: String) -> Void {
 		let params: Parameters = ["email": username, "password": password, "captcha": captcha, "deviceInfo": deviceInfo]
-//		ABYPrint(message: deviceInfo)
-		self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.auth, params: params)) { (result) -> (Void) in
-			if let res = result {
-				if (res["state"] == 200) {
-					// 登录成功以后自动获取数据，并且保存Token值
-					self.token = res["data"]["token"].string!
-					self.delegate?.accountLoginSuccess()
-				} else {
-					self.delegate?.accountLoginFail(res["message"].string)
-				}
-			} else {
-				self.delegate?.accountLoginFail("网络错误")
-			}
-		}
+        self.net.dt_request(request: DTRequest.request(api: Api.auth, params: params)) { (error, result) -> (Void) in
+            if let res = result {
+                if (res["state"] == 200) {
+                    // 登录成功以后自动获取数据，并且保存Token值
+                    self.token = res["data"]["token"].string!
+                    self.net.set(token: self.token)
+                    self.delegate?.accountLoginSuccess()
+                } else {
+                    self.delegate?.accountLoginFail(res["message"].string)
+                }
+            } else {
+                self.delegate?.accountLoginFail("网络错误")
+            }
+        }
 	}
 	// 获取用户信息方法
 	func getUserInfo() -> Void {
-		self.networkManager.aby_request(request: UserRouter.userInfo(token: self.token)) { (result) -> (Void) in
-			if let res = result {
-				if (res["state"] == 200) {
-					let user = res["data"]["user"]
-					if let usrString = user.rawString(.utf8, options: JSONSerialization.WritingOptions.prettyPrinted) {
-						let data = usrString.data(using: .utf8)
-						do {
-							self.user = try JSONDecoder().decode(User.self, from: data!)
-							try self.saveUser()
-						} catch {
-							print(error)
-						}
-					}
-				}
-			}
-		}
+        self.net.dt_request(request: DTRequest.request(api: Api.userInfo, params: ["token": self.token])) { (err, result) -> (Void) in
+            if let res = result {
+                if (res["state"] == 200) {
+                    let user = res["data"]["user"]
+                    if let usrString = user.rawString(.utf8, options: JSONSerialization.WritingOptions.prettyPrinted) {
+                        let data = usrString.data(using: .utf8)
+                        do {
+                            self.user = try JSONDecoder().decode(User.self, from: data!)
+                            try self.saveUser()
+                        } catch {
+                            print(error)
+                        }
+                    }
+                }
+            }
+        }
 	}
 
 	func loginOut() -> Void {

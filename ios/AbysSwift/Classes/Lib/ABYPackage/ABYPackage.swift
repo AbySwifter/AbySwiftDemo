@@ -14,6 +14,7 @@
 import UIKit
 import SSZipArchive // 负责解压
 import Alamofire // 负责下载更新
+import DTTools
 
 /// 记录更新状态的枚举值
 enum PackageLoadingStatus {
@@ -67,7 +68,7 @@ class ABYPackage {
         self.request(url: "http://0.0.0.0:8888/api/filePath") { (data, response, error) -> (Void) in
             if let jsonDat = data {
                 let dic = try? JSONSerialization.jsonObject(with:jsonDat , options: JSONSerialization.ReadingOptions.allowFragments)
-                ABYPrint(dic)
+                DTLog(dic)
                 complete(true)
             } else {
                 complete(false)
@@ -82,7 +83,7 @@ class ABYPackage {
     
     func downLoadBundle() -> Void {
         guard verifyURL(url: remoteURL) else {
-            ABYPrint("下载地址有误！")
+            DTLog("下载地址有误！")
             return
         }
         let bundleLocation = URL.init(fileURLWithPath: cachesPath, isDirectory: true)
@@ -113,7 +114,7 @@ class ABYPackage {
             do {
                 try FileManager.default.createDirectory(atPath: bundlePath, withIntermediateDirectories: true, attributes: nil)
             } catch {
-                ABYPrint("创建文件夹失败")
+                DTLog("创建文件夹失败")
                 // FIXME: 这里需要传出去做UI提示
             }
         }
@@ -136,7 +137,7 @@ class ABYPackage {
             try FileManager.default.removeItem(atPath: filePath)
             return true
         } catch let error {
-            ABYPrint("\(error)")
+            DTLog("\(error)")
             return false
         }
     }
@@ -150,7 +151,7 @@ class ABYPackage {
                 return true
             }
         } catch  {
-            ABYPrint("\(error)")
+            DTLog("\(error)")
         }
         return false
     }

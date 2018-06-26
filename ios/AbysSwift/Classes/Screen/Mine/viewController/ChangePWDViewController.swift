@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class ChangePWDViewController: ABYBaseViewController {
 
     lazy var oldPassword: UITextField = {
@@ -116,9 +117,9 @@ class ChangePWDViewController: ABYBaseViewController {
             "current_password": oldPassword.text!,
             "new_password": newPassword.text!
         ]
-        self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.changePassword, params: params)) { (json) -> (Void) in
+        self.net.dt_request(request: DTRequest.request(api: Api.changePassword, params: params)) { (error, json) -> (Void) in
             if let res = json {
-                ABYPrint("修改密码的结果\(res)")
+                DTLog("修改密码的结果\(res)")
                 self.showToast("修改密码成功")
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5, execute: {
                     self.navigationController?.popViewController(animated: true)

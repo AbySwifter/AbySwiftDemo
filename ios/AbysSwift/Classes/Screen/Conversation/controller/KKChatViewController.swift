@@ -27,6 +27,8 @@ import UIKit
 import AVFoundation
 import Photos
 
+
+
 class KKChatViewController: ABYBaseViewController {
     /// 会话管理者
     var conversationManger: ConversationManager {
@@ -137,7 +139,7 @@ class KKChatViewController: ABYBaseViewController {
 	}
    
     deinit {
-        ABYPrint("KKChatViewController，走了deinit的方法")
+        DTLog("KKChatViewController，走了deinit的方法")
     }
     
     @objc
@@ -164,7 +166,7 @@ class KKChatViewController: ABYBaseViewController {
         case 2:
             routeHistoryList()
 		case 3:
-            ABYPrint("点击了服务评价")
+            DTLog("点击了服务评价")
             showAlert(title: "提示", content: "发起服务评价？") { () -> (Void) in
                self.sendEvaluate() // 发送评价消息
             }
@@ -216,10 +218,10 @@ class KKChatViewController: ABYBaseViewController {
             "cuttent_id": Account.share.current_id,
             "session_id": Account.share.session_id,
         ]
-        self.networkManager.aby_request(request: UserRouter.request(api: .sendEvaluate, params:params)) { (result) -> (Void) in
+        self.net.dt_request(request: DTRequest.request(api: Api.sendEvaluate, params: params)) { (error, result) -> Void in
             self.hideLoading()
             if let res = result {
-                ABYPrint(res)
+                DTLog(res)
                 self.showToast("满意度调查消息发送成功")
             } else {
                 self.showToast("满意度调查消息发送失败")
@@ -320,7 +322,7 @@ extension KKChatViewController: KKChatBarViewControllerDelegate, MessageBusDeleg
     }
     // 底部菜单点击事件
     func chatBarMenuAction(type: ChatFootMenuTag) {
-        ABYPrint("点击了\(type)")
+        DTLog("点击了\(type)")
         switch type {
         case .product:
             pushProductViewController()
@@ -354,7 +356,7 @@ extension KKChatViewController: KKChatBarViewControllerDelegate, MessageBusDeleg
             self.chatBarVC.hiddenTip(!isShowtips)
         }
         if message.content?.type == MSG_ELEM.customproductReply {
-            ABYPrint("产品回复：\(message.content?.product ?? "空的产品信息")")
+            DTLog("产品回复：\(message.content?.product ?? "空的产品信息")")
         }
     }
     
@@ -390,10 +392,10 @@ extension KKChatViewController {
     func recordStoped() {
         if finishRecordingVoice {
             // 停止录音
-            ABYPrint("停止了录音")
+            DTLog("停止了录音")
         } else {
             // 取消录音
-            ABYPrint("取消了录音")
+            DTLog("取消了录音")
         }
         recordingView.endRecord()
     }

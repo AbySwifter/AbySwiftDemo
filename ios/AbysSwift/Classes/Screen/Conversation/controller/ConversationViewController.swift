@@ -8,6 +8,7 @@
 
 import UIKit
 import MJRefresh
+import DTTools
 
 class ConversationViewController: ABYBaseViewController, UITableViewDelegate, UITableViewDataSource, ConversationManagerDeleagate {
 	// 视图列表组件
@@ -210,7 +211,7 @@ extension ConversationViewController {
             "status": statusDes
         ]
         // 进行离线在线状态的修改
-        self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.switchServiceStatus, params: params)) { (result) -> (Void) in
+        self.net.dt_request(request: DTRequest.request(api: Api.switchServiceStatus, params: params)) { (error, result) -> Void in
             if let json = result {
                 if json["message"].string == "修改成功" {
                     Account.share.user?.is_online = Int(statusDes) ?? 1
@@ -245,7 +246,7 @@ extension ConversationViewController: ABYEmptyDataSetable {
 		}
 
 		aby_tapEmptyView(tableview) { (view) in
-			ABYPrint("点击了空视图")
+			DTLog("点击了空视图")
 		}
 	}
 }

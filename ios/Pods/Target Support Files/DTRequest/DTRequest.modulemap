@@ -1,0 +1,6 @@
+framework module DTRequest {
+  umbrella header "DTRequest-umbrella.h"
+
+  export *
+  module * { export * }
+}

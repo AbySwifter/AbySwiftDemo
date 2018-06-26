@@ -8,6 +8,7 @@
 
 import UIKit
 import HandyJSON
+import DTTools
 
 /// Conversation的类型
 ///
@@ -29,7 +30,7 @@ class Conversation: HandyJSON {
 	var message_read_count = 0
     var message_list: Array<Message> = [] {
         didSet {
-            ABYPrint("会话长度为：\(message_list.count)")
+            DTLog("会话长度为：\(message_list.count)")
         }
     }// 当前会话的消息列表
 
@@ -116,11 +117,11 @@ class Conversation: HandyJSON {
 		let date = Date.init()
 		let join = TimeInterval.init(joinTime)
 		let duration = date.timeIntervalSince1970 - join/1000 + Double.init(self.timeOffset)
-//        ABYPrint("joinTime: \(join) duration: \(date.timeIntervalSince1970)")
+//        DTLog("joinTime: \(join) duration: \(date.timeIntervalSince1970)")
 		let hour = floor(duration / 3600) // 小时数
 		let min = floor(duration / 60).truncatingRemainder(dividingBy: 60) // 分钟数
 		let sec = floor(duration.truncatingRemainder(dividingBy: 60)) // 秒数
-//        ABYPrint("hour \(hour) min\(min) sec \(sec)")
+//        DTLog("hour \(hour) min\(min) sec \(sec)")
 		if hour != 0 {
 			return "\(Int(hour))h\(Int(min))m\(Int(sec))s"
 		} else if min != 0 {
@@ -139,7 +140,7 @@ class Conversation: HandyJSON {
 		self.type = type
 		switch type {
 		case .NormalType:
-			ABYPrint(message: "这是一个正常的会话")
+			DTLog("这是一个正常的会话")
 		case .NotificationType:
 			self.name = "通知消息"
 		}
@@ -221,17 +222,14 @@ extension Conversation {
 			"current_id": Account.share.user?.id ?? 0,
 			"session_id": Account.share.session_id,
 		]
-		ABYNetworkManager.shareInstance.aby_request(request: UserRouter.request(api: UserAPI.endService, params: params), callBack: { (result) -> (Void) in
-			if let res = result {
-				ABYPrint("\(res)")
+        DTNetworkManager.share.dt_request(request: DTRequest.request(api: Api.endService, params: params)) { (error, result) -> (Void) in
+            if let res = result {
+                DTLog("\(res)")
                 complete(true, nil)
             } else {
                 complete(false, nil)
             }
-		}) { (error) -> (Void) in
-			ABYPrint("\(error)")
-			
-		}
+        }
 	}
 }
 

@@ -11,6 +11,7 @@ import Foundation
 import Starscream
 import SwiftyJSON
 import HandyJSON
+import DTTools
 
 /// WebSocket管理类的单例
 class ABYSocket: WebSocketDelegate {
@@ -79,7 +80,7 @@ class ABYSocket: WebSocketDelegate {
 		socketData.session_id = self.session_id
 		socketData.client_id = self.client_id
 		let jsonStr = socketData.toJSONString()
-//        ABYPrint(jsonStr)
+//        DTLog(jsonStr)
 		if let socketStr = jsonStr {
 			webSocket.write(string: socketStr)
 		}
@@ -109,13 +110,13 @@ class ABYSocket: WebSocketDelegate {
 	// MARK: WebSocketDelegate
 	// 每次socket链接上的时候，都会调用此方法
 	func websocketDidConnect(socket: WebSocketClient) {
-//		ABYPrint(message: "Socket 已经连接")
+//		DTLog(message: "Socket 已经连接")
 		// Socket链接上的时候，根据是否登录来处理消息
 		getSessionID()
 	}
 
 	func websocketDidDisconnect(socket: WebSocketClient, error: Error?) {
-		ABYPrint(message: "Socket 断开链接")
+		DTLog("Socket 断开链接")
 		if needReConnected {
 			if let loginInfo = self.loginInfo {
 				login(options: nil, userInfo: loginInfo as! Dictionary<String, String>)
@@ -138,7 +139,7 @@ class ABYSocket: WebSocketDelegate {
 				}// 发送登录成功的回调
 			}
 			self.sessionIDGetTime = getTime
-			ABYPrint("IM: 收到IM登录消息\(msgBody)")
+			DTLog("IM: 收到IM登录消息\(msgBody)")
 		} else if let msgType = msgBody["type"].string {
 			if msgType == "type" {
 				let pongString = "{\"type\": \"pong\"}"
@@ -149,12 +150,12 @@ class ABYSocket: WebSocketDelegate {
 				item.onMessage(message: msgBody)
 			}
 		} else {
-			ABYPrint(message: "其他消息:\(msgBody)")
+			DTLog("其他消息:\(msgBody)")
 		}
 	}
 
 	func websocketDidReceiveData(socket: WebSocketClient, data: Data) {
-//		ABYPrint(message: "Sokcet 收到数据\(data)")
+//		DTLog(message: "Sokcet 收到数据\(data)")
 	}
 }
 
@@ -168,7 +169,7 @@ extension ABYSocket {
 	// 加入房间的消息
 	func join(room: Int16) -> Void {
         if !webSocket.isConnected {
-            ABYPrint("加入房间的时候，没有连接上Socket")
+            DTLog("加入房间的时候，没有连接上Socket")
             connect()
             getSessionID()
             let options = SocketSendOptions.init(path: "api/ims/join_group'", query: "")

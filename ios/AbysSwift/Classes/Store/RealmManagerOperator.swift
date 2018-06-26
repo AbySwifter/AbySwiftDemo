@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import DTTools
 
 // MARK: - 会话列表的存、取、改
 extension ABYRealmManager {
@@ -75,7 +76,7 @@ extension ABYRealmManager {
                 }
             }
         } catch let error as NSError {
-            ABYPrint("保存会话列表时出错\(error)")
+            DTLog("保存会话列表时出错\(error)")
         }
     }
     
@@ -90,7 +91,7 @@ extension ABYRealmManager {
             realm.add(obj, update: true)
             try realm.commitWrite()
         } catch let error as NSError {
-            ABYPrint(error)
+            DTLog(error)
         }
     }
     
@@ -106,7 +107,7 @@ extension ABYRealmManager {
                 }
             }
         } catch let error as NSError {
-            ABYPrint("删除会话出错\(error)")
+            DTLog("删除会话出错\(error)")
         }
     }
     /// 更新消息并更新消息列表
@@ -122,7 +123,7 @@ extension ABYRealmManager {
             if conversation == nil {
                 let con = Conversation.init(width: message) // 创建会话的时候去处理时间差
                 conversation = con.toObject()
-                ABYPrint("会话的时间差为：\(con.timeOffset)")
+                DTLog("会话的时间差为：\(con.timeOffset)")
             } else {
                 let msgObj = message.toObject()
                 realm.add(msgObj, update: true)
@@ -141,7 +142,7 @@ extension ABYRealmManager {
             realm.add(conversation!, update: true)
             try realm.commitWrite()
         } catch let error as NSError {
-            ABYPrint("更新消息出错\(error)")
+            DTLog("更新消息出错\(error)")
         }
     }
         
@@ -153,7 +154,7 @@ extension ABYRealmManager {
                 realm.add(message.toObject(), update: true)
             }
         } catch let error as NSError {
-            ABYPrint("简单更新消息\(error)")
+            DTLog("简单更新消息\(error)")
         }
     }
     
@@ -176,7 +177,7 @@ extension ABYRealmManager {
                 obj.message_read_count = count
             }
         } catch let error as NSError {
-            ABYPrint("更改会话已读数有误：\(error)")
+            DTLog("更改会话已读数有误：\(error)")
         }
         
     }

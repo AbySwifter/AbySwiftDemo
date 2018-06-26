@@ -10,6 +10,7 @@
 
 import Foundation
 import SwiftyJSON
+import DTTools
 
 protocol MessageBusDelegate {
 	// 只有会话页面需要实现的消息
@@ -24,15 +25,15 @@ protocol MessageBusDelegate {
 
 extension MessageBusDelegate {
 	func messageBus(_ message: Message, sendStatus: DeliveryStatus) {
-		ABYPrint("更新消息的默认实现")
+		DTLog("更新消息的默认实现")
 	}
     
     func messageBus(onEvent message: Message) -> Void {
-        ABYPrint("事件消息分发的默认实现")
+        DTLog("事件消息分发的默认实现")
     }
     
     func messageBus(onCustom message: Message) -> Void {
-        ABYPrint("收到自定义消息的默认实现")
+        DTLog("收到自定义消息的默认实现")
     }
 }
 
@@ -58,7 +59,7 @@ class MessageBus: ABYSocketDelegate {
 	func onMessage(message: JSON) {
 		guard let dictionary = message.dictionaryObject else { return }
 		guard let msgModel = Message.deserialize(from: dictionary) else { return }
-        ABYPrint("收到了消息:\(message)")
+        DTLog("收到了消息:\(message)")
 		// 特殊消息的处理(首先处理超时，服务队列更新的消息#1)
 		if msgModel.messageType == MessageType.sys {
 			if msgModel.content?.type == .sysServiceTimeout || msgModel.content?.type ==  .sysChatTimeout {
@@ -77,7 +78,7 @@ class MessageBus: ABYSocketDelegate {
 			if msgModel.content?.type == MSG_ELEM.sysServiceEnd {
 				// 排除掉服务结束的消息，收到结束服务的消息，需要让回话弹出并结束
                 self.delegate?.messageBus(onEvent: msgModel)
-                ABYPrint("收到服务结束的消息：\(msgModel.toJSON() ?? ["msg":"空的json转化"])")
+                DTLog("收到服务结束的消息：\(msgModel.toJSON() ?? ["msg":"空的json转化"])")
                 self.convManager.removeConversation(room_id: msgModel.room_id ?? 0)
             } else if msgModel.messageType == MessageType.custom {
                 self.delegate?.messageBus(onCustom: msgModel)
@@ -159,7 +160,7 @@ extension MessageBus {
 //        if index>=0 && index < self.delegates.count {
 //            self.delegates.remove(at: index)
 //        } else {
-//            ABYPrint("移除代理失败")
+//            DTLog("移除代理失败")
 //        }
         self.delegate = nil
 	}

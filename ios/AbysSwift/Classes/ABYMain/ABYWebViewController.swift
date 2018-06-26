@@ -9,6 +9,7 @@
 import UIKit
 import WebKit
 import JGProgressHUD
+import DTTools
 
 class ABYWebViewController: UIViewController {
 
@@ -71,7 +72,7 @@ extension ABYWebViewController: WKNavigationDelegate {
     ///   - webView: 当前页面的webview
     ///   - navigation: 导航
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-         ABYPrint("开始加载")
+         DTLog("开始加载")
         self.loading.show(in: self.view, animated: true)
     }
     
@@ -81,12 +82,12 @@ extension ABYWebViewController: WKNavigationDelegate {
     ///   - webView: 当前页面的WebView
     ///   - navigation: 导航
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
-        ABYPrint("开始返回内容")
+        DTLog("开始返回内容")
     }
     
     /// 内容加载完成
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        ABYPrint("加载完成")
+        DTLog("加载完成")
         self.loading.dismiss(animated: true)
     }
     

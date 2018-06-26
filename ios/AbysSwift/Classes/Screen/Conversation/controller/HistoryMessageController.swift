@@ -57,7 +57,7 @@ extension HistoryMessageController {
             "page_size": 10,
             "current_id": Account.share.current_id,
         ]
-        self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.historyList, params: params)) { (json) -> (Void) in
+        self.net.dt_request(request: DTRequest.request(api: Api.historyList, params: params)) { (error, json) -> (Void) in
             if let res = json {
                 self.totalCount = res["data"]["message_count"].int ?? 0
                 guard let tempList = res["data"]["message_list"].arrayObject else { return }

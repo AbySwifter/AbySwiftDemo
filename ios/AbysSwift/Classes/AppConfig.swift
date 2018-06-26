@@ -7,7 +7,11 @@
 //
 
 import Foundation
-import DTTools
+//import DTTools
+//import DTRequest
+
+@_exported import DTTools
+@_exported import DTRequest
 
 // 全局的网络信息
 enum URLinfo: String {
@@ -22,3 +26,7 @@ enum URLinfo: String {
     case socketUrl = "ws://218.241.153.28:7272"
 }
 
+func netWorkConfig() -> Void {
+    let config = DTNetConfig.init(baseUrl: URLinfo.baseURL.rawValue, domainUrl: URLinfo.domain.rawValue)
+    DTNetworkManager.share.setDomain(config: config)
+}

@@ -24,6 +24,7 @@
 */
 
 import UIKit
+import DTTools
 
 //fileprivate let kMenuTableViewWidth: CGFloat = 140.0
 fileprivate let kMenuItemMargin: CGFloat = 20.0
@@ -153,7 +154,7 @@ class ABYPopMenu: UIView {
 	}
 
 	deinit {
-		ABYPrint("我被销毁了")
+		DTLog("我被销毁了")
 	}
 }
 

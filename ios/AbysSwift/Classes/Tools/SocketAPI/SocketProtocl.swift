@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import DTTools
 
 /// Socket链接状态描述
 ///
@@ -35,6 +36,6 @@ protocol ABYSocketDelegate {
 
 extension ABYSocketDelegate {
 	func statusChange(status: ABYSocketStatus) -> Void {
-		ABYPrint(String.init(format: "%@状态：%@", "默认状态改变的方法", status.rawValue))
+		DTLog(String.init(format: "%@状态：%@", "默认状态改变的方法", status.rawValue))
 	}
 }

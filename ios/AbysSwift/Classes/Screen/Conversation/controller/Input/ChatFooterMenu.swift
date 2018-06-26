@@ -33,12 +33,12 @@ class ChatFooterMenu: UIView {
 		let images = [#imageLiteral(resourceName: "camera"), #imageLiteral(resourceName: "picture_icon"), #imageLiteral(resourceName: "speakRoutine"), #imageLiteral(resourceName: "product")]
 		setItems(images: images)
 		makeBtnContainer()
-//		ABYPrint(message: "我是Menu菜单的\(#function)")
+//		DTLog(message: "我是Menu菜单的\(#function)")
 	}
 
 	override func layoutSubviews() {
 		super.layoutSubviews()
-//		ABYPrint(message: "我是Menu菜单的\(#function)")
+//		DTLog(message: "我是Menu菜单的\(#function)")
 	}
 
 	required init?(coder aDecoder: NSCoder) {

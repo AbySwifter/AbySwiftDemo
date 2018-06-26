@@ -8,7 +8,8 @@
 
 import UIKit
 import SwiftyJSON
-
+import DTRequest
+import DTTools
 
 /// 会话管理类: 用来管理整个APP会话的生命周期与各个会话的消息分发
 class ConversationManager : NSObject {
@@ -18,10 +19,9 @@ class ConversationManager : NSObject {
         self.refreshList() // 初始化的时候刷新列表
     }
 	// 网络管理类
-	let networkManager: ABYNetworkManager = {
-		return ABYNetworkManager.shareInstance
-	}()
-
+    var net: DTNetworkManager {
+        return DTNetworkManager.share
+    }
     let store: ABYRealmManager  = {
         return ABYRealmManager.instance
     }()
@@ -83,18 +83,18 @@ class ConversationManager : NSObject {
 	/// 获取当前会话列表
 	func getList() -> Void {
 		guard let current_id = Account.share.user?.id else { return  }
-		self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.chatList, params: ["current_id": current_id])) { (result: JSON?) -> (Void) in
-			if let res = result {
-//				ABYPrint(message: res)
-				guard res["state"].int == 200 else {
-					self.dataSource?.updateFail(nil, res["message"].string)
-					return
-				}
-				if let waitCount = res["data"]["wait_count"].int {
-					self.waitCount = waitCount
-				}
-				if let conversationList = res["data"]["service_list"].array {
-//                    self.conversations.removeAll()
+        self.net.dt_request(request: DTRequest.request(api: Api.chatList, params: ["current_id": current_id])) { (error, result) -> (Void) in
+            if let res = result {
+                //                DTLog(message: res)
+                guard res["state"].int == 200 else {
+                    self.dataSource?.updateFail(nil, res["message"].string)
+                    return
+                }
+                if let waitCount = res["data"]["wait_count"].int {
+                    self.waitCount = waitCount
+                }
+                if let conversationList = res["data"]["service_list"].array {
+                    //                    self.conversations.removeAll()
                     var array = [Conversation]()
                     for conversationJSON in conversationList {
                         let jsonStr = conversationJSON.rawString(.utf8, options: .prettyPrinted)
@@ -108,12 +108,13 @@ class ConversationManager : NSObject {
                     self.store.saveConversationList(array)
                     // 刷新数据
                     self.refreshList()
-				}
-			} else {
-				self.dataSource?.updateFail(nil, "网络请求失败")
-			}
-		}
+                }
+            } else {
+                self.dataSource?.updateFail(nil, "网络请求失败")
+            }
+        }
 	}
+    
 }
 
 // MARK: -处理服务相关的东西
@@ -155,18 +156,18 @@ extension ConversationManager {
     /// 上报未读消息
 	func reportRead(count: Int, room_id: Int16) -> Void {
 		let param: [String: Any] = ["room_id": "\(room_id)", "num": "\(count)"]
-		networkManager.aby_request(request:UserRouter.request(api: UserAPI.setReadCount, params: param)) { (result) -> (Void) in
-			if let res = result {
-				ABYPrint("上报已读数结果：\(res)")
-			}
-		}
+        self.net.dt_request(request: DTRequest.request(api: Api.setReadCount, params: param)) { (error, result) -> (Void) in
+            if let res = result {
+                DTLog("上报已读数结果：\(res)")
+            }
+        }
 	}
     
     /// 删除会话
     func removeConversation(room_id: Int16) -> Void {
         if self.atService == room_id {
             //FIXME: 如果要删除的房间正在服务中，必须退出房间再删除
-            ABYPrint("正在服务中的用户收到了会话超时的消息")
+            DTLog("正在服务中的用户收到了会话超时的消息")
         }
         self.conversations[room_id] = nil
         self.store.removeConversation(roomID: room_id)

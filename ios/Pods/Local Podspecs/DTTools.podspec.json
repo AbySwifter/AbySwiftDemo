@@ -1,0 +1,23 @@
+{
+  "name": "DTTools",
+  "version": "0.1.1",
+  "summary": "常用的工具类",
+  "swift_version": "4.1",
+  "description": "主要包含系统类的扩展和常用的初始化方法。",
+  "homepage": "https://gitee.com/momo96553",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "wyx96553@163.com": "https://gitee.com/momo96553"
+  },
+  "source": {
+    "git": "https://gitee.com/momo96553/DTTools.git",
+    "tag": "0.1.1"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "DTTools/Classes/**/*"
+}

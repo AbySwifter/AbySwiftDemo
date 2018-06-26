@@ -4,10 +4,11 @@
 //
 //  Created by aby on 2018/5/9.
 //  Copyright © 2018年 Aby.wang. All rights reserved.
-//
+// import DTTools
 
 import Foundation
 import SwiftyJSON
+import DTTools
 
 extension KKChatViewController {
     
@@ -46,7 +47,7 @@ extension KKChatViewController {
     @objc
     fileprivate func showArticle(_ notification: Notification) -> Void {
         let url = notification.object as? String
-        ABYPrint("点击的URL是：\(url ?? "")")
+        DTLog("点击的URL是：\(url ?? "")")
         let articleVC = ABYWebViewController.init()
         articleVC.url = url
         self.navigationController?.pushViewController(articleVC, animated: true)

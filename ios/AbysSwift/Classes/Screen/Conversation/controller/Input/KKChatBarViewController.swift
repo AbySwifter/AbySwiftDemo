@@ -26,6 +26,7 @@
 import UIKit
 import AVFoundation
 import Photos
+import DTTools
 
 protocol KKChatBarViewControllerDelegate {
 	func chatBarUpdate(height: CGFloat) -> Void
@@ -36,7 +37,7 @@ protocol KKChatBarViewControllerDelegate {
 
 extension KKChatBarViewControllerDelegate {
     func chatBarMenuAction(type: ChatFootMenuTag) -> Void {
-        ABYPrint("默认的点击事件,\(type)")
+        DTLog("默认的点击事件,\(type)")
     }
 }
 
@@ -46,7 +47,7 @@ let kNoTextKeyboardHeight: CGFloat = 216.0
 class KKChatBarViewController: UIViewController {
     var delegate: KKChatBarViewControllerDelegate? {
         didSet {
-            ABYPrint("设置了代理\(delegate)")
+            DTLog("设置了代理\(delegate)")
         }
     }
     var pageViewController: UIViewController
@@ -81,10 +82,6 @@ class KKChatBarViewController: UIViewController {
     /// 文件管理员
     lazy var fileManager: KKFileManager = {
         return KKFileManager.distance
-    }()
-    /// 网络管理员
-    lazy var networkManager: ABYNetworkManager = {
-        return ABYNetworkManager.shareInstance
     }()
     /// 当前会话的房间号
 	var roomID: Int16 = 0
@@ -225,7 +222,7 @@ extension KKChatBarViewController: AudioToolDelegate {
         guard let userName = Account.share.user?.id else { return }
         let dirs = [ "\(userName)", "\(self.roomID)" ]
         guard let path = self.fileManager.createDirInCache(dirs: dirs) else {
-            ABYPrint("创建用户目录失败")
+            DTLog("创建用户目录失败")
             return
         }
         self.audioTool.filePath = path
@@ -363,7 +360,7 @@ extension KKChatBarViewController: KKChatEditorDelegate {
 //            return
 //        }
         //        let duration = kbInfo[UIKeyboardAnimationDurationUserInfoKey] as! Double
-        ABYPrint(self.currentStatus)
+        DTLog(self.currentStatus)
         self.keyboardHeight = 0
         if self.currentStatus == .text {
             self.currentStatus = .none
@@ -410,10 +407,10 @@ extension KKChatBarViewController: UIImagePickerControllerDelegate, UINavigation
 //        if #available(iOS 11.0, *) {
 //           imagePath = (info[UIImagePickerControllerImageURL] as! URL).path
 //        } else {
-//             ABYPrint("\(info[UIImagePickerControllerPHAsset] as! URL)")
+//             DTLog("\(info[UIImagePickerControllerPHAsset] as! URL)")
 //        }
         imagePath = (info[UIImagePickerControllerImageURL] as! URL).path
-          ABYPrint("选取的文件路径为\(imagePath)")
+          DTLog("选取的文件路径为\(imagePath)")
         let size = image.size
         let message = Message.init(image: imagePath, size: size, room_id: self.roomID, isKH: false)
         self.sendMessage(message)
@@ -431,11 +428,11 @@ extension KKChatBarViewController: UIImagePickerControllerDelegate, UINavigation
             if permission == .undetermined {
                 if type == .camera {
                     AVCaptureDevice.requestAccess(for: .video) { (result) in
-                        ABYPrint("请求权限的结果: \(result)")
+                        DTLog("请求权限的结果: \(result)")
                     }
                 } else {
                     PHPhotoLibrary.requestAuthorization { (result) in
-                        ABYPrint("权限请求结果： \(result)")
+                        DTLog("权限请求结果： \(result)")
                     }
                 }
             } else {

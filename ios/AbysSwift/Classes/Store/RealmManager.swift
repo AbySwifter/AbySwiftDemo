@@ -5,7 +5,8 @@
 //  Created by aby on 2018/5/17.
 //  Copyright © 2018年 Aby.wang. All rights reserved.
 //
- import RealmSwift
+import RealmSwift
+import DTTools
 
 class ABYRealmManager {
     static let instance = ABYRealmManager.init()
@@ -13,12 +14,12 @@ class ABYRealmManager {
         // 配置realm的config
         var config = Realm.Configuration.init()
         config.fileURL = config.fileURL!.deletingLastPathComponent().appendingPathComponent("KKRealm.realm") // 更改默认名称
-        ABYPrint("数据库的路径为\(config.fileURL!)")
+        DTLog("数据库的路径为\(config.fileURL!)")
         config.schemaVersion = 10
         //数据库发生迁移的时候需要处理的事情
         config.migrationBlock = {(migration, oldSchemaVersion ) in
             // 在这里进行版本构架的迭代处理
-            ABYPrint("数据库发生了迁移，旧的版本为\(oldSchemaVersion)")
+            DTLog("数据库发生了迁移，旧的版本为\(oldSchemaVersion)")
         }
         Realm.Configuration.defaultConfiguration = config
     }
@@ -27,7 +28,7 @@ class ABYRealmManager {
         do {
             return try Realm()
         } catch let error as NSError {
-            ABYPrint("初始化数据库出错：\(error)")
+            DTLog("初始化数据库出错：\(error)")
             return nil
         }
     }()

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DTTools
 
 enum EditorStatus {
     case none
@@ -199,14 +200,14 @@ extension KKChatEditorView {
         // 在这里的发送方法只涉及到了文本消息的发送
         // 首先判断消息发送框是否为空
         guard !isTextNil else {
-            ABYPrint("warning: 消息为空")
+            DTLog("warning: 消息为空")
             return
         }
         guard let room_id = room_id else {
-            ABYPrint("warning: 房间号不存在")
+            DTLog("warning: 房间号不存在")
             return
         }
-        ABYPrint("发送文本消息")
+        DTLog("发送文本消息")
         let message = Message.init(text: textMsg, room_id:room_id ) // 组装消息
         self.delegate?.chatEditorBar(send: message)
         self.textMsgInput.text = "" // 清空文本框

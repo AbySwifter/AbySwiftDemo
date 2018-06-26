@@ -48,7 +48,6 @@
 		DD51C3B7205129F400FE0F6C /* FormVCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD51C3B6205129F400FE0F6C /* FormVCModel.swift */; };
 		DD67F93A205BC57A00A55280 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67F939205BC57A00A55280 /* Conversation.swift */; };
 		DD70778A202450B40034CB00 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD707789202450B40034CB00 /* LoginViewController.swift */; };
-		DD70778D202452650034CB00 /* ABYNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD70778C202452650034CB00 /* ABYNetworkManager.swift */; };
 		DD72899E20C6691D001E98E0 /* ABYPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD72899D20C6691D001E98E0 /* ABYPackage.swift */; };
 		DD739859202416A4006242FD /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD739858202416A4006242FD /* ConversationViewController.swift */; };
 		DD73985C202417D5006242FD /* FormsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD73985B202417D5006242FD /* FormsViewController.swift */; };
@@ -57,7 +56,6 @@
 		DD739869202443EE006242FD /* ABYNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD739868202443EE006242FD /* ABYNavigationController.swift */; };
 		DD79B3E8206895FC00979582 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD79B3E7206895FC00979582 /* WebSocketManager.swift */; };
 		DD79B3EC2068F7FA00979582 /* SocketDatas.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD79B3EB2068F7FA00979582 /* SocketDatas.swift */; };
-		DD7EAE8720735C2000A7BBF5 /* ABYJsonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EAE8620735C2000A7BBF5 /* ABYJsonModel.swift */; };
 		DD7EAE892073807200A7BBF5 /* MessageBus.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD7EAE882073807200A7BBF5 /* MessageBus.swift */; };
 		DD8278442099504D004D8747 /* ChatVoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8278432099504D004D8747 /* ChatVoiceView.swift */; };
 		DD82789F20998F6A004D8747 /* recording.gif in Resources */ = {isa = PBXBuildFile; fileRef = DD82789E20998F6A004D8747 /* recording.gif */; };
@@ -65,10 +63,11 @@
 		DD898BA220AA783B0019F5F6 /* ToOtherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD898BA120AA783B0019F5F6 /* ToOtherViewController.swift */; };
 		DD898BA420AA82B90019F5F6 /* OtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD898BA320AA82B90019F5F6 /* OtherInfoCell.swift */; };
 		DD8C3514204547F500ABADD6 /* MineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8C3512204547F500ABADD6 /* MineCell.swift */; };
+		DD8F80D620E21FB300C0642A /* ApiConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8F80D520E21FB300C0642A /* ApiConfig.swift */; };
+		DD8F80D820E2267000C0642A /* BaseVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8F80D720E2267000C0642A /* BaseVCExtension.swift */; };
 		DD916B3B208052EC00A31A09 /* BaseBridgemanager.m in Sources */ = {isa = PBXBuildFile; fileRef = DD916B3A208052EC00A31A09 /* BaseBridgemanager.m */; };
 		DD916B3D2080530E00A31A09 /* BaseBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD916B3C2080530E00A31A09 /* BaseBridge.swift */; };
 		DD916B3F2080540A00A31A09 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD916B3E2080540A00A31A09 /* ProductViewController.swift */; };
-		DD92CD54202987340090FB19 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD92CD53202987340090FB19 /* API.swift */; };
 		DD9474E720C0D9980090A183 /* ReplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9474E620C0D9980090A183 /* ReplayViewController.swift */; };
 		DD95E1AE20A962630030394A /* ClientInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD95E1AD20A962630030394A /* ClientInfoCell.swift */; };
 		DD974B3220A3FE6D00D0470F /* KKChatEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD974B3120A3FE6D00D0470F /* KKChatEditorView.swift */; };
@@ -180,7 +179,6 @@
 		DD51C3B6205129F400FE0F6C /* FormVCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormVCModel.swift; sourceTree = "<group>"; };
 		DD67F939205BC57A00A55280 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		DD707789202450B40034CB00 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
-		DD70778C202452650034CB00 /* ABYNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYNetworkManager.swift; sourceTree = "<group>"; };
 		DD72899D20C6691D001E98E0 /* ABYPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYPackage.swift; sourceTree = "<group>"; };
 		DD739858202416A4006242FD /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		DD73985B202417D5006242FD /* FormsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormsViewController.swift; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 		DD739868202443EE006242FD /* ABYNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYNavigationController.swift; sourceTree = "<group>"; };
 		DD79B3E7206895FC00979582 /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
 		DD79B3EB2068F7FA00979582 /* SocketDatas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketDatas.swift; sourceTree = "<group>"; };
-		DD7EAE8620735C2000A7BBF5 /* ABYJsonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYJsonModel.swift; sourceTree = "<group>"; };
 		DD7EAE882073807200A7BBF5 /* MessageBus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBus.swift; sourceTree = "<group>"; };
 		DD8278432099504D004D8747 /* ChatVoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVoiceView.swift; sourceTree = "<group>"; };
 		DD82789E20998F6A004D8747 /* recording.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = recording.gif; sourceTree = "<group>"; };
@@ -197,11 +194,12 @@
 		DD898BA120AA783B0019F5F6 /* ToOtherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToOtherViewController.swift; sourceTree = "<group>"; };
 		DD898BA320AA82B90019F5F6 /* OtherInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherInfoCell.swift; sourceTree = "<group>"; };
 		DD8C3512204547F500ABADD6 /* MineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineCell.swift; sourceTree = "<group>"; };
+		DD8F80D520E21FB300C0642A /* ApiConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiConfig.swift; sourceTree = "<group>"; };
+		DD8F80D720E2267000C0642A /* BaseVCExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseVCExtension.swift; sourceTree = "<group>"; };
 		DD916B39208052EB00A31A09 /* AbysSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AbysSwift-Bridging-Header.h"; sourceTree = "<group>"; };
 		DD916B3A208052EC00A31A09 /* BaseBridgemanager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseBridgemanager.m; sourceTree = "<group>"; };
 		DD916B3C2080530E00A31A09 /* BaseBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseBridge.swift; sourceTree = "<group>"; };
 		DD916B3E2080540A00A31A09 /* ProductViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
-		DD92CD53202987340090FB19 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		DD9474E620C0D9980090A183 /* ReplayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplayViewController.swift; sourceTree = "<group>"; };
 		DD95E1AD20A962630030394A /* ClientInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInfoCell.swift; sourceTree = "<group>"; };
 		DD974B3120A3FE6D00D0470F /* KKChatEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KKChatEditorView.swift; sourceTree = "<group>"; };
@@ -327,7 +325,7 @@
 		DD001F6E202323A000C912D2 /* ABYMain */ = {
 			isa = PBXGroup;
 			children = (
-				DD70778B202452300034CB00 /* Tools */,
+				DD8F80D520E21FB300C0642A /* ApiConfig.swift */,
 				DD001F6F202323DE00C912D2 /* ABYTabBarComtroller.swift */,
 				DD739868202443EE006242FD /* ABYNavigationController.swift */,
 				DD1C09E02031840100B8847D /* ABYBaseViewController.swift */,
@@ -394,16 +392,6 @@
 				DD47C4C3202C491700A45EA1 /* Model */,
 			);
 			path = UserNav;
-			sourceTree = "<group>";
-		};
-		DD70778B202452300034CB00 /* Tools */ = {
-			isa = PBXGroup;
-			children = (
-				DD70778C202452650034CB00 /* ABYNetworkManager.swift */,
-				DD92CD53202987340090FB19 /* API.swift */,
-				DD7EAE8620735C2000A7BBF5 /* ABYJsonModel.swift */,
-			);
-			path = Tools;
 			sourceTree = "<group>";
 		};
 		DD72899C20C66900001E98E0 /* ABYPackage */ = {
@@ -479,6 +467,7 @@
 				DD1C09DE2031428300B8847D /* UIViewController+showHud.swift */,
 				DD14B81A2047B8AC00265CD3 /* ABYValueFormatter.swift */,
 				DDC007C52086E479001FFAF3 /* ABYEmptyDataSetable.swift */,
+				DD8F80D720E2267000C0642A /* BaseVCExtension.swift */,
 			);
 			path = "Extension&Protocol";
 			sourceTree = "<group>";
@@ -858,6 +847,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-AbysSwift/Pods-AbysSwift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/DTRequest/DTRequest.framework",
 				"${BUILT_PRODUCTS_DIR}/DTTools/DTTools.framework",
 				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
 				"${BUILT_PRODUCTS_DIR}/DoubleConversion/DoubleConversion.framework",
@@ -880,6 +870,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DTRequest.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DTTools.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DoubleConversion.framework",
@@ -919,8 +910,8 @@
 				DD27129B20BCFF7E00FCF9F9 /* ArticleItemView.swift in Sources */,
 				DD31DAE520A2A02600D02112 /* KKConst.swift in Sources */,
 				DD70778A202450B40034CB00 /* LoginViewController.swift in Sources */,
-				DD70778D202452650034CB00 /* ABYNetworkManager.swift in Sources */,
 				DD31DAEE20A2D85C00D02112 /* CCZoomTransitionVCExtension.swift in Sources */,
+				DD8F80D820E2267000C0642A /* BaseVCExtension.swift in Sources */,
 				DD739869202443EE006242FD /* ABYNavigationController.swift in Sources */,
 				DD0F986E206A1EAD00BA9C27 /* Message.swift in Sources */,
 				DD73986720243B6A006242FD /* ABYConst.swift in Sources */,
@@ -976,12 +967,11 @@
 				DD466AD920AD641C00F37465 /* ContentObject.swift in Sources */,
 				DD916B3D2080530E00A31A09 /* BaseBridge.swift in Sources */,
 				DD08BA7B207315FE000497C2 /* AppConfig.swift in Sources */,
-				DD7EAE8720735C2000A7BBF5 /* ABYJsonModel.swift in Sources */,
 				DDE8CFA9206903BB00758AA4 /* SocketProtocl.swift in Sources */,
 				DD898BA420AA82B90019F5F6 /* OtherInfoCell.swift in Sources */,
 				DDDEF6A820B7BAA200A026AF /* ABYBackItem.swift in Sources */,
 				DD28B0FA206B375300B75324 /* MessageElem.swift in Sources */,
-				DD92CD54202987340090FB19 /* API.swift in Sources */,
+				DD8F80D620E21FB300C0642A /* ApiConfig.swift in Sources */,
 				DD31DAED20A2D85C00D02112 /* CCZoomAnimatedTransitioning.swift in Sources */,
 				DDC281A8209ADE9F000B2CBE /* FileManager.swift in Sources */,
 				DDD3845120592B1D00A525DF /* ConversationCell.swift in Sources */,
@@ -1155,6 +1145,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = AbysSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1221,6 +1212,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = AbysSwift/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

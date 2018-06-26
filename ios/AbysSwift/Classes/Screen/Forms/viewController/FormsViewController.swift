@@ -215,7 +215,7 @@ class FormsViewController: UIViewController {
 			tempValue.view = tempView
 			model.dataArray[count] = tempValue
 		}
-//		ABYPrint(message: model.dataArray)
+//		DTLog(message: model.dataArray)
 		return otherView
 	}
 }

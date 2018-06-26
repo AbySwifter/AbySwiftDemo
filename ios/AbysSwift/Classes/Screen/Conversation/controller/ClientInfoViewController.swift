@@ -8,6 +8,7 @@
 
 import UIKit
 import HandyJSON
+import DTTools
 
 class ClientInfoViewController: ABYBaseViewController {
     var room_id: Int16?
@@ -176,9 +177,9 @@ extension ClientInfoViewController {
     func getCustomerInfo() -> Void {
         guard let room_id = self.room_id else { return }
         self.showLoading()
-        self.networkManager.aby_request(request: UserRouter.request(api: .getCustomerInfo, params: ["customer_id": "\(room_id)"])) { (json) -> (Void) in
+        self.net.dt_request(request: DTRequest.request(api: Api.getCustomerInfo, params: ["customer_id": "\(room_id)"])) { (error, json) -> (Void) in
             guard let res = json else { return }
-            ABYPrint("\(res)")
+            DTLog("\(res)")
             guard let dic = res["data"].dictionaryObject else { return }
             self.info = ClientInfo.deserialize(from: dic)
             self.hideLoading()
@@ -245,7 +246,7 @@ extension ClientInfoViewController {
 
 extension ClientInfoViewController: TagViewDelegate {
     func touchTagClose(tag: Int, title: String) {
-        ABYPrint("点击了关闭按钮\(title)")
+        DTLog("点击了关闭按钮\(title)")
         tags.remove(at: tag)
         tagView.tags = tags
         tagView.updataTag()

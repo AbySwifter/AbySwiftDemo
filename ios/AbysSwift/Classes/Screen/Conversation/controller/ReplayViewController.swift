@@ -12,6 +12,7 @@
 //
 
 import UIKit
+import DTTools
 
 class ReplayViewController: UIViewController {
     /// 显示回复的Label
@@ -87,7 +88,7 @@ class ReplayViewController: UIViewController {
     //MARK: Target Methods
     @objc
     private func send(_ sender: UIButton) -> Void {
-        ABYPrint("发送的方法")
+        DTLog("发送的方法")
         self.sendAction?(self.textLabel.text)
         self.message = nil
         self.navigationController?.popViewController(animated: true)

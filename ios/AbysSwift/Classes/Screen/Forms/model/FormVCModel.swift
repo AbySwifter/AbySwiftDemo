@@ -17,10 +17,9 @@ protocol FormVCModelDelegate {
 }
 
 class FormVCModel: NSObject {
-	let network: ABYNetworkManager = {
-		return ABYNetworkManager.shareInstance
-	}()
-    
+    var net: DTNetworkManager {
+        return DTNetworkManager.share
+    }
     var delegate: FormVCModelDelegate?
 	let segmentTitles: Array<String> = ["在线时长", "会话量", "接待客户数"];
 	var timeLine: Array<String>?
@@ -90,20 +89,19 @@ class FormVCModel: NSObject {
 	func getData() -> Void {
 		guard let user = Account.share.user else { return }
 		let params: Parameters = ["current_id": String(user.id), "days": 7];
-		self.network.aby_request(request: UserRouter.request(api: UserAPI.stats, params: params)) { (json) -> (Void) in
-//			ABYPrint(message: json)
-			if let data = json?["data"] {
-				self.setOtherData(data) // 设置累计数据
-				self.setProgress(data) // 设置满意度数据
+        self.net.dt_request(request: DTRequest.request(api: Api.stats, params: params)) { (error, json) -> Void in
+            if let data = json?["data"] {
+                self.setOtherData(data) // 设置累计数据
+                self.setProgress(data) // 设置满意度数据
                 // 时间轴
-				self.timeLine = data["curve"]["time_line"].arrayObject as? [String]
-				// 折线图数据
-				self.active = data["curve"]["data"]["active"].arrayObject as? [Int]
-				self.customer = data["curve"]["data"]["customer"].arrayObject as? [Int]
-				self.session = data["curve"]["data"]["session"].arrayObject as? [Int]
+                self.timeLine = data["curve"]["time_line"].arrayObject as? [String]
+                // 折线图数据
+                self.active = data["curve"]["data"]["active"].arrayObject as? [Int]
+                self.customer = data["curve"]["data"]["customer"].arrayObject as? [Int]
+                self.session = data["curve"]["data"]["session"].arrayObject as? [Int]
                 self.delegate?.dataUpdated()
-			}
-		}
+            }
+        }
 	}
 
 	func setOtherData(_ data: JSON) -> Void {

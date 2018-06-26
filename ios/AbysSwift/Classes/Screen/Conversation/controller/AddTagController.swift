@@ -12,6 +12,7 @@
 //
 
 import UIKit
+import DTTools
 
 protocol AddTagControllerdelegate {
     func add(tags:[String]) -> Void
@@ -151,7 +152,7 @@ class AddTagController: UIViewController, UITextFieldDelegate {
         addTagArray = addTagArray.map { (string) -> String in
             return string.trimmingCharacters(in: .whitespaces)
         }
-        ABYPrint(addTagArray)
+        DTLog(addTagArray)
         if textField.isFirstResponder {
               textField.resignFirstResponder()
         }
@@ -164,7 +165,7 @@ class AddTagController: UIViewController, UITextFieldDelegate {
     @objc
     func valueChanged(_ sender: UITextField) -> Void {
         // 改变事件
-        ABYPrint(sender.text ?? "")
+        DTLog(sender.text ?? "")
         tagString = sender.text ?? "" // 绑定tagString
     }
 

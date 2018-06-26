@@ -12,9 +12,6 @@ import Kingfisher
 import JGProgressHUD
 
 class LoginViewController: ABYBaseViewController, LoginProtocol {
-	let network: ABYNetworkManager = {
-		return ABYNetworkManager.shareInstance
-	}()
 	// 用户管理类的单例
 	let user: Account = {
 		return Account.share
@@ -43,7 +40,7 @@ class LoginViewController: ABYBaseViewController, LoginProtocol {
 		setView() // 填充内容
 		getCodeUrl() // 获取验证码视图
 		addKeyBoardNotification() // 添加键盘监听事件
-		ABYPrint(message: "登录页面出现")
+		DTLog("登录页面出现")
     }
 	func addKeyBoardNotification() -> Void {
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillshow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -187,16 +184,17 @@ class LoginViewController: ABYBaseViewController, LoginProtocol {
 	// TODO: 网络层的请求，根据设计原则不应该出现在VC里，后期优化
 	@objc
 	func getCodeUrl() -> Void {
-		self.network.aby_request(request: UserRouter.request(api: UserAPI.code, params: nil)) { (res) -> (Void) in
-			if let result = res {
-				let urlString = result["data"]["captcha"]
-				if let url:String = urlString.string {
-					self.codeIcon.kf.setImage(with: URL.init(string: url))
-				}
-			} else {
-				print("网络出错了")
-			}
-		}
+        self.net.dt_request(request: DTRequest.request(api: Api.code, params: nil
+        )) { (error, res) -> (Void) in
+            if let result = res {
+                let urlString = result["data"]["captcha"]
+                if let url:String = urlString.string {
+                    self.codeIcon.kf.setImage(with: URL.init(string: url))
+                }
+            } else {
+                print("网络出错了")
+            }
+        }
 	}
 	// MARK: -点击动作
 	@objc

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import DTTools
 
 class KKFileManager {
     static let distance = KKFileManager.init()
@@ -40,7 +40,7 @@ class KKFileManager {
             try self.fileManager.createDirectory(atPath: path, withIntermediateDirectories: true, attributes: nil)
             return true
         } catch {
-            ABYPrint(error)
+            DTLog(error)
             return false
         }
     }
@@ -50,7 +50,7 @@ class KKFileManager {
         for items in dirs {
              path = path.appending("/\(items)")
         }
-        ABYPrint("当前路径：\(path)")
+        DTLog("当前路径：\(path)")
         if self.createDir(path: path) {
             return path
         } else {
@@ -63,7 +63,7 @@ class KKFileManager {
         do {
             try self.fileManager.removeItem(atPath: path)
         } catch  {
-            ABYPrint("删除文件的错误:\(error)")
+            DTLog("删除文件的错误:\(error)")
             result = false
         }
         return result

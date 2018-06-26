@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DTTools
 
 protocol BridgeCenterDelegate {
     func onJSONString(value: String) -> Void
@@ -14,7 +15,7 @@ protocol BridgeCenterDelegate {
 
 extension BridgeCenterDelegate {
     func onJSONString(value: String) -> Void {
-        ABYPrint("默认的消息到达方法\(value)")
+        DTLog("默认的消息到达方法\(value)")
     }
 }
 

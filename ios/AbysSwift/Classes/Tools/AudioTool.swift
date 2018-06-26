@@ -8,6 +8,7 @@
 
 import UIKit
 import AVFoundation // 录音的框架
+import DTTools
 
 protocol AudioToolDelegate {
     func audioToolRecording(progress: Double) -> Void
@@ -16,13 +17,13 @@ protocol AudioToolDelegate {
 
 extension AudioToolDelegate {
     func audioToolRecording(progress: Double) -> Void {
-        ABYPrint("当前录音的秒数\(progress)")
+        DTLog("当前录音的秒数\(progress)")
     }
     func audioToolRecorded(path: String, duration: Double, name: String) -> Void {
-        ABYPrint("录音完毕：\(path) 时长: \(duration) 文件名: \(name)")
+        DTLog("录音完毕：\(path) 时长: \(duration) 文件名: \(name)")
     }
     func audioToolRecordError(error: Error?) -> Void {
-        ABYPrint("录音出错：")
+        DTLog("录音出错：")
     }
 }
 
@@ -103,14 +104,14 @@ extension AudioTool {
         do {
             try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
         } catch {
-            ABYPrint("设置录音会话失败：\(error)")
+            DTLog("设置录音会话失败：\(error)")
             return false
         }
         // 设置Session动作(激活Session)
         do {
             try audioSession.setActive(true)
         } catch {
-            ABYPrint("激活会话失败：\(error)")
+            DTLog("激活会话失败：\(error)")
             return false
         }
         // 录音的参数设置
@@ -122,7 +123,7 @@ extension AudioTool {
             AVEncoderAudioQualityKey: NSNumber(value: AVAudioQuality.min.rawValue) //录音质量
         ]
         let url = URL.init(fileURLWithPath: file)
-        ABYPrint("文件路径\(url)")
+        DTLog("文件路径\(url)")
         do {
             recorder = try AVAudioRecorder.init(url: url, settings: recordSetting)
             recorder?.delegate = self
@@ -132,7 +133,7 @@ extension AudioTool {
                 return false
             }
         } catch {
-            ABYPrint("准备录音出错\(error)")
+            DTLog("准备录音出错\(error)")
             return false
         }
        
@@ -168,7 +169,7 @@ extension AudioTool {
         } else {
             path = URL.init(fileURLWithPath: url)
         }
-        guard path != nil else { ABYPrint("路径有问题"); return }
+        guard path != nil else { DTLog("路径有问题"); return }
         do {
             let data = try Data.init(contentsOf: path!)
             self.player = try AVAudioPlayer.init(data: data)
@@ -179,7 +180,7 @@ extension AudioTool {
                 self.player?.play()
             }
         } catch {
-            ABYPrint("播放初始化失败\(error)");
+            DTLog("播放初始化失败\(error)");
             stopPlay()
         }
     }

@@ -9,6 +9,7 @@
 import UIKit
 import HandyJSON
 import MJRefresh
+import DTTools
 
 class ToOtherViewController: ABYBaseViewController {
 
@@ -52,7 +53,7 @@ class ToOtherViewController: ABYBaseViewController {
             "current_id": Account.share.current_id,
         ]
         self.showLoading()
-        self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.switchServiceList, params: params)) { (json) -> (Void) in
+        self.net.dt_request(request: DTRequest.request(api: Api.switchServiceList, params: params)) { (error, json) -> (Void) in
             self.hideLoading()
             if let res = json {
                 if let array = res["data"]["online_services"].arrayObject {
@@ -75,13 +76,14 @@ class ToOtherViewController: ABYBaseViewController {
             "room_id": room_id
         ]
         self.showLoading()
-        self.networkManager.aby_request(request: UserRouter.request(api: UserAPI.switchService, params: params)) { (json) -> (Void) in
+        self.net.dt_request(request: DTRequest.request(api: Api.switchService, params: params)) { (error, json) -> (Void) in
             if let res = json {
                 if res["state"].intValue == 200 {
                     self.hideLoading() // 隐藏加载图
                     self.showToast("转接客服成功")
                     ConversationManager.distance.removeConversation(room_id: Int16(self.room_id ?? 0))
                     DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1.5, execute: {
+                    
                         self.navigationController?.popToRootViewController(animated: true)
                     })
                 }
@@ -123,7 +125,7 @@ extension ToOtherViewController: ABYEmptyDataSetable {
         }
         
         aby_tapEmptyView(tableView) { (view) in
-            ABYPrint("点击了空视图")
+            DTLog("点击了空视图")
             self.getOtherList()
         }
     }

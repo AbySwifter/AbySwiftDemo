@@ -11,6 +11,7 @@
 // @discussion 展示标签
 //
 import UIKit
+import DTTools
 
 // 标签视图的代理方法
 protocol TagViewDelegate {
@@ -21,11 +22,11 @@ protocol TagViewDelegate {
 
 extension TagViewDelegate {
     func touchTag(tag: Int, title: String) -> Void {
-        ABYPrint("执行了默认的点击方法")
+        DTLog("执行了默认的点击方法")
     }
     
     func touchTagClose(tag: Int, title: String) -> Void {
-        ABYPrint("执行了默认的删除方法")
+        DTLog("执行了默认的删除方法")
     }
     
     func touchTagAdd(tag: Int) -> Void {}

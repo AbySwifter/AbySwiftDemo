@@ -6,7 +6,8 @@ use_frameworks!
 target "AbysSwift" do
     
 #私有远程库
-pod 'DTTools', '~> 0.1.1'
+pod 'DTTools', :path => '../../cocopods_Lib/DTTools'
+pod 'DTRequest', :path => '../../cocopods_Lib/DTRequest'
 # 公有远程库
 pod 'SnapKit', '~> 4.0.0'
 pod 'Alamofire', '~> 4.5'

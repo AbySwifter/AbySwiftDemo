@@ -9,13 +9,14 @@
 // 与RN的通讯类，肩负着与RN沟通的重任
 
 import UIKit
+import DTTools
 
 @objc(BaseBridge)
 class BaseBridge: NSObject {
     
 	@objc func addEvent(_ name: String, location: String, date: NSNumber, resolver: (NSObject) -> (), rejecter: (NSString, NSString, NSError) -> () ) -> Void {
 		// Date is ready to use!
-		ABYPrint("\(Thread.current)")
+		DTLog("\(Thread.current)")
 		let result = ["good"] as NSArray
 		resolver(result)
 	}
@@ -29,7 +30,7 @@ class BaseBridge: NSObject {
 	}
     
     @objc func passJSON(_ value: String, type: String) -> Void {
-        ABYPrint("从JS接受消息\(value), 类型为\(type)")
+        DTLog("从JS接受消息\(value), 类型为\(type)")
         if type == "MSG_ELEM" {
             // 说明是消息体，需要包装并发送
             BaseBridgeCenter.center.delegate?.onJSONString(value: value)

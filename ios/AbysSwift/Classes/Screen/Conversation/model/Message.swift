@@ -9,6 +9,7 @@
 import UIKit
 import HandyJSON
 import SwiftyJSON
+import DTTools
 
 /// 消息类型枚举
 ///
@@ -41,7 +42,7 @@ class MsgSender: HandyJSON {
 		self.init()
 		guard !isKH else { return }
 		guard let user = Account.share.user else {
-			ABYPrint("waring: 消息发送的时候，用户信息无法获取")
+			DTLog("waring: 消息发送的时候，用户信息无法获取")
 			return
 		}
 		name = user.name
@@ -86,8 +87,8 @@ class Message: HandyJSON {
 	var cellHeight: CGFloat = 0
 	var showTime: Bool = false
     /// 网络管理员
-    lazy var networkManager: ABYNetworkManager = {
-        return ABYNetworkManager.shareInstance
+    lazy var networkManager: DTNetworkManager = {
+        return DTNetworkManager.share
     }()
 	// 排除指定属性的方法
 	func mapping(mapper: HelpingMapper) {
@@ -239,10 +240,10 @@ extension Message {
             return
         } else {
 //             开始上传，上传完毕后进行发送
-            self.networkManager.aby_upload(path: url, fileName: "voice.aac", type: .audio) { (json) -> (Void) in
-                ABYPrint(Thread.current)
+            self.networkManager.dt_upload(path: url, fileName: "voice.aac", type: .audio, request:DTRequest.request(api: Api.upLoadFile, params: nil)) { (error, json) -> (Void) in
+                DTLog(Thread.current)
                 if let result = json {
-                    ABYPrint("上传成功：\(result)")
+                    DTLog("上传成功：\(result)")
                     // 上传成功后就发送消息
                     self.content?.voice = result["data"]["file"].string
                     if self.content?.voice != nil {
@@ -269,10 +270,10 @@ extension Message {
             return
         } else {
             // 开始上传，上传完毕后进行发送
-            self.networkManager.aby_upload(path: url, fileName: "image.jpg", type: .image) { (json) -> (Void) in
-                ABYPrint(Thread.current)
+            self.networkManager.dt_upload(path: url, fileName: "image.jpg", type: .image, request: DTRequest.request(api: Api.upLoadFile, params: nil)) { (error, json) -> (Void) in
+                DTLog(Thread.current)
                 if let result = json {
-                    ABYPrint("上传成功：\(result)")
+                    DTLog("上传成功：\(result)")
                     // 上传成功后就发送消息
                     self.content?.image = result["data"]["file"].string
                     if self.content?.image != nil {

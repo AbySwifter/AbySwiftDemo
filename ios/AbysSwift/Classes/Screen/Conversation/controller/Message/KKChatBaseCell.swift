@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import DTTools
 
 class KKChatBaseCell: UITableViewCell, MessageStatusChangeDelegate {
 	var model: Message? { didSet { baseCellSetModel() } }
@@ -242,7 +242,7 @@ extension KKChatBaseCell {
 extension KKChatBaseCell {
     /// 改变cell视图显示的代理方法
     func messageStatusChange(_ status: DeliveryStatus) {
-        ABYPrint("BaseCell: 消息发送状态变化： \(status)")
+        DTLog("BaseCell: 消息发送状态变化： \(status)")
         switch status {
         case .delivered:
             tipView.isHidden = true

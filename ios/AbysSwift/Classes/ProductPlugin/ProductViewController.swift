@@ -9,6 +9,7 @@
 import UIKit
 import React
 import JGProgressHUD
+import DTTools
 
 let zipUrl = "http://0.0.0.0:8888/api/file/jsbundle.zip"
 
@@ -118,7 +119,7 @@ extension ProductViewController: ABYPackageDelegate {
                 self.hud.dismiss()
             })
         case .zipArchivingResult(path:let path, successed: let success, error: _):
-            ABYPrint("文件路径为\(path)")
+            DTLog("文件路径为\(path)")
             if success {
                 createReactNativeView(jsCodeLocation: package.bundleURL()!)
             }
