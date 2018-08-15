@@ -76,6 +76,7 @@ PODS:
   - SnapKit (4.0.0)
   - SSZipArchive (2.1.3)
   - Starscream (3.0.5)
+  - SWExLabel (0.1.0)
   - SwiftDate (4.5.1)
   - SwiftyJSON (4.1.0)
   - yoga (0.55.4.React)
@@ -112,6 +113,7 @@ DEPENDENCIES:
   - SnapKit (~> 4.0.0)
   - SSZipArchive
   - Starscream (~> 3.0.3)
+  - SWExLabel (from `../../SWExLabel`)
   - SwiftDate
   - SwiftyJSON
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -147,6 +149,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   RNVectorIcons:
     :podspec: "../node_modules/react-native-vector-icons/RNVectorIcons.podspec"
+  SWExLabel:
+    :path: "../../SWExLabel"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -169,10 +173,11 @@ SPEC CHECKSUMS:
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SSZipArchive: 51a800ebb77f95a8329b6ced1faaff394b47f509
   Starscream: faf918b2f2eff7d5dd21180646bf015a669673bd
+  SWExLabel: ae55bd6b6049b6f84e459a59f01da1c61256a45a
   SwiftDate: 7b56d42a221f582047287deb256b23fc5ed49a60
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   yoga: 618bddc9ca65121bba7c93bdbe8b649edb816558
 
-PODFILE CHECKSUM: 4bb5d031c96ea7024d7dc207e9ba879fef8b0c9c
+PODFILE CHECKSUM: b4b6bbf6ae414880d6f6a61f4c5ed3685f29a397
 
 COCOAPODS: 1.5.3

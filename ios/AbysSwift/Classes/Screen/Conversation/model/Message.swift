@@ -119,8 +119,9 @@ extension Message {
 	/// 发送时间的处理
 	var timeStr: String {
 		guard let timeSt = self.timestamp else { return "" }
-		let time = TimeInterval.init(timeSt/1000)
-		let str = KKChatMsgDataHelper.shared.chatTimeString(with: time)
+		let time = TimeInterval.init(timeSt/1000) // 时间戳的初始化
+//        let str = KKChatMsgDataHelper.shared.chatTimeString(with: time)
+        let str = time.chatTimeString() // 将初始化的时间转化为字符串
 		return str
 	}
     
@@ -293,8 +294,7 @@ extension Message {
             }
         }
     }
-    
-    
+    /// 投递消息
     func deliver() -> Void {
         guard let type = self.content?.type else { return }
         self.deliveryStatus = .delivering

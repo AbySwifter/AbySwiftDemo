@@ -10,8 +10,10 @@ import Foundation
 import DTRequest
 
 
-// MARK: - 基类的延展
-extension ABYBaseViewController {
+// MARK: - VC的延展，给一个计算属性，用于网络请求
+extension UIViewController {
+    
+    /// 每个vc都有一个网络管理者
     var net: DTNetworkManager {
         return DTNetworkManager.share
     }

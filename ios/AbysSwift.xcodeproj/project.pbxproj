@@ -44,8 +44,12 @@
 		DD466AD920AD641C00F37465 /* ContentObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD466AD820AD641C00F37465 /* ContentObject.swift */; };
 		DD466ADB20AD73D100F37465 /* RealmManagerOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD466ADA20AD73D100F37465 /* RealmManagerOperator.swift */; };
 		DD47C4C8202C49BC00A45EA1 /* Account.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD47C4C7202C49BC00A45EA1 /* Account.swift */; };
+		DD4E4683212272F10030F745 /* ClippedExpression.bundle in Resources */ = {isa = PBXBuildFile; fileRef = DD4E4681212272F00030F745 /* ClippedExpression.bundle */; };
+		DD4E4684212272F10030F745 /* Expression.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD4E4682212272F10030F745 /* Expression.plist */; };
 		DD51C3B52051129900FE0F6C /* OhterDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD51C3B42051129900FE0F6C /* OhterDataView.swift */; };
 		DD51C3B7205129F400FE0F6C /* FormVCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD51C3B6205129F400FE0F6C /* FormVCModel.swift */; };
+		DD6298712123BAD8004E2F51 /* ExpressionQQ.plist in Resources */ = {isa = PBXBuildFile; fileRef = DD6298702123BAD8004E2F51 /* ExpressionQQ.plist */; };
+		DD6298732123CAF0004E2F51 /* String+qq.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6298722123CAF0004E2F51 /* String+qq.swift */; };
 		DD67F93A205BC57A00A55280 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD67F939205BC57A00A55280 /* Conversation.swift */; };
 		DD70778A202450B40034CB00 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD707789202450B40034CB00 /* LoginViewController.swift */; };
 		DD72899E20C6691D001E98E0 /* ABYPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD72899D20C6691D001E98E0 /* ABYPackage.swift */; };
@@ -175,8 +179,12 @@
 		DD466AD820AD641C00F37465 /* ContentObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentObject.swift; sourceTree = "<group>"; };
 		DD466ADA20AD73D100F37465 /* RealmManagerOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManagerOperator.swift; sourceTree = "<group>"; };
 		DD47C4C7202C49BC00A45EA1 /* Account.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Account.swift; sourceTree = "<group>"; };
+		DD4E4681212272F00030F745 /* ClippedExpression.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ClippedExpression.bundle; sourceTree = "<group>"; };
+		DD4E4682212272F10030F745 /* Expression.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expression.plist; sourceTree = "<group>"; };
 		DD51C3B42051129900FE0F6C /* OhterDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OhterDataView.swift; sourceTree = "<group>"; };
 		DD51C3B6205129F400FE0F6C /* FormVCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormVCModel.swift; sourceTree = "<group>"; };
+		DD6298702123BAD8004E2F51 /* ExpressionQQ.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ExpressionQQ.plist; sourceTree = "<group>"; };
+		DD6298722123CAF0004E2F51 /* String+qq.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+qq.swift"; sourceTree = "<group>"; };
 		DD67F939205BC57A00A55280 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		DD707789202450B40034CB00 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DD72899D20C6691D001E98E0 /* ABYPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABYPackage.swift; sourceTree = "<group>"; };
@@ -345,13 +353,6 @@
 			path = CCZoomTransition;
 			sourceTree = "<group>";
 		};
-		DD47C4C3202C491700A45EA1 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		DD47C4C4202C492500A45EA1 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -389,7 +390,6 @@
 			isa = PBXGroup;
 			children = (
 				DD47C4C4202C492500A45EA1 /* ViewController */,
-				DD47C4C3202C491700A45EA1 /* Model */,
 			);
 			path = UserNav;
 			sourceTree = "<group>";
@@ -468,6 +468,7 @@
 				DD14B81A2047B8AC00265CD3 /* ABYValueFormatter.swift */,
 				DDC007C52086E479001FFAF3 /* ABYEmptyDataSetable.swift */,
 				DD8F80D720E2267000C0642A /* BaseVCExtension.swift */,
+				DD6298722123CAF0004E2F51 /* String+qq.swift */,
 			);
 			path = "Extension&Protocol";
 			sourceTree = "<group>";
@@ -494,7 +495,10 @@
 		DD82789B20998EEB004D8747 /* resource */ = {
 			isa = PBXGroup;
 			children = (
+				DD4E4681212272F00030F745 /* ClippedExpression.bundle */,
+				DD4E4682212272F10030F745 /* Expression.plist */,
 				DD82789E20998F6A004D8747 /* recording.gif */,
+				DD6298702123BAD8004E2F51 /* ExpressionQQ.plist */,
 			);
 			path = resource;
 			sourceTree = "<group>";
@@ -767,7 +771,7 @@
 					};
 					DD001F5B2023238500C912D2 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						TestTargetID = DD001F3C2023238500C912D2;
 					};
 				};
@@ -797,7 +801,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DD6298712123BAD8004E2F51 /* ExpressionQQ.plist in Resources */,
+				DD4E4684212272F10030F745 /* Expression.plist in Resources */,
 				DD001F4B2023238500C912D2 /* LaunchScreen.storyboard in Resources */,
+				DD4E4683212272F10030F745 /* ClippedExpression.bundle in Resources */,
 				DD128A1720883BB100F85809 /* Assets.xcassets in Resources */,
 				DD82789F20998F6A004D8747 /* recording.gif in Resources */,
 			);
@@ -859,6 +866,7 @@
 				"${BUILT_PRODUCTS_DIR}/RNVectorIcons/RNVectorIcons.framework",
 				"${BUILT_PRODUCTS_DIR}/React/React.framework",
 				"${BUILT_PRODUCTS_DIR}/SSZipArchive/SSZipArchive.framework",
+				"${BUILT_PRODUCTS_DIR}/SWExLabel/SWExLabel.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Starscream/Starscream.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftDate/SwiftDate.framework",
@@ -882,6 +890,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNVectorIcons.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/React.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSZipArchive.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWExLabel.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Starscream.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftDate.framework",
@@ -979,6 +988,7 @@
 				DD14B81B2047B8AC00265CD3 /* ABYValueFormatter.swift in Sources */,
 				DDD3844D205929A800A525DF /* ConversationManager.swift in Sources */,
 				DDBDEA0920BE8E9E00473C43 /* ABYWebViewController.swift in Sources */,
+				DD6298732123CAF0004E2F51 /* String+qq.swift in Sources */,
 				DD51C3B7205129F400FE0F6C /* FormVCModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1301,8 +1311,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = F8A3GH6Q4W;
 				INFOPLIST_FILE = AbysSwiftUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Aby.AbysSwiftUITests;
@@ -1318,8 +1329,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = F8A3GH6Q4W;
 				INFOPLIST_FILE = AbysSwiftUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Aby.AbysSwiftUITests;

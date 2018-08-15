@@ -105,7 +105,11 @@ extension KKChatMsgDataHelper {
 			return false
 		}
 	}
-	// 计算时间字符串
+	
+    /// 根据传入时间计算与当前时间相差多久的字符串
+    ///
+    /// - Parameter time: 过去的时间
+    /// - Returns: 计算结果字符串
 	func chatTimeString(with time: TimeInterval) -> String {
 		// 消息时间
 		let date = Date.init(timeIntervalSince1970: time)
@@ -147,4 +151,52 @@ extension KKChatMsgDataHelper {
 		}
 		return ""
 	}
+}
+
+extension TimeInterval {
+    /// 根据传入时间计算与当前时间相差多久的字符串
+    ///
+    /// - Parameter time: 过去的时间
+    /// - Returns: 计算结果字符串
+    func chatTimeString() -> String {
+        // 消息时间
+        let date = Date.init(timeIntervalSince1970: self)
+        let dateInRome = DateInRegion.init(absoluteDate: date)
+        // 当前时间
+        let now = DateInRegion.init()
+        // 相差年份
+        let year = now.year - dateInRome.year
+        // 相差月数
+        let month = now.month - dateInRome.month
+        // 相差天数
+        let day = now.day - dateInRome.day
+        // 相差小时数
+        let hour = now.hour - dateInRome.hour
+        // 相差分钟数
+        let minute = now.minute - dateInRome.minute
+        // 相差秒数
+        let second = now.second - dateInRome.second
+        if year != 0 {
+            return String(format: "%d年%d月%d日 %d:%02d", dateInRome.year, dateInRome.month, dateInRome.day, dateInRome.hour, dateInRome.minute)
+        } else if year == 0 {
+            if month > 0 || day > 7 {
+                return String(format: "%d月%d日 %d:%02d", dateInRome.month, dateInRome.day, dateInRome.hour, dateInRome.minute)
+            } else if day > 2 {
+                return String(format: "%@ %d:%02d", dateInRome.weekdayName, dateInRome.hour, dateInRome.minute)
+            } else if day == 2 {
+                return String(format: "前天 %d:%d", dateInRome.hour, dateInRome.minute)
+            } else if dateInRome.isYesterday {
+                return String(format: "昨天 %d:%d", dateInRome.hour, dateInRome.minute)
+            } else if hour > 0 {
+                return String(format: "%d:%02d",dateInRome.hour, dateInRome.minute)
+            } else if minute > 0 {
+                return String(format: "%02d分钟前", minute)
+            } else if second > 10 {
+                return String(format: "%d秒前",second)
+            } else  {
+                return String(format: "刚刚")
+            }
+        }
+        return ""
+    }
 }

@@ -24,8 +24,11 @@
 
 import UIKit
 import Kingfisher
+import SWExLabel
 
 class KKChattextCell: KKChatBaseCell {
+    let expression = SWExpression.init(regex: "\\[[a-zA-Z0-9\\u4e00-\\u9fa5]+\\]", plistName: "Expression", bundleName: "ClippedExpression")
+    let dic: NSDictionary = NSDictionary.init(contentsOfFile: Bundle.main.path(forResource: "ExpressionQQ", ofType: "plist")!)!
 	override var model: Message? {
 		didSet {
 			setModel()
@@ -59,7 +62,9 @@ extension KKChattextCell {
 		guard model?.content?.type == MSG_ELEM.text else { return }
 		guard let message = self.model else { return }
 		// FIXME: 做表情的匹配
-		contentLabel.text = message.content?.text ?? ""
+        let qqDic: Dictionary = self.dic as Dictionary
+        message.content?.text?.emojiParse(emojiDic: qqDic as! Dictionary<String, String>)
+		contentLabel.attributedText = message.content?.text?.expressionAttributedString(expression: self.expression) ?? NSAttributedString.init(string: "")
 		// 设置泡泡
 		let img = message.isSelf ? #imageLiteral(resourceName: "mebubble") : #imageLiteral(resourceName: "friendbubble")
 		let color = message.isSelf ? UIColor.white : UIColor.black
