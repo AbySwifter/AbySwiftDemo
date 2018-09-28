@@ -8,6 +8,9 @@
 
 import UIKit
 
+
+// MARK: - 模态转场动画UIViewController的k延展
+/// - 这里用到了运行时去给添加存储属性
 extension UIViewController {
     
     //set the  presented viewController,
@@ -53,7 +56,4 @@ extension UIViewController {
             objc_setAssociatedObject(self, &AssociatedKey.ZoomTransitioner, newValue, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
     }
-    
-    
-    
 }

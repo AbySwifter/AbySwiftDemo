@@ -13,22 +13,25 @@ import DTTools
 
 let zipUrl = "http://0.0.0.0:8888/api/file/jsbundle.zip"
 
-class ProductViewController: ABYBaseViewController {
 
-    lazy var package: ABYPackage = {
+/// 负责加载RN插件类
+class ProductViewController: ABYBaseViewController {
+    /// 懒加载的插件类
+    private lazy var package: ABYPackage = {
         let p = ABYPackage.init()
         p.delegate = self
-        p.remoteURL = "http://0.0.0.0:8888/api/file/jsbundle.zip" // 设置更新路径
+        p.remoteURL = zipUrl
         return p
     }()
     
-    lazy var hud: JGProgressHUD = {
+    /// 页面提示
+    private lazy var hud: JGProgressHUD = {
         let hud: JGProgressHUD = JGProgressHUD.init(style: JGProgressHUDStyle.dark)
         return hud
     }()
     
     // 返回按钮
-    lazy var close: UIButton = {
+    private lazy var close: UIButton = {
         let btn = UIButton.init(type: .custom)
         btn.setImage(#imageLiteral(resourceName: "close"), for: .normal)
         btn.addTarget(self, action: #selector(dismissSelf), for: .touchUpInside)
@@ -60,6 +63,9 @@ class ProductViewController: ABYBaseViewController {
         removeNotification()
     }
     
+    /// 创建RN视图
+    ///
+    /// - Parameter jsCodeLocation: jsbundle的路径
     func createReactNativeView(jsCodeLocation: URL) {
         // http://localhost:8081/index.bundle?platform=ios
 		let mockData: NSDictionary = [
@@ -76,7 +82,7 @@ class ProductViewController: ABYBaseViewController {
             nav.popViewController(animated: true)
         } else {
             self.dismiss(animated: true) {
-                // 处理返回键
+                // FIXME: 处理返回键的结果
             }
         }
 	}
@@ -84,16 +90,22 @@ class ProductViewController: ABYBaseViewController {
 
 // MARK: - 通知的注册
 extension ProductViewController {
+
+    /// 注册通知
     func registerNotification() -> Void {
         NotificationCenter.default.addObserver(self, selector: #selector(dismissSelf), name: NSNotification.Name.init("ChangeUIDismiss"), object: nil)
     }
     
+    /// 移除通知
     func removeNotification() -> Void {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.init("ChangeUIDismiss"), object: nil)
     }
 }
 
+
+// MARK: - ABYPackageDelegate
 extension ProductViewController: ABYPackageDelegate {
+
     func updateStatusChange(_ status: PackageLoadingStatus) {
         // 更新的状态改变了
         switch status {

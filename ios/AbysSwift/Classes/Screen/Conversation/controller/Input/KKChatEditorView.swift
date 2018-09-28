@@ -81,7 +81,7 @@ class KKChatEditorView: UIView {
     // MARK: - 懒加载
     // 切换输入状态的方法
     private lazy var changeStateBtn: UIButton = {
-        let btn = UIButton.init(type: UIButtonType.custom)
+        let btn = UIButton.init(type: UIButton.ButtonType.custom)
         let edgeInsert = UIEdgeInsets.init(top: 5, left: 15, bottom: 5, right: 5)
         btn.imageEdgeInsets = edgeInsert
         btn.imageView?.contentMode = .scaleAspectFit

@@ -12,26 +12,41 @@ import Foundation
 import SwiftyJSON
 import DTTools
 
+
+/// 向会话页面分发消息的代理方法
 protocol MessageBusDelegate {
-	// 只有会话页面需要实现的消息
+    /// 更新房间消息，只有会话页面需要实现该方法
+    ///
+    /// - Parameters:
+    ///   - message: 消息
+    ///   - sendStatus: 消息的发送状态
+    /// - Returns: 无返回值
 	func messageBus(_ message: Message, sendStatus: DeliveryStatus) -> Void // 更新room消息的状态
-    // 分发消息
+    /// 从MessageBus过来的消息处理，主要分发聊天消息
+    ///
+    /// - Parameter message: 要分发的消息
+    /// - Returns: 无返回值
 	func messageBus(on message: Message) -> Void
-    // 分发事件消息
+    /// 分发事件消息
+    ///
+    /// - Parameter message: 事件消息
+    /// - Returns: 无返回值
     func messageBus(onEvent message: Message) -> Void
-    // 分发自定义消息
+    /// 分发自定义消息
+    ///
+    /// - Parameter message: 自定义消息
+    /// - Returns: 无返回值
     func messageBus(onCustom message: Message) -> Void
 }
 
+// MARK: - MessageBus代理的默认实现
 extension MessageBusDelegate {
 	func messageBus(_ message: Message, sendStatus: DeliveryStatus) {
 		DTLog("更新消息的默认实现")
 	}
-    
     func messageBus(onEvent message: Message) -> Void {
         DTLog("事件消息分发的默认实现")
     }
-    
     func messageBus(onCustom message: Message) -> Void {
         DTLog("收到自定义消息的默认实现")
     }
@@ -39,14 +54,16 @@ extension MessageBusDelegate {
 
 /// 消息管理分发类
 class MessageBus: ABYSocketDelegate {
+    /// 消息分发类单例实例
 	static let distance = MessageBus.init()
 	private init() {}
+    /// 消息分发代理
 	var delegate: MessageBusDelegate? // 针对会话处理的代理
-//    var delegates: [MessageBusDelegate] = []
+    /// 会话管实例
 	var convManager: ConversationManager {
 		return ConversationManager.distance
 	}
-
+    /// 数据库管理实例
     let store: ABYRealmManager = {
         return ABYRealmManager.instance
     }()
@@ -54,7 +71,6 @@ class MessageBus: ABYSocketDelegate {
     var atService: Int16 {
         return self.convManager.atService
     }
-    
     /// 从Socket接受数据的唯一接口
 	func onMessage(message: JSON) {
 		guard let dictionary = message.dictionaryObject else { return }
@@ -109,11 +125,12 @@ class MessageBus: ABYSocketDelegate {
                 self.convManager.messageBus(on: msgModel) // 将所有消息分发到会话列表，由会话列表进行进一步处理
 			}
 		}
-
 	}
-
+    /// ssocket状态的改变
+    ///
+    /// - Parameter status: socketsStatus的改变
 	func statusChange(status: ABYSocketStatus) {
-
+        // 完成socket状态改变的回调
 	}
 
 	private func delegate(message: Message, status: DeliveryStatus) -> Void {
@@ -132,8 +149,11 @@ class MessageBus: ABYSocketDelegate {
 	}
 }
 
+// MARK: - 发送消息、加入房间的方法
 extension MessageBus {
-	// 发送消息
+    /// 发送消息的方法
+    ///
+    /// - Parameter message: 要发送的消息
 	func send(message: Message) -> Void {
         // 首先简单存储消息，暂时不与会话关联，然后等到消息发送成功了以后，再与会话关联
         // 存储的时候需要过滤custom类型的消息
@@ -142,12 +162,17 @@ extension MessageBus {
         }
 		ABYSocket.manager.send(message: message)
 	}
-	// 加入房间
+    /// 加入房间
+    ///
+    /// - Parameter room_id: 房间id
 	func joinRoom(_ room_id:Int16) -> Void {
         // FIXME: 提示加入房间失败
 		ABYSocket.manager.join(room: room_id)
 	}
-    // 添加代理
+    /// 添加代理
+    ///
+    /// - Parameter delegate: 代理
+    /// - Returns: 返回整型（没有意义 ）
 	func addDelegate(_ delegate: MessageBusDelegate) -> Int {
 		self.delegate = delegate
 //        self.delegates.append(delegate)
@@ -155,7 +180,10 @@ extension MessageBus {
         return 0
 	}
 
-    // 移除代理
+
+    /// 移除代理
+    ///
+    /// - Parameter index: 参数暂无意义
     func removeDelegate(index: Int) -> Void {
 //        if index>=0 && index < self.delegates.count {
 //            self.delegates.remove(at: index)
@@ -168,6 +196,7 @@ extension MessageBus {
 
 // 存放计算属性
 extension MessageBus {
+    /// 返回当前用户的Session id
 	var session_id: String {
 		return Account.share.session_id// 返回当前用户的session_id
 	}

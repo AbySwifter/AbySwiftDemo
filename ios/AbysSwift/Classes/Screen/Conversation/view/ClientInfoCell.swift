@@ -37,7 +37,7 @@ class ClientInfoCell: UITableViewCell {
     }()
     
     /// 重写初始化方法
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.contentView.isHidden = true // 隐藏原有的内容视图
         self.backgroundColor = UIColor.init(hexString: "ffffff")

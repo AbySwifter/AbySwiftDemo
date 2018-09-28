@@ -159,8 +159,8 @@ class KKChatBarViewController: UIViewController {
     }
 
     func addNotification() -> Void {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange(_:)), name: NSNotification.Name.UIKeyboardWillChangeFrame, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrameWillChange(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
     func removeNotification() -> Void {
@@ -193,7 +193,7 @@ class KKChatBarViewController: UIViewController {
         group.duration = 1.5
         group.repeatCount = 1
         group.delegate = self
-        group.fillMode = kCAFillModeForwards
+        group.fillMode = CAMediaTimingFillMode.forwards
         self.tips.layer.add(group, forKey: nil)
     }
     
@@ -372,7 +372,7 @@ extension KKChatBarViewController: KKChatEditorDelegate {
             return
         }
         //        let duration = kbInfo[UIKeyboardAnimationDurationUserInfoKey] as! Double
-        let keyboardHeight = (kbInfo[UIKeyboardFrameEndUserInfoKey] as! CGRect?)?.height ?? 0
+        let keyboardHeight = (kbInfo[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect?)?.height ?? 0
         self.keyboardHeight = keyboardHeight
         self.delegate?.chatBarUpdate(height: originHeight)
     }
@@ -383,9 +383,9 @@ extension KKChatBarViewController: ChatFootMenuDelegate {
     func menuAction(type: ChatFootMenuTag) {
         switch type {
         case .photo:
-            openPhotoLibaray(UIImagePickerControllerSourceType.photoLibrary)
+            openPhotoLibaray(UIImagePickerController.SourceType.photoLibrary)
         case .camera:
-            openPhotoLibaray(UIImagePickerControllerSourceType.camera)
+            openPhotoLibaray(UIImagePickerController.SourceType.camera)
         default: // 发出没有过滤的事件
             self.delegate?.chatBarMenuAction(type: type)
         }
@@ -400,16 +400,17 @@ extension KKChatBarViewController: UIImagePickerControllerDelegate, UINavigation
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // 生成图片消息
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        let image = info[UIImagePickerController.InfoKey.originalImage] as! UIImage
         var imagePath: String = ""
 //        if #available(iOS 11.0, *) {
 //           imagePath = (info[UIImagePickerControllerImageURL] as! URL).path
 //        } else {
 //             DTLog("\(info[UIImagePickerControllerPHAsset] as! URL)")
 //        }
-        imagePath = (info[UIImagePickerControllerImageURL] as! URL).path
+
+        imagePath = (info[UIImagePickerController.InfoKey.imageURL] as! URL).path
           DTLog("选取的文件路径为\(imagePath)")
         let size = image.size
         let message = Message.init(image: imagePath, size: size, room_id: self.roomID, isKH: false)
@@ -417,7 +418,7 @@ extension KKChatBarViewController: UIImagePickerControllerDelegate, UINavigation
         picker.dismiss(animated: true, completion: nil)
     }
     
-    func openPhotoLibaray(_ type: UIImagePickerControllerSourceType) -> Void {
+    func openPhotoLibaray(_ type: UIImagePickerController.SourceType) -> Void {
         var permission: PermissonStatus = .granted
         if type == .camera {
             permission = checkCreamaPermission()

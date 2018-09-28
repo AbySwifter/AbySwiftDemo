@@ -69,7 +69,7 @@ class ABYProgressView: UIView {
 		self.foreLayer.strokeEnd = self.progress
 		/* The cap style used when stroking the path. Options are `butt', `round'
 		* and `square'. Defaults to `butt'. */
-		self.foreLayer.lineCap = kCALineCapRound // 设置画笔
+        self.foreLayer.lineCap = CAShapeLayerLineCap.round // 设置画笔
 		self.foreLayer.path = bezierPath.cgPath
 		// 修改渐变layer层的遮罩
 		gradientLayer.mask = self.foreLayer
@@ -77,7 +77,7 @@ class ABYProgressView: UIView {
 		self.label.text = String.init(format: "%.f%%", progress * 100)
 		self.addSubview(label)
 		label.snp.makeConstraints { (make) in
-			make.edges.equalToSuperview().inset(UIEdgeInsetsMake(5, 5, 5, 5))
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
 		}
 		label.font = UIFont.systemFont(ofSize: 16.0)
 		label.textAlignment = NSTextAlignment.center

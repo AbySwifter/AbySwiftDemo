@@ -19,8 +19,7 @@ class KKArrticalCell: KKChatBaseCell {
         let view = UIView.init()
         return view
     }()
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.msgContent.isHidden = true
         self.contentView.isHidden = true
@@ -30,7 +29,6 @@ class KKArrticalCell: KKChatBaseCell {
             make.centerX.equalToSuperview()
         }
     }
-   
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been impleted")
     }

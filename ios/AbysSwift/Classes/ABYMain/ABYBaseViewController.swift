@@ -62,7 +62,7 @@ class ABYBaseViewController: UIViewController {
 		let image = UIGraphicsGetImageFromCurrentImageContext()
 		navBar.setBackgroundImage(image, for: .any, barMetrics: .default)
 		navBar.clipsToBounds = true
-        navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
+        navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18.0)]
 //        self.extendedLayoutIncludesOpaqueBars = true
 	}
 
@@ -82,7 +82,7 @@ class ABYBaseViewController: UIViewController {
         navBar.setBackgroundImage(image, for: .any, barMetrics: .default)
 		navBar.isTranslucent = false
 		navBar.tintColor = UIColor.black
-		navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
+        navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18.0)]
 	}
     /// 设置主题色导航栏
 	func setThemeNavigationBar() -> Void {
@@ -94,7 +94,7 @@ class ABYBaseViewController: UIViewController {
 		navBar.isTranslucent = false
 		navBar.barTintColor = ABYGlobalThemeColor()
 		navBar.tintColor = UIColor.white
-		navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
+        navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18.0)]
 	}
 	
 	func showLoading() -> Void {

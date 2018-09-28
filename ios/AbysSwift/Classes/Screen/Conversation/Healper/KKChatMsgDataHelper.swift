@@ -23,6 +23,7 @@
 *　　　┗┻┛　┗┻┛
 */
 import SwiftDate
+import DTTools
 
 let kChatMsgImgMaxWidth: CGFloat = 125 // 最大图片宽度
 let kChatMsgImgMinWidth: CGFloat = 50 // 最小图片宽度
@@ -32,11 +33,10 @@ let kChatMsgImgMinHeight: CGFloat = 50 // 最小图片高度
 // 主要是给消息队列中加入时间显示，处理消息中的图片等信息
 class KKChatMsgDataHelper: NSObject {
 	static let shared:KKChatMsgDataHelper = KKChatMsgDataHelper.init()
+//    let regionRome = Region(calendar: Calendars.gregorian, zone: Zones.asiaShanghai, locale: Locales.chinese)
+    let regionRome = Region.current
 	private override init() {
 		super.init()
-		// 设置时区，默认为上海
-		let regionRome = Region(tz: TimeZoneName.asiaShanghai, cal: CalendarName.gregorian, loc: LocaleName.chinese)
-		Date.setDefaultRegion(regionRome)
 	}
 	
 	/**
@@ -61,9 +61,10 @@ class KKChatMsgDataHelper: NSObject {
 			}
 		}
 	}
-
+    
+    // FIXME: 检查下这个是干什么的
 	func addTime(finalModel: Message, messages: [Message]) -> [Message] {
-		var list: [Message] = [Message]()
+        let list: [Message] = [Message]()
 		for index in 0 ..< messages.count {
 			if index == 0 {
 				
@@ -87,10 +88,11 @@ extension KKChatMsgDataHelper {
 		}
 		let perTimeInterval = TimeInterval.init(preTime/1000)
 		let preDate = Date(timeIntervalSince1970: perTimeInterval)
-		let preInRome = DateInRegion(absoluteDate: preDate)
+//        let preInRome = DateInRegion(absoluteDate: preDate)
+        let preInRome = DateInRegion.init(preDate, region: self.regionRome)
 		let curTimeInterval = TimeInterval.init(curTime/1000)
 		let curDate = Date(timeIntervalSince1970: curTimeInterval)
-		let curInRome = DateInRegion(absoluteDate: curDate)
+		let curInRome = DateInRegion.init(curDate, region: self.regionRome)
 
 		let yesr = curInRome.year - preInRome.year
 		let month = curInRome.month - preInRome.month
@@ -113,7 +115,7 @@ extension KKChatMsgDataHelper {
 	func chatTimeString(with time: TimeInterval) -> String {
 		// 消息时间
 		let date = Date.init(timeIntervalSince1970: time)
-		let dateInRome = DateInRegion.init(absoluteDate: date)
+		let dateInRome = DateInRegion.init(date, region: self.regionRome)
 		// 当前时间
 		let now = DateInRegion.init()
 		// 相差年份
@@ -128,13 +130,14 @@ extension KKChatMsgDataHelper {
 		let minute = now.minute - dateInRome.minute
 		// 相差秒数
 		let second = now.second - dateInRome.second
+        DTLog(String(format: "%d年%d月%d日 %d:%02d", dateInRome.year, dateInRome.month, dateInRome.day, dateInRome.hour, dateInRome.minute))
 		if year != 0 {
 			return String(format: "%d年%d月%d日 %d:%02d", dateInRome.year, dateInRome.month, dateInRome.day, dateInRome.hour, dateInRome.minute)
 		} else if year == 0 {
 			if month > 0 || day > 7 {
 				return String(format: "%d月%d日 %d:%02d", dateInRome.month, dateInRome.day, dateInRome.hour, dateInRome.minute)
 			} else if day > 2 {
-				return String(format: "%@ %d:%02d", dateInRome.weekdayName, dateInRome.hour, dateInRome.minute)
+                return String(format: "%@ %d:%02d", dateInRome.weekdayName as! CVarArg, dateInRome.hour, dateInRome.minute)
 			} else if day == 2 {
 				return String(format: "前天 %d:%d", dateInRome.hour, dateInRome.minute)
 			} else if dateInRome.isYesterday {
@@ -159,11 +162,12 @@ extension TimeInterval {
     /// - Parameter time: 过去的时间
     /// - Returns: 计算结果字符串
     func chatTimeString() -> String {
+        let regionRome = Region.current
         // 消息时间
         let date = Date.init(timeIntervalSince1970: self)
-        let dateInRome = DateInRegion.init(absoluteDate: date)
+        let dateInRome = DateInRegion.init(date, region:regionRome)
         // 当前时间
-        let now = DateInRegion.init()
+        let now = DateInRegion.init(Date.init(), region: Region.current)
         // 相差年份
         let year = now.year - dateInRome.year
         // 相差月数
@@ -176,19 +180,20 @@ extension TimeInterval {
         let minute = now.minute - dateInRome.minute
         // 相差秒数
         let second = now.second - dateInRome.second
+         DTLog(String(format: "%d年%d月%d日 %d:%02d", dateInRome.year, dateInRome.month, dateInRome.day, dateInRome.hour, dateInRome.minute))
         if year != 0 {
             return String(format: "%d年%d月%d日 %d:%02d", dateInRome.year, dateInRome.month, dateInRome.day, dateInRome.hour, dateInRome.minute)
         } else if year == 0 {
             if month > 0 || day > 7 {
                 return String(format: "%d月%d日 %d:%02d", dateInRome.month, dateInRome.day, dateInRome.hour, dateInRome.minute)
             } else if day > 2 {
-                return String(format: "%@ %d:%02d", dateInRome.weekdayName, dateInRome.hour, dateInRome.minute)
+                return String(format: "%@ %d:%02d", dateInRome.weekdayName(.default), dateInRome.hour, dateInRome.minute)
             } else if day == 2 {
                 return String(format: "前天 %d:%d", dateInRome.hour, dateInRome.minute)
             } else if dateInRome.isYesterday {
                 return String(format: "昨天 %d:%d", dateInRome.hour, dateInRome.minute)
             } else if hour > 0 {
-                return String(format: "%d:%02d",dateInRome.hour, dateInRome.minute)
+                return String(format: "今天 %d:%02d",dateInRome.hour, dateInRome.minute)
             } else if minute > 0 {
                 return String(format: "%02d分钟前", minute)
             } else if second > 10 {

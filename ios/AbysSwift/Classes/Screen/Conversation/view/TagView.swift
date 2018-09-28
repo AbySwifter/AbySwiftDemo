@@ -10,8 +10,10 @@
 // @abstract 标签页
 // @discussion 展示标签
 //
+
 import UIKit
 import DTTools
+
 
 // 标签视图的代理方法
 protocol TagViewDelegate {
@@ -159,6 +161,7 @@ class TagView: UIView {
                 currentRow += 1 // 行数加1
                 totalRowW = btnW + marginX
             }
+            DTLog(totalRowW)
             self.addSubview(button)
             button.snp.makeConstraints { (make) in
                 make.top.equalTo(self.snp.top).offset(currentRow*rowHeight + rowMarginTop)

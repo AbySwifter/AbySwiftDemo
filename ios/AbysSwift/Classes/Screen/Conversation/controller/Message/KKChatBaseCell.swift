@@ -71,7 +71,7 @@ class KKChatBaseCell: UITableViewCell, MessageStatusChangeDelegate {
 	// 加载图，用来表示正在发送
 	lazy var activityIndicator: UIActivityIndicatorView = {
 		let act = UIActivityIndicatorView.init()
-		act.activityIndicatorViewStyle = .gray
+        act.style = .gray
 		act.hidesWhenStopped = false
 		act.startAnimating()
 		return act
@@ -85,7 +85,7 @@ class KKChatBaseCell: UITableViewCell, MessageStatusChangeDelegate {
 		return resendBtn
 	}()
 
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		selectionStyle = .none
 //		let transform: CGAffineTransform = CGAffineTransform.init(rotationAngle: CGFloat.pi)

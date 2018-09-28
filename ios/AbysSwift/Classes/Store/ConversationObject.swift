@@ -7,6 +7,8 @@
 //
 import RealmSwift
 
+
+/// 会话表
 class ConversationObject: Object {
     @objc dynamic var room_id: Int = 0
     @objc dynamic var nickname: String = ""

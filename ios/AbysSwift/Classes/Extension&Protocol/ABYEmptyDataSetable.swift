@@ -127,8 +127,8 @@ extension NSObject: DZNEmptyDataSetSource, DZNEmptyDataSetDelegate {
 		let tipFont = (scrollView.aby_emptyAttributeDict?[.tipFont] as? UIFont) ?? UIFont.systemFont(ofSize: 15.0)
 		let tipColor = (scrollView.aby_emptyAttributeDict?[.tipColor] as? UIColor) ?? defaultColor
 		let attrStr = NSAttributedString(string: tipText, attributes: [
-			NSAttributedStringKey.font: tipFont,
-			NSAttributedStringKey.foregroundColor: tipColor
+            NSAttributedString.Key.font: tipFont,
+            NSAttributedString.Key.foregroundColor: tipColor
 			])
 		return attrStr
 	}

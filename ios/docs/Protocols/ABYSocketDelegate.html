@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ABYSocketDelegate Protocol Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Protocol/ABYSocketDelegate" class="dashAnchor"></a>
+    <a title="ABYSocketDelegate Protocol Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html"> Docs</a> (15% documented)</p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html"> Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        ABYSocketDelegate Protocol Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/ABYBackItem.html">ABYBackItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ABYBaseViewController.html">ABYBaseViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ABYMenuItemCell.html">ABYMenuItemCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ABYPackage.html">ABYPackage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ABYPopMenu.html">ABYPopMenu</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ABYPopMenuItem.html">ABYPopMenuItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ABYProgressView.html">ABYProgressView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ABYRealmManager.html">ABYRealmManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ABYSocket.html">ABYSocket</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ABYTabBarComtroller.html">ABYTabBarComtroller</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ABYWebViewController.html">ABYWebViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ABYXAxisValueFormatter.html">ABYXAxisValueFormatter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Account.html">Account</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AddTagController.html">AddTagController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AppDelegate.html">AppDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArticlItem.html">ArticlItem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArticlItemObject.html">ArticlItemObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ArticleItemView.html">ArticleItemView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AudioTool.html">AudioTool</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/BaseBridge.html">BaseBridge</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/BaseBridgeCenter.html">BaseBridgeCenter</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CCSwipBackPresentationController.html">CCSwipBackPresentationController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CCZoomAnimatedTransitioning.html">CCZoomAnimatedTransitioning</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/CCZoomTransitioner.html">CCZoomTransitioner</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ChangePWDViewController.html">ChangePWDViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ChatFooterMenu.html">ChatFooterMenu</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ClientInfoCell.html">ClientInfoCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ClientInfoViewController.html">ClientInfoViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ContentObject.html">ContentObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Conversation.html">Conversation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ConversationCell.html">ConversationCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ConversationManager.html">ConversationManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ConversationObject.html">ConversationObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ConversationViewController.html">ConversationViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FormVCModel.html">FormVCModel</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FormView.html">FormView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/FormsViewController.html">FormsViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/HistoryMessageController.html">HistoryMessageController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ImageSizeObject.html">ImageSizeObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKArrticalCell.html">KKArrticalCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKChatAudioCell.html">KKChatAudioCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKChatBarViewController.html">KKChatBarViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKChatBaseCell.html">KKChatBaseCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKChatEditorView.html">KKChatEditorView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKChatImageCell.html">KKChatImageCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKChatMsgDataHelper.html">KKChatMsgDataHelper</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKChatSystemMsgCell.html">KKChatSystemMsgCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKChatViewController.html">KKChatViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKChatVoiceView.html">KKChatVoiceView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKChattextCell.html">KKChattextCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKFileManager.html">KKFileManager</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKMessageViewController.html">KKMessageViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/KKPhotoBrowserViewController.html">KKPhotoBrowserViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LoginViewController.html">LoginViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Message.html">Message</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MessageBus.html">MessageBus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MessageElem.html">MessageElem</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MessageObject.html">MessageObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MineCell.html">MineCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MineViewController.html">MineViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MsgSender.html">MsgSender</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/NotificationViewController.html">NotificationViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/OtherDataView.html">OtherDataView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/OtherInfoCell.html">OtherInfoCell</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PartNameView.html">PartNameView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ProductViewController.html">ProductViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ReplayViewController.html">ReplayViewController</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/SenderObject.html">SenderObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/TagView.html">TagView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/ToOtherViewController.html">ToOtherViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Global Variables.html">Global Variables</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/KNoteArticleCellTap">KNoteArticleCellTap</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/KScreenHeight">KScreenHeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/LIST_UPDATE">LIST_UPDATE</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/MSG_NOTIFICATION">MSG_NOTIFICATION</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/SystemVersion">SystemVersion</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kBridgeDismiss">kBridgeDismiss</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kBridgeHidenTab">kBridgeHidenTab</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kBridgeMSGSend">kBridgeMSGSend</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kBtnDisabledGreen">kBtnDisabledGreen</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kBtnDisabledWhite">kBtnDisabledWhite</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kBtnGreen">kBtnGreen</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kBtnRed">kBtnRed</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kBtnWhite">kBtnWhite</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kChatBarOriginHeight">kChatBarOriginHeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kChatBarTextViewHeight">kChatBarTextViewHeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kChatBarTextViewMaxHeight">kChatBarTextViewMaxHeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kChatMsgImgMaxHeight">kChatMsgImgMaxHeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kChatMsgImgMaxWidth">kChatMsgImgMaxWidth</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kChatMsgImgMinHeight">kChatMsgImgMinHeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kChatMsgImgMinWidth">kChatMsgImgMinWidth</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kKeyboardChangeFrameTime">kKeyboardChangeFrameTime</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kNoTextKeyboardHeight">kNoTextKeyboardHeight</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kNoteImageCellTap">kNoteImageCellTap</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/kScreenWidth">kScreenWidth</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Global Variables.html#/zipUrl">zipUrl</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/ABYEmptyDataSetAttributeKeyType.html">ABYEmptyDataSetAttributeKeyType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ABYSocketStatus.html">ABYSocketStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Api.html">Api</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ArticleItemType.html">ArticleItemType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/BarBtnItemDirection.html">BarBtnItemDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ChatFootMenuTag.html">ChatFootMenuTag</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/ConversationType.html">ConversationType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/DeliveryStatus.html">DeliveryStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/EditorStatus.html">EditorStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MSG_ELEM.html">MSG_ELEM</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MessageType.html">MessageType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PackageLoadingStatus.html">PackageLoadingStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/PermissonStatus.html">PermissonStatus</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/RecordEvent.html">RecordEvent</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/URLinfo.html">URLinfo</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/NSObject.html">NSObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/String.html">String</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/TimeInterval.html">TimeInterval</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIScrollView.html">UIScrollView</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Extensions/UIViewController.html">UIViewController</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/ABYGlobalBackGroundColor()">ABYGlobalBackGroundColor()</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/ABYGlobalBorderColor()">ABYGlobalBorderColor()</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/ABYGlobalThemeColor()">ABYGlobalThemeColor()</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/Log(_:fileName:methodName:lineNumber:)">Log(_:fileName:methodName:lineNumber:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/Log(message:fileName:methodName:lineNumber:)">Log(message:fileName:methodName:lineNumber:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/RGBA(r:g:b:a:)">RGBA(r:g:b:a:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/W375(_:)">W375(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/W750(_:)">W750(_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/netWorkConfig()">netWorkConfig()</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/newGUID(length:)">newGUID(length:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/normalRGBA(r:g:b:a:)">normalRGBA(r:g:b:a:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/ABYEmptyDataSetable.html">ABYEmptyDataSetable</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ABYPackageDelegate.html">ABYPackageDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ABYSocketDelegate.html">ABYSocketDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AddTagControllerdelegate.html">AddTagControllerdelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/AudioToolDelegate.html">AudioToolDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/BridgeCenterDelegate.html">BridgeCenterDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ChatFootMenuDelegate.html">ChatFootMenuDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConversationDelegate.html">ConversationDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/ConversationManagerDeleagate.html">ConversationManagerDeleagate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/FormVCModelDelegate.html">FormVCModelDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/KKChatBarViewControllerDelegate.html">KKChatBarViewControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/KKChatEditorDelegate.html">KKChatEditorDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/KKMessageViewControllerDelegate.html">KKMessageViewControllerDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/LoginProtocol.html">LoginProtocol</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MessageBusDelegate.html">MessageBusDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/MessageStatusChangeDelegate.html">MessageStatusChangeDelegate</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Protocols/TagViewDelegate.html">TagViewDelegate</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/ClientInfo.html">ClientInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/ImageSize.html">ImageSize</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/OtherInfo.html">OtherInfo</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SocketData.html">SocketData</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/SocketSendOptions.html">SocketSendOptions</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/User.html">User</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Type Aliases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/ABYTapEmptyBlock">ABYTapEmptyBlock</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/DataTuple">DataTuple</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/SettingCellData">SettingCellData</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>ABYSocketDelegate</h1>
+            <p>ABYSocket的协议代理</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Method/onMessage(message:)" class="dashAnchor"></a>
+                    <a class="token" href="#/">onMessage(message:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/"></a>
+                    <a name="//apple_ref/swift/Method/statusChange(status:)" class="dashAnchor"></a>
+                    <a class="token" href="#/">statusChange(status:)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2018 <a class="link" href="" target="_blank" rel="external"></a>. All rights reserved. (Last updated: 2018-09-28)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

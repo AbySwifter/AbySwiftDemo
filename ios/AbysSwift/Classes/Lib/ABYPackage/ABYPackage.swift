@@ -17,6 +17,17 @@ import Alamofire // 负责下载更新
 import DTTools
 
 /// 记录更新状态的枚举值
+
+/// RN包的更新状态
+///
+/// - startDownload: 开始c下载
+/// - downloading: 下载中
+/// - downloadSuccess: 下载成功
+/// - downloadFailed: 下载失败
+/// - zipArchiving: 压缩打包中
+/// - zipArchivingResult: 压缩打包结果
+///     - path: 路径 String
+///     - successed: 结果 Bool
 enum PackageLoadingStatus {
     case startDownload
     case downloading(progress: Progress)
@@ -27,27 +38,40 @@ enum PackageLoadingStatus {
 }
 
 
+/// 包管理器的代理方法
 protocol ABYPackageDelegate {
+
+    /// 更新状态反馈信息
+    ///
+    /// - Parameter status: 状态
+    /// - Returns: 空返回值
     func updateStatusChange(_ status: PackageLoadingStatus) -> Void
 }
 
 
+/// 负责加载RN包的类
 class ABYPackage {
+    /// 资源文件名
     var resourceName: String = "main" // jsbundle的默认值
-    var cachesPath: String = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0] // 存放bundle的路径(在Caches文件夹下)
+    /// 存放bundle的路径(在Caches文件夹下)
+    var cachesPath: String = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]
+    /// 远程请求地址
     var remoteURL: String = ""
+    /// 版本号
     var version: String = "1.0"
+    /// 打包的bundle名
     var bundleZipName = "JSAssect.zip"
+    /// 代理
     var delegate: ABYPackageDelegate?
+    /// get-only bundle文件路径
     var bundleFile: String {
         let bundleFile = bundlePath + "/" + resourceName + ".jsbundle" // RN的文件路径
         return bundleFile
     }
-    
+    /// 文件夹路径
     var bundlePath: String {
         return cachesPath + "/RNBundle"
     }
-    
     private var _zipFile: String = ""
     //MARK: Initial Methods
     
@@ -57,6 +81,10 @@ class ABYPackage {
     
     //MARK: Public Methods
     /// 检查是否需要更新
+
+    /// 检查是否需要更新
+    ///
+    /// - Parameter complete: 检查结果的闭包
     func isNeedUpdate(complete:@escaping (Bool)->(Void)) -> Void {
         // 文件不存在需要更新
         guard fileExist(in: bundleFile) else {
@@ -81,6 +109,7 @@ class ABYPackage {
         return URL.init(string: bundleFile)
     }
     
+    /// 下载nbundle
     func downLoadBundle() -> Void {
         guard verifyURL(url: remoteURL) else {
             DTLog("下载地址有误！")
@@ -158,7 +187,7 @@ class ABYPackage {
 }
 
 extension ABYPackage {
-    func request(url: String, completionHander: @escaping (Data?, URLResponse?, Error?) -> (Void)) -> Void {
+    fileprivate func request(url: String, completionHander: @escaping (Data?, URLResponse?, Error?) -> (Void)) -> Void {
         guard let requestURL = URL.init(string: url) else {
             completionHander(nil, nil, nil)
             return

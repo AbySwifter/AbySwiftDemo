@@ -27,20 +27,19 @@ class KKChatSystemMsgCell: KKChatBaseCell {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		// 在messageContent上添加内容
-		self.timeContent.isHidden = true
-		self.msgContent.isHidden = true
-		self.addSubview(contentLable)
-		contentLable.snp.makeConstraints { (make) in
-			make.center.equalToSuperview()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.timeContent.isHidden = true
+        self.msgContent.isHidden = true
+        self.addSubview(contentLable)
+        contentLable.snp.makeConstraints { (make) in
+            make.center.equalToSuperview()
             make.left.equalToSuperview().offset(60)
             make.right.equalToSuperview().offset(-60)
-		}
+        }
         contentLable.numberOfLines = 0
         contentLable.textAlignment = .center
-	}
+    }
 	override func getCellHeight() -> CGFloat {
 		return 50.0
 	}

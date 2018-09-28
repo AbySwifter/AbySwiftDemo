@@ -9,11 +9,13 @@
 import Foundation
 
 extension String {
-
     mutating func emojiParse(emojiDic: Dictionary<String, String>) -> Void {
         for (key, value) in emojiDic {
             if self.contains(key) {
                self = self.replacingOccurrences(of: key, with: value)
+            }
+            if !self.contains("/:") {
+                break
             }
         }
     }

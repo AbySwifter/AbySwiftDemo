@@ -10,6 +10,7 @@ import UIKit
 
 //provider pan swipbackable interactionTransitioning
 
+/// 为弹出式的转场动画提供了滑动手势
 class CCSwipBackPresentationController: UIPresentationController {
     private(set) var swipBackTransitioning: UIPercentDrivenInteractiveTransition? = nil
     

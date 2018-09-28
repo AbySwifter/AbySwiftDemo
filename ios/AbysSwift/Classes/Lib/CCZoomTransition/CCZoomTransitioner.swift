@@ -8,15 +8,20 @@
 
 import UIKit
 
+
+/// 实现了UIViewControllerTransitioningDelegate
 class CCZoomTransitioner : NSObject, UIViewControllerTransitioningDelegate {
-    
+
+    /// 动画初始化的视图
     var transitOriginalView : UIView? = nil
     
+    /// 即将模态出现的VC
     var presentationController : CCSwipBackPresentationController? = nil
     
+    /// 滑动返回的开关
     var swipeBackDisabled : Bool = false
-    
-    
+
+    /// MARK: - 代理方法（UIViewControllerTransitioningDelegate）
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         let trans = CCZoomAnimatedTransitioning()
         trans.transitOriginalView = self.transitOriginalView;

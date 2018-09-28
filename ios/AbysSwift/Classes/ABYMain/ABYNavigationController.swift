@@ -22,7 +22,7 @@ class ABYNavigationController: UINavigationController {
 		navBar.isTranslucent = false
 		navBar.barTintColor = ABYGlobalThemeColor()
 		navBar.tintColor = UIColor.white
-        navBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
+        navBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18.0)]
 	}
 
 	/**

@@ -37,13 +37,20 @@ fileprivate let kMenuTabBottomMargin: CGFloat = 20.0
 fileprivate let KMenuSubY:CGFloat = 12.0
 fileprivate let kMenuItemShowLineHeight: CGFloat = kMenuItemHeight + 15.0
 
+/// 导航栏弹出菜单
+/// - 以传入的数组为基础，进行布局
 class ABYPopMenu: UIView {
-
+    /// 需要展示的菜单
 	var menus: [ABYPopMenuItem]?
+    /// 当前菜单的父视图
 	weak var currentSuperView: UIView?
-	var targetPoint: CGPoint? // 暂时没有用到，下一步完善
-	var indexPath: IndexPath!
-	var lineNumber: Int! /// 每隔几个距离就去展示分割线
+    var targetPoint: CGPoint? // FIXME: 暂时没有用到，下一步完善
+	private var indexPath: IndexPath!
+
+    /// 分隔线的展示间距
+	var lineNumber: Int!
+
+    /// 最大宽度
 	var maxWidth: CGFloat {
 		var temp: ABYPopMenuItem = ABYPopMenuItem.init(image: nil, title: "")
 		for item in self.menus! {
@@ -63,11 +70,13 @@ class ABYPopMenu: UIView {
 	private var offset_y: CGFloat {
 		return targetPoint?.y ?? 5
 	}
-	// 回调传值
+	/// 点击菜单item的事件回传
+    ///     - param:
+    ///         - index: item下标；menuItem: 菜单栏
 	var popMenuDidSelectedBlock: ((_ index: Int, _ menuItem: ABYPopMenuItem) -> ())?
 	// MARK: 懒加载
-	lazy var menuContainerView: UIImageView = {
-		let container = UIImageView.init(image: #imageLiteral(resourceName: "rightMenu").resizableImage(withCapInsets: UIEdgeInsetsMake(10, 10, 10, 10), resizingMode: .tile))
+	private lazy var menuContainerView: UIImageView = {
+        let container = UIImageView.init(image: #imageLiteral(resourceName: "rightMenu").resizableImage(withCapInsets: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10), resizingMode: .tile))
 		var number = (self.menus?.count ?? 0) / self.lineNumber
 		if (self.menus?.count ?? 0) % self.lineNumber == 0 {
 			number -= 1
@@ -77,7 +86,7 @@ class ABYPopMenu: UIView {
 		container.frame = CGRect.init(x: self.offset_x, y: self.offset_y, width: self.maxWidth, height: m_height)
 		return container
 	}()
-	lazy var menuTableView: UITableView = {
+	private lazy var menuTableView: UITableView = {
 		let tableView = UITableView.init(frame: CGRect(x:kMenuItemMargin, y:kMenuTabTopMargin, width: maxWidth - kMenuItemMargin * 2, height: self.menuContainerView.bounds.height - kMenuTabTopMargin), style: .plain)
 		tableView.backgroundColor = UIColor.clear
 		tableView.separatorColor = UIColor.clear
@@ -89,6 +98,14 @@ class ABYPopMenu: UIView {
 		return tableView
 	}()
 	// MARK: -重载init方法
+    /// 弹出菜单的初始化方法
+    ///
+    /// - Parameters:
+    ///     - menus: ABYPopMenuItem 菜单数组
+    ///     - lineNumber: Int 隔多少行有分割线
+    ///     - targetPoint: CGPoint 弹出的位置（貌似没有实现）
+    /// - Returns:
+    ///     初始化方法
 	init(menus: [ABYPopMenuItem], lineNumber: Int = 2, targetPoint: CGPoint = CGPoint.zero) {
 		super.init(frame: CGRect.zero)
 		self.menus = menus
@@ -108,10 +125,16 @@ class ABYPopMenu: UIView {
 		self.addSubview(menuContainerView)
 	}
 
+    /// 在window上展示菜单
 	func showMenuOnWindow() {
 		self.showMenu(on: UIApplication.shared.keyWindow!)
 	}
 
+    /// 展示菜单
+    ///
+    /// - Parameters:
+    ///   - view: 要展示的view
+    ///   - opacity: 透明度
 	func showMenu(on view: UIView, opacity: CGFloat = 0.3) {
 		currentSuperView = view
 		self.backgroundColor = UIColor.init(hexString: "000000", alpha: opacity)
@@ -134,6 +157,9 @@ class ABYPopMenu: UIView {
 		}
 	}
 
+    /// Dismiss当前菜单
+    ///
+    /// - Parameter selected: 貌似没有用到的一个参数，写注释的时候我也不知道这个参数是干什么的了
 	func dismissPopMenuAnimatedOnMenu(selected: Bool) {
 		UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut, animations: { [unowned self] in
 			self.alpha = 0.0
@@ -158,6 +184,8 @@ class ABYPopMenu: UIView {
 	}
 }
 
+
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension ABYPopMenu: UITableViewDelegate, UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return self.menus?.count ?? 0
@@ -187,28 +215,45 @@ extension ABYPopMenu: UITableViewDelegate, UITableViewDataSource {
 	}
 }
 
+
+/// 菜单的Item模型
 class ABYPopMenuItem: NSObject {
+    /// Icon占位图
 	var image: UIImage?
+
+    /// 标题
 	var title: String?
 
+    /// item的初始化方法
+    ///
+    /// - Parameters:
+    ///   - image: Icon图
+    ///   - title: 标题
 	init(image: UIImage?, title: String?) {
 		super.init()
 		self.image = image
 		self.title = title
 	}
 
+    /// 富文本title
 	var attributeTitle: NSAttributedString {
-		let attribute = NSAttributedString.init(string: self.title ?? "", attributes: [NSAttributedStringKey.foregroundColor: UIColor.init(hexString: "666666"), NSAttributedStringKey.font: UIFont.systemFont(ofSize: 15.0)])
+        let attribute = NSAttributedString.init(string: self.title ?? "", attributes: [NSAttributedString.Key.foregroundColor: UIColor.init(hexString: "666666"), NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15.0)])
 		return attribute
 	}
 
-	var textWidth: CGFloat {
+
+    /// 计算标题的宽度
+	fileprivate var textWidth: CGFloat {
 		let size: CGRect = self.attributeTitle.boundingRect(with: CGSize.init(width:  kScreenWidth, height: KScreenHeight), options: .usesFontLeading, context: nil)
 		return size.width
 	}
 }
 
+
+/// 菜单的item cell
 class ABYMenuItemCell: UITableViewCell {
+
+    /// 菜单的Item
 	var popMeneItem: ABYPopMenuItem?
 	var title: UILabel = UILabel.init()
 	var icon: UIImageView = UIImageView.init()
@@ -219,7 +264,7 @@ class ABYMenuItemCell: UITableViewCell {
 		separtor.backgroundColor = UIColor.init(hexString: "cccccc")
 		return separtor
 	}()
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
 		super.init(style: style, reuseIdentifier: reuseIdentifier)
 		backgroundColor = UIColor.clear
 		contentView.removeFromSuperview()

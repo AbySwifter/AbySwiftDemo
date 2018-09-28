@@ -20,7 +20,7 @@ class NotificationViewController: UIViewController {
     lazy var cover: UIImageView = {
         let coverView = UIImageView.init()
         coverView.image = #imageLiteral(resourceName: "notification_ios")
-        coverView.contentMode = UIViewContentMode.scaleAspectFit
+        coverView.contentMode = UIView.ContentMode.scaleAspectFit
         return coverView
     }()
     

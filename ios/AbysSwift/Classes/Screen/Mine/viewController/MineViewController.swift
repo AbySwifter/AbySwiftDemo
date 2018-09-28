@@ -48,7 +48,7 @@ class MineViewController: ABYBaseViewController, UITableViewDelegate, UITableVie
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		self.navigationItem.title = "个人中心"
-		self.navigationController?.navigationBar.titleTextAttributes =  [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
+        self.navigationController?.navigationBar.titleTextAttributes =  [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18.0)]
 //        setNavigationBarTranslucent()
         setWhiteNavigationBar()
         self.navigationController?.navigationBar.clipsToBounds = true

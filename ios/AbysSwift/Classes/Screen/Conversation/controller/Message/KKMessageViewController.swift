@@ -48,7 +48,7 @@ class KKMessageViewController: ABYBaseViewController,UITableViewDelegate, UITabl
 		let tab = UITableView.init(frame: CGRect.zero, style: .plain)
 		tab.showsVerticalScrollIndicator = false
 		tab.separatorStyle = .none
-		tab.separatorInset = UIEdgeInsetsMake(64, 0, 0, 0)
+        tab.separatorInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
 		tab.dataSource = self
 		tab.delegate = self
 		tab.tableFooterView = UIView.init()

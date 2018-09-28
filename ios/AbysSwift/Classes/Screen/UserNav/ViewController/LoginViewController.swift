@@ -28,7 +28,7 @@ class LoginViewController: ABYBaseViewController, LoginProtocol {
 	let passWord: UITextField = UITextField.init() // 输入密码
 	let codeIcon: UIImageView = UIImageView.init() // 验证码logo
 	let code: UITextField = UITextField.init() // 输入验证码
-	let loginButton: UIButton = UIButton.init(type: UIButtonType.custom) // 登录按钮
+    let loginButton: UIButton = UIButton.init(type: UIButton.ButtonType.custom) // 登录按钮
 	let hud:JGProgressHUD = JGProgressHUD.init(style: .dark)
 	// MARK: - 生命周期
     override func viewDidLoad() {
@@ -43,8 +43,8 @@ class LoginViewController: ABYBaseViewController, LoginProtocol {
 		DTLog("登录页面出现")
     }
 	func addKeyBoardNotification() -> Void {
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillshow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillshow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 	}
 	// MARK: -创建视图
 	private func createView() -> Void {
@@ -108,7 +108,7 @@ class LoginViewController: ABYBaseViewController, LoginProtocol {
 
 	private func setView() -> Void {
 		logoView.image = #imageLiteral(resourceName: "logo")
-		logoView.contentMode = UIViewContentMode.scaleAspectFit
+        logoView.contentMode = UIView.ContentMode.scaleAspectFit
 		titleLabel.text = "侃侃 Talk"
 		titleLabel.textColor = ABYGlobalThemeColor() // 和主题色相同
 		formContent.layer.cornerRadius = 10.0
@@ -119,7 +119,7 @@ class LoginViewController: ABYBaseViewController, LoginProtocol {
 		// 配置用户名对话框
 		let leftImageView = createLeftView(image: #imageLiteral(resourceName: "account"))
 		userName.leftView = leftImageView
-		userName.leftViewMode = UITextFieldViewMode.always
+        userName.leftViewMode = UITextField.ViewMode.always
 		userName.placeholder = "请输入用户名"
 		userName.clearButtonMode = .whileEditing
 		userName.autocapitalizationType = .none
@@ -127,7 +127,7 @@ class LoginViewController: ABYBaseViewController, LoginProtocol {
 		// 配置密码对话框
 		let leftPassWord = createLeftView(image: #imageLiteral(resourceName: "password"))
 		passWord.leftView = leftPassWord
-		passWord.leftViewMode = UITextFieldViewMode.always
+        passWord.leftViewMode = UITextField.ViewMode.always
 		passWord.placeholder = "请输入密码"
 		passWord.isSecureTextEntry = true
 		passWord.autocapitalizationType = .none
@@ -135,7 +135,7 @@ class LoginViewController: ABYBaseViewController, LoginProtocol {
 		// 配置验证码对话框
 		let leftCode = createLeftView(image: #imageLiteral(resourceName: "checkcode"))
 		code.leftView = leftCode
-		code.leftViewMode = UITextFieldViewMode.always
+        code.leftViewMode = UITextField.ViewMode.always
 		code.placeholder = "请输入验证码"
 		code.autocapitalizationType = .none
 		code.autocorrectionType = .no
@@ -160,7 +160,7 @@ class LoginViewController: ABYBaseViewController, LoginProtocol {
 		let LeftFrame = CGRect.init(x: 0, y: 0, width: W750(90), height: W750(35))
 		let leftImageView = UIImageView.init(image: image)
 		leftImageView.frame = LeftFrame
-		leftImageView.contentMode = UIViewContentMode.scaleAspectFit
+        leftImageView.contentMode = UIView.ContentMode.scaleAspectFit
 		return leftImageView
 	}
 

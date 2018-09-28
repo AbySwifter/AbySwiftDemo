@@ -8,7 +8,11 @@
 import RealmSwift
 import DTTools
 
+
+/// 数据库管理工具
 class ABYRealmManager {
+
+    /// 数据库管理单例
     static let instance = ABYRealmManager.init()
     private init() {
         // 配置realm的config
@@ -23,7 +27,7 @@ class ABYRealmManager {
         }
         Realm.Configuration.defaultConfiguration = config
     }
-    // 获取数据库的对象
+    /// 获取数据库的对象
     lazy var realm: Realm? = {
         do {
             return try Realm()

@@ -10,6 +10,7 @@ import UIKit
 
 //AnimatedTransitioning,Looks like to open the APP system effect
 
+/// 模态转场动画
 class CCZoomAnimatedTransitioning: NSObject, UIViewControllerAnimatedTransitioning {
     
     //which view being touch in fromeVC， Need to get this view to running the animation

@@ -8,8 +8,16 @@
 
 import UIKit
 
+
+/// 返回按钮的封装（用于聊天页面的返回）
 class ABYBackItem: UIButton {
 
+    /// 返回按钮的初始化方法
+    ///
+    /// - Parameters:
+    ///   - title: 按钮标题
+    ///   - titleColor: 按钮标题y颜色
+    ///   - icon: 按钮的Icon
     init(title: String, titleColor: UIColor?, icon: UIImage) {
 //        super.init(frame: CGRect.zero)
         super.init(frame: CGRect.init(x: 0, y: 0, width: 100, height: 35))
@@ -23,7 +31,10 @@ class ABYBackItem: UIButton {
         self.titleLabel?.lineBreakMode = .byTruncatingTail
 //        self.titleLabel?.font = UIFont.systemFont(ofSize: 16.0)
     }
-    
+
+    /// 修改按钮标题
+    ///
+    /// - Parameter title: 需要修改的标题
     func set(title: String) -> Void {
         self.setTitle(title, for: .normal)
         self.titleLabel?.sizeToFit()
@@ -32,12 +43,4 @@ class ABYBackItem: UIButton {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder) has not impleted")
     }
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
 }

@@ -46,13 +46,11 @@ class KKChattextCell: KKChatBaseCell {
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		// 只需要在气泡视图上添加一个Label即可
-		contentLabel.font = UIFont.systemFont(ofSize: 16.0)
-		bubbleView.addSubview(self.contentLabel)
-	}
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentLabel.font = UIFont.systemFont(ofSize: 16.0)
+        bubbleView.addSubview(self.contentLabel)
+    }
 }
 
 extension KKChattextCell {
@@ -69,7 +67,7 @@ extension KKChattextCell {
 		let img = message.isSelf ? #imageLiteral(resourceName: "mebubble") : #imageLiteral(resourceName: "friendbubble")
 		let color = message.isSelf ? UIColor.white : UIColor.black
 		contentLabel.textColor = color
-		let normalImage = img.resizableImage(withCapInsets: UIEdgeInsetsMake(10, 10, 10, 10), resizingMode: .stretch)
+        let normalImage = img.resizableImage(withCapInsets: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10), resizingMode: .stretch)
 		bubbleView.image = normalImage
         if showBot && message.content?.is_bot == 1 {
             bubbleView.image = normalImage.withRenderingMode(.alwaysTemplate)

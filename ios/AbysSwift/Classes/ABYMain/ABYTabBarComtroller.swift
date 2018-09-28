@@ -52,7 +52,7 @@ class ABYTabBarComtroller: UITabBarController {
 		childController.tabBarItem.selectedImage = selectedIcon
 		childController.title = title
 		let navC = ABYNavigationController(rootViewController: childController)
-		addChildViewController(navC)
+        addChild(navC)
 	}
 
     override func didReceiveMemoryWarning() {

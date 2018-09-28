@@ -10,11 +10,24 @@ import UIKit
 import AVFoundation // 录音的框架
 import DTTools
 
+/// 录音状态回调代理
 protocol AudioToolDelegate {
+    /// 录音进度回调
+    ///
+    /// - Parameter progress: 进度
+    /// - Returns: 空返回值
     func audioToolRecording(progress: Double) -> Void
+    /// 录音结束的状态
+    ///
+    /// - Parameters:
+    ///   - path: 路径
+    ///   - duration: 时长
+    ///   - name: 名称
+    /// - Returns: 空返回值
     func audioToolRecorded(path: String, duration: Double, name: String) -> Void
 }
 
+// MARK: - 录音代理
 extension AudioToolDelegate {
     func audioToolRecording(progress: Double) -> Void {
         DTLog("当前录音的秒数\(progress)")
@@ -27,9 +40,9 @@ extension AudioToolDelegate {
     }
 }
 
-
-
+/// 录音工具类单例
 class AudioTool: NSObject {
+    /// 单例实例
     static let defaut: AudioTool = AudioTool.init()
     private override init() {}
     // MARK: - 存储属性
@@ -78,9 +91,9 @@ class AudioTool: NSObject {
             self.timer.cancel()
         }
     }
-    // 检测是否授权
+    /// 检测是否有录音授权
     func checkPermission() -> Void {
-        let status: AVAudioSessionRecordPermission = self.audioSession.recordPermission() //询问麦克风权限
+        let status: AVAudioSession.RecordPermission = self.audioSession.recordPermission //询问麦克风权限
         var result: PermissonStatus = .undetermined
         switch status {
         case .denied:
@@ -96,13 +109,17 @@ class AudioTool: NSObject {
 
 // MARK: - 录音相关
 extension AudioTool {
-    /// 准备录音的文件路径
+    /// 准备录音文件路径
+    ///
+    /// - Parameter file: 文件路径
+    /// - Returns: 是否成功
     func parperRecord(file: String) -> Bool {
         checkPermission()
         guard hasPermisssion == .granted else { return false }
         // 设置Session类型
         do {
-            try audioSession.setCategory(AVAudioSessionCategoryPlayAndRecord)
+//            try audioSession.setCategory(AVAudioSession.Category.playAndRecord)
+            try audioSession.setCategory(.playAndRecord, mode: .default, options:[.defaultToSpeaker])
         } catch {
             DTLog("设置录音会话失败：\(error)")
             return false
@@ -138,7 +155,9 @@ extension AudioTool {
         }
        
     }
-    /// 开始录音，录音前设置录音的位置
+    /// 开始录音
+    ///
+    /// - Parameter name: 文件名
     func startRecord(name: String = "default") -> Void {
         fileName = name
         if filePath == nil {
@@ -161,6 +180,8 @@ extension AudioTool {
     }
     
     /// 播放声音
+    ///
+    /// - Parameter url: 声音的URL
     func play(url: String) -> Void {
         stopPlay()
         var path: URL?
@@ -193,6 +214,7 @@ extension AudioTool {
         }
     }
     
+    /// 播放结束的动作
     func playFinishedAction() -> Void {
         if let block = self.playFinished {
             block()
@@ -244,6 +266,7 @@ extension AudioTool {
     }
 }
 
+// MARK: - AVAudioRecorderDelegate, AVAudioPlayerDelegate
 extension AudioTool:  AVAudioRecorderDelegate, AVAudioPlayerDelegate {
     // 录音出错的回调
     func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {

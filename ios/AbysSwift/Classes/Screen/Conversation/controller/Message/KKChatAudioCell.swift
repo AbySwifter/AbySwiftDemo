@@ -34,7 +34,7 @@ class KKChatAudioCell: KKChatBaseCell {
 		let voiceBtn = UIButton.init(type: .custom)
 		voiceBtn.setImage(#imageLiteral(resourceName: "message_voice_receiver_playing_3"), for: .normal)
 		voiceBtn.imageView?.animationDuration = 1
-		voiceBtn.imageEdgeInsets = UIEdgeInsetsMake(0, voiceIconInsert, 0, voiceIconInsert)
+        voiceBtn.imageEdgeInsets = UIEdgeInsets(top: 0, left: voiceIconInsert, bottom: 0, right: voiceIconInsert)
 		voiceBtn.adjustsImageWhenHighlighted = false
 		return voiceBtn
 	}()
@@ -53,17 +53,17 @@ class KKChatAudioCell: KKChatBaseCell {
         view.backgroundColor = UIColor.red
         return view
     }()
-    
-	override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-		super.init(style: style, reuseIdentifier: reuseIdentifier)
-		// 给消息内容添加子视图
-		msgContent.addSubview(voiceButton)
-		msgContent.addSubview(durationLabel)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        // 给消息内容添加子视图
+        msgContent.addSubview(voiceButton)
+        msgContent.addSubview(durationLabel)
         msgContent.addSubview(playedNotice)
-		// 给按钮添加事件
-		voiceButton.addTarget(self, action: #selector(playAudio), for: .touchUpInside)
-	}
+        // 给按钮添加事件
+        voiceButton.addTarget(self, action: #selector(playAudio), for: .touchUpInside)
+    }
 
+    
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
@@ -122,7 +122,7 @@ extension KKChatAudioCell {
 
 		// 设置泡泡
 		let img = message.isSelf ? #imageLiteral(resourceName: "mebubble") : #imageLiteral(resourceName: "friendbubble")
-		let normalImg = img.resizableImage(withCapInsets: UIEdgeInsetsMake(20, 20, 20, 20), resizingMode: .stretch)
+        let normalImg = img.resizableImage(withCapInsets: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20), resizingMode: .stretch)
 		bubbleView.image = normalImg
         // 头像的通用样式
         avatar.snp.remakeConstraints { (make) in

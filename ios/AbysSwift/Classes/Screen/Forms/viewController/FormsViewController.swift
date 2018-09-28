@@ -46,7 +46,7 @@ class FormsViewController: UIViewController {
 	func setScrollView() -> Void {
 		view.addSubview(scrollView)
 		scrollView.snp.makeConstraints { (make) in
-			make.edges.equalToSuperview().inset(UIEdgeInsetsMake(0, 15, 0, 15))
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15))
 		}
 		let containerView: UIView = UIView.init()
 		scrollView.addSubview(containerView)

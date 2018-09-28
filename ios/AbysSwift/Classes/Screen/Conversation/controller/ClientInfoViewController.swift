@@ -178,11 +178,12 @@ extension ClientInfoViewController {
         guard let room_id = self.room_id else { return }
         self.showLoading()
         self.net.dt_request(request: DTRequest.request(api: Api.getCustomerInfo, params: ["customer_id": "\(room_id)"])) { (error, json) -> (Void) in
+            self.hideLoading()
             guard let res = json else { return }
             DTLog("\(res)")
+            
             guard let dic = res["data"].dictionaryObject else { return }
             self.info = ClientInfo.deserialize(from: dic)
-            self.hideLoading()
         }
     }
     

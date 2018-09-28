@@ -127,7 +127,7 @@ class KKChatViewController: ABYBaseViewController {
         super.viewDidAppear(animated)
         setWhiteNavigationBar()
         registerNotification() // 注册通知
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18.0)]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black, NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18.0)]
         chatBarVC.addNotification() // 这些通知和UI的交互有关系, 建议只存在于视图出现的情况
         _ = MessageBus.distance.addDelegate(self)
     }
@@ -259,7 +259,7 @@ extension KKChatViewController {
             make.bottom.equalTo(self.view.snp.bottom).offset(-100)
             make.left.right.equalTo(self.view)
         }
-        view.bringSubview(toFront: chatBarVC.view)
+        view.bringSubviewToFront(chatBarVC.view)
         // 设置其他代理
 	}
     /// 打开产品页面

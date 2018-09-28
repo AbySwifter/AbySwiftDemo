@@ -102,14 +102,14 @@ class Conversation: HandyJSON {
 		guard let resultRange = result else { return attributeString }
 		if let unReadRange = unRead {
 			let unReadRange_ns = resultStr.nsRange(from: unReadRange)
-			attributeString.addAttributes([NSAttributedStringKey.foregroundColor: UIColor.init(hexString: "333333") ], range: unReadRange_ns)
+            attributeString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.init(hexString: "333333") ], range: unReadRange_ns)
 		}
 		if let contentRange = content {
 			let contentRange_ns = resultStr.nsRange(from: contentRange)
-			attributeString.addAttributes([NSAttributedStringKey.foregroundColor: UIColor.init(hexString: "999999")], range: contentRange_ns)
+            attributeString.addAttributes([NSAttributedString.Key.foregroundColor: UIColor.init(hexString: "999999")], range: contentRange_ns)
 		}
 		let resultRange_ns = resultStr.nsRange(from: resultRange)
-		attributeString.addAttributes([NSAttributedStringKey.font: UIFont.systemFont(ofSize: W750(26))], range: resultRange_ns)
+        attributeString.addAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: W750(26))], range: resultRange_ns)
 		return attributeString
 	}
 	// 返回计时的时间字符串
