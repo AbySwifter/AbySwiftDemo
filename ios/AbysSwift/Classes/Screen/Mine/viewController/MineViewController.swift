@@ -12,6 +12,8 @@ import Kingfisher
 
 typealias SettingCellData = (icon: UIImage, title: String, hasSubTitle: Bool, subTitle: String)
 
+
+/// 我的页面控制器
 class MineViewController: ABYBaseViewController, UITableViewDelegate, UITableViewDataSource {
 	lazy var tableView: UITableView = {
 		let tableView: UITableView = UITableView.init(frame: self.view.bounds, style: .plain)

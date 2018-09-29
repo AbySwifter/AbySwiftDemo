@@ -65,9 +65,7 @@ extension UIScrollView {
 }
 
 /// 空视图协议
-public protocol ABYEmptyDataSetable {
-
-}
+public protocol ABYEmptyDataSetable {}
 
 
 // MARK: - 空视图占位协议,用where关键字确定面向的对象类
@@ -100,8 +98,6 @@ public extension ABYEmptyDataSetable where Self: NSObject {
 		}
 		scrollView.reloadEmptyDataSet()
 	}
-
-
 	/// 点击回调
 	///
 	/// - Parameters:

@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+// MARK: - 给qq表情的替换方法
 extension String {
     mutating func emojiParse(emojiDic: Dictionary<String, String>) -> Void {
         for (key, value) in emojiDic {
